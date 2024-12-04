@@ -6,6 +6,7 @@
 package services;
 
 import entities.Animal;
+import exceptions.ReadException;
 import java.util.List;
 import javax.inject.Inject;
 import javax.ws.rs.core.Context;
@@ -60,15 +61,15 @@ public class AnimalREST {
     
     @GET
     @Produces({"application/json"})
-    public List<Animal> getJson() {
-        return animalFacade.findAll();
+    public List<Animal> getJson() throws ReadException {
+        return animalFacade.findAllAnimals();
     }
 
-    @GET
-    @Path("/search/{name}")
-    @Produces({"application/json"})
-    public List<Animal> findByName(@PathParam("name") String name) {
-       return animalFacade.findByName(name);
-    }
+//    @GET
+//    @Path("/search/{name}")
+//    @Produces({"application/json"})
+//    public List<Animal> findByName(@PathParam("name") String name) {
+//       return animalFacade.findAnimalByName(name);
+//    }
 
 }

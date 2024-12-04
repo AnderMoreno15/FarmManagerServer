@@ -6,6 +6,10 @@
 package services;
 
 import entities.Animal;
+import exceptions.CreateException;
+import exceptions.DeleteException;
+import exceptions.ReadException;
+import exceptions.UpdateException;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -51,7 +55,7 @@ public class AnimalFacade implements IAnimalFacade {
     }
 
     @Override
-    public void removeAnimal(Animal animal) throws RemoveException {
+    public void removeAnimal(Animal animal) throws DeleteException {
         try{
             em.remove(em.merge(animal));
         }catch(Exception e){
