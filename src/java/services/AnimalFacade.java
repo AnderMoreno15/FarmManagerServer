@@ -21,43 +21,76 @@ public class AnimalFacade implements IAnimalFacade {
     @PersistenceContext(unitName = "ServerSidePU")
     private EntityManager em;
 
-    public List<Animal> findAll() {
-      return em.createQuery("select a from Animal a").getResultList();
-    }
-
-    public List<Animal> findByName(String name) {
-      return em.createQuery("select a from Animal a where UPPER(a.name) LIKE :animalName").
-                             setParameter("animalName", "%" + name.toUpperCase() + "%").getResultList();
-    }
+//    public List<Animal> findAll() {
+//      return em.createQuery("select a from Animal a").getResultList();
+//    }
+//
+//    public List<Animal> findByName(String name) {
+//      return em.createQuery("select a from Animal a where UPPER(a.name) LIKE :animalName").
+//                             setParameter("animalName", "%" + name.toUpperCase() + "%").getResultList();
+//    }
 
     @Override
     public void createAnimal(Animal animal) throws CreateException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try{
+            em.persist(animal);
+        }catch(Exception e){
+            throw new CreateException(e.getMessage());
+        }
     }
 
     @Override
     public void updateAnimal(Animal animal) throws UpdateException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try{
+            if(!em.contains(animal))
+                em.merge(animal);
+            em.flush();
+        }catch(Exception e){
+            throw new UpdateException(e.getMessage());
+        }
     }
 
     @Override
     public void removeAnimal(Animal animal) throws RemoveException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try{
+            em.remove(em.merge(animal));
+        }catch(Exception e){
+            throw new DeleteException(e.getMessage());
+        }
     }
 
     @Override
     public Animal findAnimalById(Long id) throws ReadException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Animal animal;
+        try{
+            animal=em.find(Animal.class, id);
+        }catch(Exception e){
+            throw new ReadException(e.getMessage());
+        }
+        return animal;
     }
 
     @Override
     public List<Animal> findAllAnimals() throws ReadException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<Animal> animals;
+        try{
+            animals=em.createNamedQuery("findAllAccounts").getResultList();
+        }catch(Exception e){
+            throw new ReadException(e.getMessage());
+        }
+        return animals;
     }
 
     @Override
-    public Animal findAnimalBySubespecies(String subespecies) throws ReadException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<Animal> findAnimalsBySubespecies(String subespecies) throws ReadException {
+        List<Animal> animals;
+        try {
+            animals = em.createNamedQuery("findAnimalsBySubespecies", Animal.class)
+                        .setParameter("subespecies", subespecies)
+                        .getResultList();
+        } catch (Exception e) {
+            throw new ReadException(e.getMessage());
+        }
+        return animals;
     }
-
 }

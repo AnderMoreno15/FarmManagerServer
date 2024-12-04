@@ -22,6 +22,6 @@ public interface IAnimalFacade {
     public Animal findAnimalById(Long id) throws ReadException;
     
     public List<Animal> findAllAnimals() throws ReadException;
-    public Animal findAnimalBySubespecies(String subespecies) throws ReadException;
+    public List<Animal> findAnimalsBySubespecies(String subespecies) throws ReadException;
     
 }
