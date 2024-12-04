@@ -5,6 +5,8 @@
  */
 package services;
 
+import entities.Animal;
+import java.util.List;
 import javax.ejb.Local;
 
 /**
@@ -14,6 +16,12 @@ import javax.ejb.Local;
 @Local
 public interface IAnimalFacade {
 
-    void businessMethod();
+    public void createAnimal(Animal animal) throws CreateException;
+    public void updateAnimal(Animal animal) throws UpdateException;
+    public void removeAnimal(Animal animal) throws RemoveException;
+    public Animal findAnimalById(Long id) throws ReadException;
+    
+    public List<Animal> findAllAnimals() throws ReadException;
+    public Animal findAnimalBySubespecies(String subespecies) throws ReadException;
     
 }
