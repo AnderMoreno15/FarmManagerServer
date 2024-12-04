@@ -31,7 +31,32 @@ public class AnimalFacade implements IAnimalFacade {
     }
 
     @Override
-    public void businessMethod() {
+    public void createAnimal(Animal animal) throws CreateException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void updateAnimal(Animal animal) throws UpdateException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void removeAnimal(Animal animal) throws RemoveException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Animal findAnimalById(Long id) throws ReadException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<Animal> findAllAnimals() throws ReadException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Animal findAnimalBySubespecies(String subespecies) throws ReadException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
