@@ -11,27 +11,30 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 
 /**
  *
- * @author inifr
+ * @author Aitziber
  */
 @Entity
-@Table(name="product", schema="") //TODO define schema name
-public class ProductEntity implements Serializable {
+@Table(name="species",schema="farmdb")
+public class Species implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @NotNull
+    
     private String name;
-    @NotNull
-    private Float monthlyConsume;
-    private Float price;
-    private Integer stock;
+    
+    @OneToMany(mappedBy = "species")
+    private List<Animal> animals;
+
+    @OneToMany(mappedBy = "id.speciesId")
+    private List<ID_Species_Products_Age> perAge;
+    
 
     public Long getId() {
         return id;
@@ -49,28 +52,20 @@ public class ProductEntity implements Serializable {
         this.name = name;
     }
 
-    public Float getMonthlyConsume() {
-        return monthlyConsume;
+    public List<Animal> getAnimals() {
+        return animals;
     }
 
-    public void setMonthlyConsume(Float monthlyConsume) {
-        this.monthlyConsume = monthlyConsume;
+    public void setAnimals(List<Animal> animals) {
+        this.animals = animals;
     }
 
-    public Float getPrice() {
-        return price;
+    public List<ID_Species_Products_Age> getPerAge() {
+        return perAge;
     }
 
-    public void setPrice(Float price) {
-        this.price = price;
-    }
-
-    public Integer getStock() {
-        return stock;
-    }
-
-    public void setStock(Integer stock) {
-        this.stock = stock;
+    public void setPerAge(List<ID_Species_Products_Age> perAge) {
+        this.perAge = perAge;
     }
 
     @Override
@@ -83,10 +78,10 @@ public class ProductEntity implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ProductEntity)) {
+        if (!(object instanceof Species)) {
             return false;
         }
-        ProductEntity other = (ProductEntity) object;
+        Species other = (Species) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -95,7 +90,7 @@ public class ProductEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.ProductEntity[ id=" + id + " ]";
+        return "entities.Species[ id=" + id + " ]";
     }
     
 }
