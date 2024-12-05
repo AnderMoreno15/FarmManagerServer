@@ -97,4 +97,17 @@ public class AnimalFacade implements IAnimalFacade {
         }
         return animals;
     }
+
+    @Override
+    public List<Animal> findAllAnimalsByAnimalGroup(Long animal_group_id) throws ReadException {
+        List<Animal> animals;
+        try {
+             animals=em.createNamedQuery("findAnimalsByAnimalGroup", Animal.class)
+                        .setParameter("animalGroup", em.find(AnimalGroup.class, animal_group_id))
+                        .getResultList();
+        } catch (Exception e) {
+            throw new ReadException(e.getMessage());
+        }
+        return animals;
+    }
 }
