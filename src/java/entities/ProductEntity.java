@@ -6,12 +6,15 @@
 package entities;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -32,6 +35,8 @@ public class ProductEntity implements Serializable {
     private Float monthlyConsume;
     private Float price;
     private Integer stock;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createDate;
 
     public Long getId() {
         return id;
@@ -73,6 +78,14 @@ public class ProductEntity implements Serializable {
         this.stock = stock;
     }
 
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;
