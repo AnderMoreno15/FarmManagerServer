@@ -13,6 +13,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -23,6 +25,11 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name="animal",schema="farmdb")
+@NamedQueries({
+    @NamedQuery(name = "findAllAnimals", query = "SELECT a FROM Animal a ORDER BY a.name DESC"),
+    @NamedQuery(name = "findAnimalsBySubespecies", query = "SELECT a FROM Animal a WHERE a.subespecies = :subespecies ORDER BY a.name DESC"),
+    @NamedQuery(name = "findAnimalsByAnimalGroup", query = "SELECT a FROM Animal a WHERE a.animalGroup = :animalGroup ORDER BY a.name DESC")
+})
 public class Animal implements Serializable {
 
     private static final long serialVersionUID = 1L;
