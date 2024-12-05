@@ -25,14 +25,6 @@ public class AnimalFacade implements IAnimalFacade {
     @PersistenceContext(unitName = "ServerSidePU")
     private EntityManager em;
 
-//    public List<Animal> findAll() {
-//      return em.createQuery("select a from Animal a").getResultList();
-//    }
-//
-//    public List<Animal> findByName(String name) {
-//      return em.createQuery("select a from Animal a where UPPER(a.name) LIKE :animalName").
-//                             setParameter("animalName", "%" + name.toUpperCase() + "%").getResultList();
-//    }
 
     @Override
     public void createAnimal(Animal animal) throws CreateException {
@@ -110,4 +102,5 @@ public class AnimalFacade implements IAnimalFacade {
         }
         return animals;
     }
+    
 }
