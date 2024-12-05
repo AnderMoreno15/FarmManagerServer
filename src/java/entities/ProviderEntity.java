@@ -6,32 +6,24 @@
 package entities;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 
 /**
  *
  * @author inifr
  */
 @Entity
-@Table(name="product", schema="")
-public class ProductEntity implements Serializable {
+@Table(name="provider", schema="farmdb")
+public class ProviderEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @NotNull
-    private String name;
-    @NotNull
-    private Float monthlyConsume;
-    private Float price;
-    private Integer stock;
 
     public Long getId() {
         return id;
@@ -39,38 +31,6 @@ public class ProductEntity implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Float getMonthlyConsume() {
-        return monthlyConsume;
-    }
-
-    public void setMonthlyConsume(Float monthlyConsume) {
-        this.monthlyConsume = monthlyConsume;
-    }
-
-    public Float getPrice() {
-        return price;
-    }
-
-    public void setPrice(Float price) {
-        this.price = price;
-    }
-
-    public Integer getStock() {
-        return stock;
-    }
-
-    public void setStock(Integer stock) {
-        this.stock = stock;
     }
 
     @Override
@@ -83,10 +43,10 @@ public class ProductEntity implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ProductEntity)) {
+        if (!(object instanceof ProviderEntity)) {
             return false;
         }
-        ProductEntity other = (ProductEntity) object;
+        ProviderEntity other = (ProviderEntity) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -95,7 +55,7 @@ public class ProductEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.ProductEntity[ id=" + id + " ]";
+        return "entities.Provider[ id=" + id + " ]";
     }
     
 }
