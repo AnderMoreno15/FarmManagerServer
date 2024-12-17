@@ -25,7 +25,7 @@ public class ProductProviderEntity implements Serializable {
     @EmbeddedId
     private ProductProviderId id;
     @MapsId("productId")
-    @ManyToMany
+    @ManyToMany(fetch=FetchType.EAGER)
     private ProductEntity product;
     @MapsId("providerId")
     @ManyToMany(fetch=FetchType.EAGER)

@@ -8,11 +8,13 @@ package entities;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import static javax.persistence.CascadeType.ALL;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -23,7 +25,7 @@ import javax.validation.constraints.NotNull;
  * @author InigoFreire
  */
 @Entity
-@Table(name="product", schema="")
+@Table(name="product", schema="farmdb")
 @NamedQuery(name = "findAllProducts", query = "SELECT p FROM product p ORDER BY p.name DESC")
 public class ProductEntity implements Serializable {
 
@@ -33,6 +35,7 @@ public class ProductEntity implements Serializable {
     private Long id;
     @NotNull
     private String name;
+    @OneToMany(cascade=ALL,mappedBy="Consume")
     private Float monthlyConsume;
     private Float price;
     private Integer stock;
