@@ -10,20 +10,23 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 /**
  *
- * @author inifr
+ * @author InigoFreire
  */
 @Entity
 @Table(name="provider", schema="farmdb")
+@NamedQuery(name = "findAllProviders", query = "SELECT p FROM provider p ORDER BY p.name DESC")
 public class ProviderEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    private String name;
 
     public Long getId() {
         return id;
@@ -31,6 +34,14 @@ public class ProviderEntity implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override

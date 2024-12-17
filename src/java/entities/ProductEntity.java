@@ -12,6 +12,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -19,10 +20,11 @@ import javax.validation.constraints.NotNull;
 
 /**
  *
- * @author inifr
+ * @author InigoFreire
  */
 @Entity
 @Table(name="product", schema="")
+@NamedQuery(name = "findAllProducts", query = "SELECT p FROM product p ORDER BY p.name DESC")
 public class ProductEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -31,7 +33,6 @@ public class ProductEntity implements Serializable {
     private Long id;
     @NotNull
     private String name;
-    @NotNull
     private Float monthlyConsume;
     private Float price;
     private Integer stock;

@@ -15,7 +15,7 @@ import javax.persistence.Table;
 
 /**
  *
- * @author inifr
+ * @author InigoFreire
  */
 @Entity
 @Table(name="product_provider", schema="farmdb")
@@ -24,17 +24,12 @@ public class ProductProviderEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     private ProductProviderId id;
-    @MapsId("providerId")
+    @MapsId("productId")
     @ManyToMany
     private ProductEntity product;
-    @MapsId("productId")
-    
-//TODO ask & finish
-    /*@ManyToMany(fetch=FetchType.EAGER)
+    @MapsId("providerId")
+    @ManyToMany(fetch=FetchType.EAGER)
     private ProviderEntity provider;
-    @MapsId()
-    */
-    
 
     public ProductProviderId getId() {
         return id;
