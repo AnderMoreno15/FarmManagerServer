@@ -78,19 +78,19 @@ public class AnimalFacade implements IAnimalFacade {
         }
     }
 
-//    @Override
-//    public List<Animal> getAnimalsByAnimalGroup(AnimalGroup animalGroup) {
-//        List<Animal> animals;
-//        try{
-//            animals=em.createNamedQuery("getAnimalsByAnimalGroup", Animal.class)
-//                .setParameter("animalGroupId", animalGroup.id)
-                // .setParameter("animalGroup", em.find(AnimalGroup.class, animal_group_id))
-//                .getResultList();
-//        }catch(Exception e){
-//            throw new ReadException("Error retrieving animals for Group: " + animalGroup.name + ". Details: " + e.getMessage());
-//        }
-//        return animals;
-//    }
+    @Override
+    public List<Animal> getAnimalsByAnimalGroup(AnimalGroup animalGroup) {
+        List<Animal> animals;
+        try{
+            animals=em.createNamedQuery("getAnimalsByAnimalGroup", Animal.class)
+                .setParameter("animalGroupId", animalGroup.id)
+//                 .setParameter("animalGroup", em.find(AnimalGroup.class, animal_group_id))
+                .getResultList();
+        }catch(Exception e){
+            throw new ReadException("Error retrieving animals for Group: " + animalGroup.name + ". Details: " + e.getMessage());
+        }
+        return animals;
+    }
 
     @Override
     public List<Animal> getAnimalsBySubespecies(String subespecies) {

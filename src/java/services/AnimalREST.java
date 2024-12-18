@@ -37,10 +37,10 @@ public class AnimalREST {
     
     @EJB
     private IAnimalFacade animalFacade;
+    
     /**
      * Creates a new instance of AnimalREST
      */
-    
     public AnimalREST() {
     }
 
@@ -67,11 +67,8 @@ public class AnimalREST {
                         .build();
             }
             
-           return Response
-                   .ok(animals)
-                   .build();
+           return Response.ok(animals).build();
         } catch (ReadException e) {
-            // Manejar errores durante la consulta
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
 //           @ExceptionHandler(Exception.class)
 //           return Response.status(Response.Status.500)
@@ -79,7 +76,6 @@ public class AnimalREST {
                     .entity("<error>Error retrieving animals: " + e.getMessage() + "</error>")
                     .build();
         } catch (Exception e) {
-            // Manejar otros errores inesperados
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                     .entity("<error>An unexpected error occurred: " + e.getMessage() + "</error>")
                     .build();
