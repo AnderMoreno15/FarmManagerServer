@@ -20,20 +20,18 @@ import javax.persistence.Table;
 @Entity
 @Table(name="provider", schema="farmdb")
 @NamedQuery(name = "findAllProviders", query = "SELECT p FROM provider p ORDER BY p.name DESC")
+@DiscriminatorValue("Provider")
 public class ProviderEntity implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    
     private String name;
 
     public Long getId() {
-        return id;
+        return super.getId();
     }
 
     public void setId(Long id) {
-        this.id = id;
+        super.setId(id);
     }
 
     public String getName() {
@@ -58,7 +56,7 @@ public class ProviderEntity implements Serializable {
             return false;
         }
         ProviderEntity other = (ProviderEntity) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((super.id == null && other.id != null) || (super.id != null && !super.id.equals(other.id))) {
             return false;
         }
         return true;
