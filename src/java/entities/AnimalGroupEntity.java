@@ -8,10 +8,13 @@ package entities;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import static javax.persistence.CascadeType.ALL;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -24,6 +27,7 @@ import javax.validation.constraints.NotNull;
  */
 @Entity
 @Table(name = "animalGroup", schema = "farmdb")
+
 public class AnimalGroupEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -32,16 +36,19 @@ public class AnimalGroupEntity implements Serializable {
     private Long id;
     @NotNull
     private String name;
+    @NotNull
     private String area;
+    @NotNull
     private String description;
+    @NotNull
     @Temporal(TemporalType.TIMESTAMP)
     private Date creationDate;
-    @OneToMany
-    private List<Animal> animals;
-    @OneToMany
-    private List<Consume> consumes;
-    @OneToMany
-    private List<Manager> managers;
+    @OneToMany(cascade = ALL, mappedBy = "animalGroup")
+    private List<AnimalEntity> animals;
+    @OneToMany(cascade = ALL, mappedBy = "animalGroup")
+    private List<ConsumeEntity> consumes;
+    @ManyToMany(fetch = FetchType.EAGER)
+    private List<ManagerEntity> managers;
 
     public Long getId() {
         return id;
@@ -81,6 +88,30 @@ public class AnimalGroupEntity implements Serializable {
 
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
+    }
+
+    public List<AnimalEntity> getAnimals() {
+        return animals;
+    }
+
+    public void setAnimals(List<AnimalEntity> animals) {
+        this.animals = animals;
+    }
+
+    public List<ConsumeEntity> getConsumes() {
+        return consumes;
+    }
+
+    public void setConsumes(List<ConsumeEntity> consumes) {
+        this.consumes = consumes;
+    }
+
+    public List<ManagerEntity> getManagers() {
+        return managers;
+    }
+
+    public void setManagers(List<ManagerEntity> managers) {
+        this.managers = managers;
     }
 
     @Override
