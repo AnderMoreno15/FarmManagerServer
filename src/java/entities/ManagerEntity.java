@@ -12,6 +12,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -19,7 +20,8 @@ import javax.validation.constraints.NotNull;
  * @author Ander
  */
 @Entity
-@DiscriminatorValue("Manager")
+@Table(name = "manager", schema = "farmdb")
+@DiscriminatorValue("manager")
 public class ManagerEntity extends UserEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -27,8 +29,8 @@ public class ManagerEntity extends UserEntity implements Serializable {
     private boolean isActive;
     @NotNull
     private String password;
-    @ManyToOne
-    private List<PurchaseEntity> purchases;
+    //@ManyToOne
+    //private List<PurchaseEntity> purchases;
     @ManyToMany(fetch = FetchType.EAGER)
     private List<AnimalGroupEntity> animalGroup;
 
@@ -57,14 +59,14 @@ public class ManagerEntity extends UserEntity implements Serializable {
     public void setPassword(String password) {
         this.password = password;
     }
-
-    public List<PurchaseEntity> getPurchases() {
-        return purchases;
-    }
-
-    public void setPurchases(List<PurchaseEntity> purchases) {
-        this.purchases = purchases;
-    }
+//
+//    public List<PurchaseEntity> getPurchases() {
+//        return purchases;
+//    }
+//
+//    public void setPurchases(List<PurchaseEntity> purchases) {
+//        this.purchases = purchases;
+//    }
 
     public List<AnimalGroupEntity> getAnimalGroup() {
         return animalGroup;

@@ -15,11 +15,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -27,7 +30,14 @@ import javax.validation.constraints.NotNull;
  */
 @Entity
 @Table(name = "animalGroup", schema = "farmdb")
-
+@NamedQueries({
+    @NamedQuery(name = "getAnimalGroups", query = "SELECT * FROM animalGroup")
+    ,
+    @NamedQuery(name = "getAnimalGroupsByName", query = "SELECT * FROM animalGroup where name = :name")
+    ,
+    @NamedQuery(name = "getConsumesByAnimalGroup", query = "SELECT sum(cantidad) FROM consume where animalGroup = :animalGroupId")
+})
+@XMLRootElement
 public class AnimalGroupEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -90,6 +100,7 @@ public class AnimalGroupEntity implements Serializable {
         this.creationDate = creationDate;
     }
 
+    @XmlTransient
     public List<AnimalEntity> getAnimals() {
         return animals;
     }
@@ -97,7 +108,7 @@ public class AnimalGroupEntity implements Serializable {
     public void setAnimals(List<AnimalEntity> animals) {
         this.animals = animals;
     }
-
+    
     public List<ConsumeEntity> getConsumes() {
         return consumes;
     }
