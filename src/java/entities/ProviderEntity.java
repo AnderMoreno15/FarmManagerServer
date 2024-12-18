@@ -19,7 +19,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="provider", schema="farmdb")
-@NamedQuery(name = "findAllProviders", query = "SELECT p FROM provider p ORDER BY p.name DESC")
+@NamedQuery(name = "findProviderById", query = "SELECT name FROM provider WHERE id = :id")
 @DiscriminatorValue("Provider")
 public class ProviderEntity implements Serializable {
 

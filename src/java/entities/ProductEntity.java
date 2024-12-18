@@ -13,6 +13,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -26,7 +27,11 @@ import javax.validation.constraints.NotNull;
  */
 @Entity
 @Table(name="product", schema="farmdb")
-@NamedQuery(name = "findAllProducts", query = "SELECT p FROM product p ORDER BY p.name DESC")
+@NamedQueries({
+    @NamedQuery(name = "findAllProducts", query = "SELECT * FROM product ORDER BY name ASC"),
+    @NamedQuery(name = "findProductByName", query = "SELECT * FROM product WHERE name = :name ORDER BY name ASC"),
+    @NamedQuery(name = "findProductByCreatedDate", query = "SELECT * FROM product WHERE = :date ORDER BY name ASC")
+})
 public class ProductEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
