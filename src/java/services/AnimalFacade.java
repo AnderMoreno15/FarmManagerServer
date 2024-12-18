@@ -83,8 +83,7 @@ public class AnimalFacade implements IAnimalFacade {
         List<Animal> animals;
         try{
             animals=em.createNamedQuery("getAnimalsByAnimalGroup", Animal.class)
-                .setParameter("animalGroupId", animalGroup.id)
-//                 .setParameter("animalGroup", em.find(AnimalGroup.class, animal_group_id))
+                .setParameter("animalGroupId", animalGroup.getId())
                 .getResultList();
         }catch(Exception e){
             throw new ReadException("Error retrieving animals for Group: " + animalGroup.name + ". Details: " + e.getMessage());

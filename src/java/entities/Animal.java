@@ -65,7 +65,7 @@ public class Animal implements Serializable {
     public Animal(){
         
     }
-    @XmlElement
+  
     public Long getId() {
         return id;
     }
@@ -73,7 +73,7 @@ public class Animal implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
-    @XmlElement
+  
     public String getName() {
         return name;
     }
@@ -81,7 +81,7 @@ public class Animal implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
-    @XmlElement
+  
     public String getSubespecies() {
         return subespecies;
     }
@@ -89,7 +89,7 @@ public class Animal implements Serializable {
     public void setSubespecies(String subespecies) {
         this.subespecies = subespecies;
     }
-    @XmlElement
+   
     public Date getBirthDate() {
         return birthDate;
     }
@@ -97,7 +97,7 @@ public class Animal implements Serializable {
     public void setBirthDate(Date birthDate) {
         this.birthDate = birthDate;
     }
-    @XmlElement
+  
     public float getMonthlyConsume() {
         return monthlyConsume;
     }
@@ -115,7 +115,7 @@ public class Animal implements Serializable {
 //        this.animalGroup = animalGroup;
 //    }
 
-    @XmlTransient
+    
     public Species getSpecies() {
         return species;
     }

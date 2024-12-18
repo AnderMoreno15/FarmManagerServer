@@ -53,7 +53,7 @@ public class Species implements Serializable {
         this.name = name;
     }
     
-
+    @XmlTransient
     public List<Animal> getAnimals() {
         return animals;
     }

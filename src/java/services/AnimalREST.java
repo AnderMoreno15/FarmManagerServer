@@ -29,8 +29,7 @@ import javax.ws.rs.core.Response;
 @Path("animal")
 public class AnimalREST {
 
-    @Context
-    private UriInfo context;
+  
 //    
 //    @Inject
 //    private AnimalFacade animalFacade;
