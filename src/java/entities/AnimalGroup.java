@@ -9,6 +9,6 @@ package entities;
  *
  * @author Usuario
  */
-public class Product {
+public class AnimalGroup {
     
 }

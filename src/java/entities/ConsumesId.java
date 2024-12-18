@@ -11,7 +11,7 @@ import javax.persistence.Embeddable;
 
 /**
  *
- * @author Usuario
+ * @author Pablo
  */
 @Embeddable
 public class ConsumesId implements Serializable{

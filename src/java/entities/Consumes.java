@@ -23,12 +23,12 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Usuario
+ * @author Pablo
  */
 @NamedQueries({
 @NamedQuery(
         name="findAllConsumes",
-            query="SELECT c FROM Consumes c"
+            query="SELECT m FROM Consumes m"
         ),
 @NamedQuery(
         name="findConsumesByProduct",
@@ -39,13 +39,21 @@ import javax.xml.bind.annotation.XmlTransient;
             query="SELECT m FROM Consumes m WHERE m.animalGroup = :animalGroup"
         ),
 @NamedQuery(
-        name="findConsumesByDate",
-            query="SELECT m FROM Consumes m WHERE m.date = :date"
+        name="findConsumesByDateRange",
+            query="SELECT m FROM Consumes m WHERE m.date BETWEEN :dateFrom AND :dateTo ORDER BY m.date"
+        ),
+@NamedQuery(
+        name="findConsumesByDateFrom",
+            query="SELECT m FROM Consumes m WHERE m.date >= :dateFrom ORDER BY m.date"
+        ),
+@NamedQuery(
+        name="findConsumesByDateTo",
+            query="SELECT m FROM Consumes m WHERE m.date <= :dateTo ORDER BY m.date"
         )
 })
 
 @Entity
-@Table(schema="entities",name="Consumes")
+@Table(schema="farmdb",name="Consumes")
 @XmlRootElement
 public class Consumes implements Serializable {
    
