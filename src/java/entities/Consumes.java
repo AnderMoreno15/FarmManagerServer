@@ -10,8 +10,11 @@ import java.util.Date;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -22,6 +25,25 @@ import javax.xml.bind.annotation.XmlTransient;
  *
  * @author Usuario
  */
+@NamedQueries({
+@NamedQuery(
+        name="findAllConsumes",
+            query="SELECT c FROM Consumes c"
+        ),
+@NamedQuery(
+        name="findConsumesByProduct",
+            query="SELECT m FROM Consumes m WHERE m.product = :product"
+        ),
+@NamedQuery(
+        name="findConsumesByAnimalGroup",
+            query="SELECT m FROM Consumes m WHERE m.animalGroup = :animalGroup"
+        ),
+@NamedQuery(
+        name="findConsumesByDate",
+            query="SELECT m FROM Consumes m WHERE m.date = :date"
+        )
+})
+
 @Entity
 @Table(schema="entities",name="Consumes")
 @XmlRootElement
@@ -33,11 +55,11 @@ public class Consumes implements Serializable {
     @EmbeddedId
     private ConsumesId id;
     
-    @MapsId("animalGroupId")
+    @MapsId ("animalGroupId")
     @ManyToOne
     private AnimalGroup animalGroup;
     
-    @MapsId("productsId")
+    @MapsId ("productId")
     @ManyToOne   
     private Product product;
     
