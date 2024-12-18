@@ -18,6 +18,9 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -26,10 +29,14 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name="animal",schema="farmdb")
 @NamedQueries({
-    @NamedQuery(name = "findAllAnimals", query = "SELECT a FROM Animal a ORDER BY a.name DESC"),
-    @NamedQuery(name = "findAnimalsBySubespecies", query = "SELECT a FROM Animal a WHERE a.subespecies = :subespecies ORDER BY a.name DESC"),
-    @NamedQuery(name = "findAnimalsByAnimalGroup", query = "SELECT a FROM Animal a WHERE a.animalGroup = :animalGroup ORDER BY a.name DESC")
+    @NamedQuery(name = "getAllAnimals", query = "SELECT a FROM Animal a WHERE a.animalGroup.manager.id = :clientId ORDER BY a.name DESC"),
+    @NamedQuery(name = "getAnimalsByAnimalGroup", query = "SELECT a FROM Animal a WHERE a.animalGroup.id = :animalGroupId ORDER BY a.name DESC"),
+    @NamedQuery(name = "getAnimalsBySubespecies", query = "SELECT a FROM Animal a WHERE a.subespecies = :subespecies ORDER BY a.name DESC"),
+    @NamedQuery(name = "getAnimalsByBirthdateRange", query = "SELECT a FROM Animal a WHERE a.birthdate BETWEEN :dateFrom AND :dateTo ORDER BY a.birthdate"),
+    @NamedQuery(name = "getAnimalsByBirthdateFrom", query = "SELECT a FROM Animal a WHERE a.birthdate >= :dateFrom ORDER BY a.birthdate"),
+    @NamedQuery(name = "getAnimalsByBirthdateTo", query = "SELECT a FROM Animal a WHERE a.birthdate <= :dateTo ORDER BY a.birthdate")
 })
+@XmlRootElement
 public class Animal implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -47,14 +54,18 @@ public class Animal implements Serializable {
     
     private float monthlyConsume;
     
-    @ManyToOne
-    @JoinColumn(name="animal_group_id")
-    private AnimalGroup animalGroup;
+//    @ManyToOne
+//    @JoinColumn(name="animal_group_id")
+//    private AnimalGroup animalGroup;
     
     @ManyToOne
     @JoinColumn(name="species_id")
     private Species species;
-
+    
+    public Animal(){
+        
+    }
+    @XmlElement
     public Long getId() {
         return id;
     }
@@ -62,7 +73,7 @@ public class Animal implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
-
+    @XmlElement
     public String getName() {
         return name;
     }
@@ -70,7 +81,7 @@ public class Animal implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
-
+    @XmlElement
     public String getSubespecies() {
         return subespecies;
     }
@@ -78,7 +89,7 @@ public class Animal implements Serializable {
     public void setSubespecies(String subespecies) {
         this.subespecies = subespecies;
     }
-
+    @XmlElement
     public Date getBirthDate() {
         return birthDate;
     }
@@ -86,7 +97,7 @@ public class Animal implements Serializable {
     public void setBirthDate(Date birthDate) {
         this.birthDate = birthDate;
     }
-
+    @XmlElement
     public float getMonthlyConsume() {
         return monthlyConsume;
     }
@@ -95,14 +106,16 @@ public class Animal implements Serializable {
         this.monthlyConsume = monthlyConsume;
     }
 
-    public AnimalGroup getAnimalGroup() {
-        return animalGroup;
-    }
+//    @XmlTransient
+//    public AnimalGroup getAnimalGroup() {
+//        return animalGroup;
+//    }
+//
+//    public void setAnimalGroup(AnimalGroup animalGroup) {
+//        this.animalGroup = animalGroup;
+//    }
 
-    public void setAnimalGroup(AnimalGroup animalGroup) {
-        this.animalGroup = animalGroup;
-    }
-
+    @XmlTransient
     public Species getSpecies() {
         return species;
     }

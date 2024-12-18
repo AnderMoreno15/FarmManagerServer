@@ -10,6 +10,7 @@ import exceptions.CreateException;
 import exceptions.DeleteException;
 import exceptions.ReadException;
 import exceptions.UpdateException;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -22,11 +23,17 @@ public interface IAnimalFacade {
 
     public void createAnimal(Animal animal) throws CreateException;
     public void updateAnimal(Animal animal) throws UpdateException;
-    public void removeAnimal(Animal animal) throws DeleteException;
-    public Animal findAnimalById(Long id) throws ReadException;
+    public void deleteAnimal(Animal animal) throws DeleteException;
     
-    public List<Animal> findAllAnimals() throws ReadException;
-    public List<Animal> findAllAnimalsByAnimalGroup(Long animal_group_id) throws ReadException;
-    public List<Animal> findAnimalsBySubespecies(String subespecies) throws ReadException;
-    
+    public Animal getAnimalByName(String name) throws ReadException;
+    public List<Animal> getAllAnimals(String clientId) throws ReadException;
+    public List<Animal> getAnimalsByAnimalGroup(AnimalGroup animalGroup);
+    public List<Animal> getAnimalsBySubespecies(String subespecies);
+    public List<Animal> getAnimalsByBirthdate(Date dateFrom, Date dateTo) throws ReadException;
+    public List<Animal> getAnimalsByBirthdateFrom(Date dateFrom) throws ReadException;
+    public List<Animal> getAnimalsByBirthdateTo(Date dateTo) throws ReadException;
+
+    //estos métodos existirán en el cliente pero llamarán a createAnimal y a deleteAnimal(las veces que sea)
+    //createDefaultAnimal()
+    //deleteAnimals(lista)    
 }
