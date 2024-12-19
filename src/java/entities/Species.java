@@ -7,6 +7,7 @@ package entities;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -35,8 +36,10 @@ public class Species implements Serializable {
     @OneToMany(mappedBy = "species")
     private List<Animal> animals;
 
-    @OneToMany(mappedBy = "id.speciesId")
-    private List<ID_Species_Products_Age> perAge;
+//    @OneToMany(mappedBy = "id.speciesId")
+//    private List<ID_Species_Products_Age> perAge;
+    @Embedded
+    private ID_Species_Products_Age perAge;
     
 
     public Long getId() {
@@ -64,13 +67,13 @@ public class Species implements Serializable {
         this.animals = animals;
     }
 
-    public List<ID_Species_Products_Age> getPerAge() {
-        return perAge;
-    }
-
-    public void setPerAge(List<ID_Species_Products_Age> perAge) {
-        this.perAge = perAge;
-    }
+//    public List<ID_Species_Products_Age> getPerAge() {
+//        return perAge;
+//    }
+//
+//    public void setPerAge(List<ID_Species_Products_Age> perAge) {
+//        this.perAge = perAge;
+//    }
 
     @Override
     public int hashCode() {

@@ -57,18 +57,18 @@ public class AnimalFacade implements IAnimalFacade {
         }
     }
     
-    //get
-
-    @Override
-    public List<Animal> getAllAnimals(Long clientId) throws ReadException {
-        try{
-            return em.createNamedQuery("getAllAnimals", Animal.class)
-                .setParameter("clientId", clientId)
-                .getResultList();
-        }catch(Exception e){
-            throw new ReadException("Error retrieving animals for client ID: " + clientId + ". Details: " + e.getMessage());
-        }
-    }
+//    //get
+//
+//    @Override
+//    public List<Animal> getAllAnimals(Long clientId) throws ReadException {
+//        try{
+//            return em.createNamedQuery("getAllAnimals", Animal.class)
+//                .setParameter("clientId", clientId)
+//                .getResultList();
+//        }catch(Exception e){
+//            throw new ReadException("Error retrieving animals for client ID: " + clientId + ". Details: " + e.getMessage());
+//        }
+//    }
     
     @Override
     public Animal getAnimalByName(String name) throws ReadException {

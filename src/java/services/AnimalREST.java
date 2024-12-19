@@ -72,16 +72,16 @@ public class AnimalREST {
         }
     }
     
-    @GET
-    @Path("all/{clientId}")
-    @Produces(MediaType.APPLICATION_XML)
-    public Animal getAllAnimals(@PathParam("clientId") Long clientId) {
-        try{
-           return (Animal) animalFacade.getAllAnimals(clientId);
-        } catch (ReadException ex) {
-            throw new InternalServerErrorException(ex.getMessage());
-        }
-    }
+//    @GET
+//    @Path("all/{clientId}")
+//    @Produces(MediaType.APPLICATION_XML)
+//    public Animal getAllAnimals(@PathParam("clientId") Long clientId) {
+//        try{
+//           return (Animal) animalFacade.getAllAnimals(clientId);
+//        } catch (ReadException ex) {
+//            throw new InternalServerErrorException(ex.getMessage());
+//        }
+//    }
     
     @GET
     @Path("name/{name}")

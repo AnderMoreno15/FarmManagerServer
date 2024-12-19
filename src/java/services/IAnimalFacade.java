@@ -26,7 +26,7 @@ public interface IAnimalFacade {
     public void updateAnimal(Animal animal) throws UpdateException;
     public void deleteAnimal(Animal animal) throws DeleteException;
     
-    public List<Animal> getAllAnimals(Long clientId) throws ReadException;
+//    public List<Animal> getAllAnimals(Long clientId) throws ReadException;
     public Animal getAnimalByName(String name) throws ReadException;
     public List<Animal> getAnimalsByAnimalGroup(AnimalGroup animalGroup) throws ReadException;
     public List<Animal> getAnimalsBySubespecies(String subespecies) throws ReadException;

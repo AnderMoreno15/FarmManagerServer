@@ -30,7 +30,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name="animal",schema="farmdb")
 @NamedQueries({
-    @NamedQuery(name = "getAllAnimals", query = "SELECT a FROM Animal a WHERE a.animalGroup.manager.id = :clientId ORDER BY a.name DESC"),
+//    @NamedQuery(name = "getAllAnimals", query = "SELECT a FROM Animal a WHERE a.animalGroup.manager.id = :clientId ORDER BY a.name DESC"),
     @NamedQuery(name = "getAnimalsByAnimalGroup", query = "SELECT a FROM Animal a WHERE a.animalGroup.id = :animalGroupId ORDER BY a.name DESC"),
     @NamedQuery(name = "getAnimalsBySubespecies", query = "SELECT a FROM Animal a WHERE a.subespecies = :subespecies ORDER BY a.name DESC"),
     @NamedQuery(name = "getAnimalsByBirthdateRange", query = "SELECT a FROM Animal a WHERE a.birthdate BETWEEN :dateFrom AND :dateTo ORDER BY a.birthdate"),
@@ -55,13 +55,13 @@ public class Animal implements Serializable {
 //    @JsonSerialize(as = Date.class)
 //    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @NotNull
-    private Date birthDate;
+    private Date birthdate;
     
     private float monthlyConsume;
     
-//    @ManyToOne
-//    @JoinColumn(name="animal_group_id")
-//    private AnimalGroup animalGroup;
+    @ManyToOne
+    @JoinColumn(name="animal_group_id")
+    private AnimalGroup animalGroup;
     
     @ManyToOne
     @JoinColumn(name="species_id")
@@ -94,12 +94,12 @@ public class Animal implements Serializable {
         this.subespecies = subespecies;
     }
    
-    public Date getBirthDate() {
-        return birthDate;
+    public Date getBirthdate() {
+        return birthdate;
     }
 
-    public void setBirthDate(Date birthDate) {
-        this.birthDate = birthDate;
+    public void setBirthdate(Date birthdate) {
+        this.birthdate = birthdate;
     }
   
     public float getMonthlyConsume() {
@@ -110,14 +110,14 @@ public class Animal implements Serializable {
         this.monthlyConsume = monthlyConsume;
     }
 
-//    @XmlTransient
-//    public AnimalGroup getAnimalGroup() {
-//        return animalGroup;
-//    }
-//
-//    public void setAnimalGroup(AnimalGroup animalGroup) {
-//        this.animalGroup = animalGroup;
-//    }
+    @XmlTransient
+    public AnimalGroup getAnimalGroup() {
+        return animalGroup;
+    }
+
+    public void setAnimalGroup(AnimalGroup animalGroup) {
+        this.animalGroup = animalGroup;
+    }
 
     
     public Species getSpecies() {
