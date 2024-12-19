@@ -16,15 +16,15 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class ConsumesId implements Serializable{
     
-    private int productsId;
-    private int animalGroupId;
+    private long productsId;
+    private long animalGroupId;
     
 
-    public int getProductsId() {
+    public long getProductsId() {
         return productsId;
     }
 
-    public int getAnimalGroupId() {
+    public long getAnimalGroupId() {
         return animalGroupId;
     }
 

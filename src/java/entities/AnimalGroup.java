@@ -5,10 +5,32 @@
  */
 package entities;
 
+import java.io.Serializable;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 /**
  *
  * @author Usuario
  */
-public class AnimalGroup {
+
+@Entity
+@Table(schema="farmdb",name="AnimalGroup")
+public class AnimalGroup implements Serializable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long animalGroupId;
+
+    public Long getId() {
+        return animalGroupId;
+    }
+
+    public void setId(Long id) {
+        this.animalGroupId = id;
+    }
     
 }
