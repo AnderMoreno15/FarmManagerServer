@@ -6,6 +6,7 @@
 package services;
 
 import entities.Animal;
+import entities.AnimalGroup;
 import exceptions.CreateException;
 import exceptions.DeleteException;
 import exceptions.ReadException;

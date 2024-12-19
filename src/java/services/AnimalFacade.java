@@ -6,6 +6,7 @@
 package services;
 
 import entities.Animal;
+import entities.AnimalGroup;
 import exceptions.CreateException;
 import exceptions.DeleteException;
 import exceptions.ReadException;
@@ -85,7 +86,7 @@ public class AnimalFacade implements IAnimalFacade {
                 .setParameter("animalGroupId", animalGroup.getId())
                 .getResultList();
         }catch(Exception e){
-            throw new ReadException("Error retrieving animals for Group: " + animalGroup.name + ". Details: " + e.getMessage());
+            throw new ReadException("Error retrieving animals for Group: " + animalGroup.getName() + ". Details: " + e.getMessage());
         }
     }
 

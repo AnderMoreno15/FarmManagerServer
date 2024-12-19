@@ -18,6 +18,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -44,12 +45,16 @@ public class Animal implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
+    @NotNull
     private String name;
+    
+    @NotNull
     private String subespecies;
     
     @Temporal(TemporalType.TIMESTAMP)
 //    @JsonSerialize(as = Date.class)
 //    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @NotNull
     private Date birthDate;
     
     private float monthlyConsume;
@@ -63,7 +68,6 @@ public class Animal implements Serializable {
     private Species species;
     
     public Animal(){
-        
     }
   
     public Long getId() {
