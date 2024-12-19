@@ -32,9 +32,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "animalGroup", schema = "farmdb")
 @NamedQueries({
     @NamedQuery(name = "getAnimalGroups", query = "SELECT ag.* FROM animalGroup ag JOIN manager_animalGroup mag ON ag.id = mag.animalGroupId JOIN manager m ON m.id = mag.managerId WHERE m.id = :managerId")
-    ,
-    @NamedQuery(name = "getAnimalGroupsByName", query = "SELECT * FROM animalGroup where name = :name")
 
+//, @NamedQuery(name = "getAnimalGroupsByName", query = "SELECT * FROM animalGroup where name = :name")
 //, @NamedQuery(name = "getConsumesByAnimalGroup", query = "SELECT sum(cantidad) FROM consume where animalGroup = :animalGroupId")
 })
 @XMLRootElement
