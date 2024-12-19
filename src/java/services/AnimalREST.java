@@ -6,15 +6,18 @@
 package services;
 
 import entities.Animal;
+import exceptions.CreateException;
+import exceptions.DeleteException;
 import exceptions.ReadException;
-import java.util.List;
+import exceptions.UpdateException;
+import java.util.Date;
 import javax.ejb.EJB;
-import javax.inject.Inject;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
+import javax.ws.rs.InternalServerErrorException;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
 import javax.ws.rs.PathParam;
@@ -28,11 +31,6 @@ import javax.ws.rs.core.Response;
  */
 @Path("animal")
 public class AnimalREST {
-
-  
-//    
-//    @Inject
-//    private AnimalFacade animalFacade;
     
     @EJB
     private IAnimalFacade animalFacade;
@@ -43,67 +41,110 @@ public class AnimalREST {
     public AnimalREST() {
     }
 
-    /**
-     * Retrieves representation of an instance of services.AnimalREST
-     * @return an instance of java.lang.String
-     */
+    @POST
+    @Consumes(MediaType.APPLICATION_XML)
+    public void createAnimal(Animal animal) {
+        try {
+            animalFacade.createAnimal(animal);
+        } catch (CreateException ex) {
+            throw new InternalServerErrorException(ex.getMessage());        
+        }
+    }
+    
+    @PUT
+    @Consumes(MediaType.APPLICATION_XML)
+    public void updateAnimal(Animal animal) {
+        try {
+            animalFacade.updateAnimal(animal);
+        } catch (UpdateException ex) {
+            throw new InternalServerErrorException(ex.getMessage());        
+        }
+    }
+
+    @DELETE
+    @Consumes(MediaType.APPLICATION_XML)
+    public void deleteAnimal(Animal animal) {
+        try {
+            animalFacade.deleteAnimal(animal);
+        } catch (DeleteException ex) {
+            throw new InternalServerErrorException(ex.getMessage());        
+        }
+    }
+    
     @GET
     @Path("all/{clientId}")
     @Produces(MediaType.APPLICATION_XML)
-    public Response getAllAnimals(@PathParam("clientId") String clientId) {
-        if (clientId == null || clientId.trim().isEmpty()) {
-            return Response.status(Response.Status.BAD_REQUEST)
-                    .entity("<error>Client ID is required and cannot be empty</error>")
-                    .build();
-        }
-        
+    public Animal getAllAnimals(@PathParam("clientId") Long clientId) {
         try{
-           List<Animal> animals = animalFacade.getAllAnimals(clientId);
-           
-            if (animals == null || animals.isEmpty()) {
-                return Response.status(Response.Status.NO_CONTENT)
-                        .entity("<info>No animals found for the given client ID</info>")
-                        .build();
-            }
-            
-           return Response.ok(animals).build();
-        } catch (ReadException e) {
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-//           @ExceptionHandler(Exception.class)
-//           return Response.status(Response.Status.500)
-//           return Response.status(500)
-                    .entity("<error>Error retrieving animals: " + e.getMessage() + "</error>")
-                    .build();
-        } catch (Exception e) {
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                    .entity("<error>An unexpected error occurred: " + e.getMessage() + "</error>")
-                    .build();
+           return (Animal) animalFacade.getAllAnimals(clientId);
+        } catch (ReadException ex) {
+            throw new InternalServerErrorException(ex.getMessage());
         }
     }
-
-
-    /**
-     * PUT method for updating or creating an instance of AnimalREST
-     * @param content representation for the resource
-     */
-//    @PUT
-//    @Consumes(MediaType.APPLICATION_XML)
-//    public void putXml(String content) {
-//    }
-//    
-//    @GET
-//    @Produces({"application/json"})
-//    public List<Animal> getJson() throws ReadException {
-//        return animalFacade.findAllAnimals();
+    
+    @GET
+    @Path("name/{name}")
+    @Produces(MediaType.APPLICATION_XML)
+    public Animal getAnimalByName(@PathParam("name") String name) {
+        try{
+           return (Animal) animalFacade.getAnimalByName(name);
+        } catch (ReadException ex) {
+            throw new InternalServerErrorException(ex.getMessage());
+        }
     }
-
-//    @GET
-//    @Path("/search/{name}")
-//    @Produces({"application/json"})
-//    public List<Animal> findByName(@PathParam("name") String name) {
-//       return animalFacade.findAnimalByName(name);
-//    }
-
-  
-
+    
+    @GET
+    @Path("group/{animalGroup}")
+    @Produces(MediaType.APPLICATION_XML)
+    public Animal getAnimalsByAnimalGroup(@PathParam("animalGroup") AnimalGroup animalGroup) {
+        try{
+           return (Animal) animalFacade.getAnimalsByAnimalGroup(animalGroup);
+        } catch (ReadException ex) {
+            throw new InternalServerErrorException(ex.getMessage());
+        }
+    }
+    
+    @GET
+    @Path("subespecies/{subespecies}")
+    @Produces(MediaType.APPLICATION_XML)
+    public Animal getAnimalsBySubespecies(@PathParam("subespecies") String subespecies) {
+        try{
+           return (Animal) animalFacade.getAnimalsBySubespecies(subespecies);
+        } catch (ReadException ex) {
+            throw new InternalServerErrorException(ex.getMessage());
+        }
+    }
+    
+    @GET
+    @Path("between/{dateFrom}/{dateTo}")
+    @Produces(MediaType.APPLICATION_XML)
+    public Animal getAnimalsByBirthdate(@PathParam("dateFrom") Date dateFrom, @PathParam("dateTo") Date dateTo) {
+        try{
+           return (Animal) animalFacade.getAnimalsByBirthdate(dateFrom, dateTo);
+        } catch (ReadException ex) {
+            throw new InternalServerErrorException(ex.getMessage());
+        }
+    }
+    
+    @GET
+    @Path("from/{dateFrom}")
+    @Produces(MediaType.APPLICATION_XML)
+    public Animal getAnimalsByBirthdateFrom(@PathParam("dateFrom") Date dateFrom) {
+        try{
+           return (Animal) animalFacade.getAnimalsByBirthdateFrom(dateFrom);
+        } catch (ReadException ex) {
+            throw new InternalServerErrorException(ex.getMessage());
+        }
+    }
+    
+    @GET
+    @Path("to/{dateTo}")
+    @Produces(MediaType.APPLICATION_XML)
+    public Animal getAnimalsByBirthdateTo(@PathParam("dateTo") Date dateTo) {
+        try{
+           return (Animal) animalFacade.getAnimalsByBirthdateTo(dateTo);
+        } catch (ReadException ex) {
+            throw new InternalServerErrorException(ex.getMessage());
+        }
+    }
 }

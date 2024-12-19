@@ -59,6 +59,17 @@ public class AnimalFacade implements IAnimalFacade {
     //get
 
     @Override
+    public List<Animal> getAllAnimals(Long clientId) throws ReadException {
+        try{
+            return em.createNamedQuery("getAllAnimals", Animal.class)
+                .setParameter("clientId", clientId)
+                .getResultList();
+        }catch(Exception e){
+            throw new ReadException("Error retrieving animals for client ID: " + clientId + ". Details: " + e.getMessage());
+        }
+    }
+    
+    @Override
     public Animal getAnimalByName(String name) throws ReadException {
         try{
             return em.find(Animal.class, name);
@@ -68,31 +79,18 @@ public class AnimalFacade implements IAnimalFacade {
     }
 
     @Override
-    public List<Animal> getAllAnimals(String clientId) throws ReadException {
+    public List<Animal> getAnimalsByAnimalGroup(AnimalGroup animalGroup) throws ReadException {
         try{
-            return em.createNamedQuery("getAllAnimals", Animal.class)
-                .setParameter("clientId", clientId)
-                .getResultList();
-        }catch(Exception e){
-            throw new ReadException("Error retrieving animals for client ID: " + clientId + ". Details: " + e.getMessage());
-        }
-    }
-
-    @Override
-    public List<Animal> getAnimalsByAnimalGroup(AnimalGroup animalGroup) {
-        List<Animal> animals;
-        try{
-            animals=em.createNamedQuery("getAnimalsByAnimalGroup", Animal.class)
+            return em.createNamedQuery("getAnimalsByAnimalGroup", Animal.class)
                 .setParameter("animalGroupId", animalGroup.getId())
                 .getResultList();
         }catch(Exception e){
             throw new ReadException("Error retrieving animals for Group: " + animalGroup.name + ". Details: " + e.getMessage());
         }
-        return animals;
     }
 
     @Override
-    public List<Animal> getAnimalsBySubespecies(String subespecies) {
+    public List<Animal> getAnimalsBySubespecies(String subespecies) throws ReadException {
         try {
             return em.createNamedQuery("getAnimalsBySubespecies", Animal.class)
                         .setParameter("subespecies", subespecies)
