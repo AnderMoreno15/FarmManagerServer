@@ -8,6 +8,7 @@ package entities;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQuery;
@@ -20,8 +21,8 @@ import javax.persistence.Table;
 @Entity
 @Table(name="provider", schema="farmdb")
 @NamedQuery(name = "findProviderById", query = "SELECT name FROM provider WHERE id = :id")
-@DiscriminatorValue("Provider")
-public class ProviderEntity implements Serializable {
+@DiscriminatorValue("provider")
+public class ProviderEntity extends UserEntity implements Serializable {
 
     
     private String name;

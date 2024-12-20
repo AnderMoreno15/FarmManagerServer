@@ -52,10 +52,10 @@ public class AnimalGroupEntity implements Serializable {
     @NotNull
     @Temporal(TemporalType.TIMESTAMP)
     private Date creationDate;
-    @OneToMany(cascade = ALL, mappedBy = "animalGroup")
-    private List<AnimalEntity> animals;
-    @OneToMany(cascade = ALL, mappedBy = "animalGroup")
-    private List<ConsumeEntity> consumes;
+//    @OneToMany(cascade = ALL, mappedBy = "animalGroup")
+//    private List<AnimalEntity> animals;
+//    @OneToMany(cascade = ALL, mappedBy = "animalGroup")
+//    private List<ConsumeEntity> consumes;
     @ManyToMany(fetch = FetchType.EAGER)
     private List<ManagerEntity> managers;
 
@@ -99,22 +99,22 @@ public class AnimalGroupEntity implements Serializable {
         this.creationDate = creationDate;
     }
 
-    @XmlTransient
-    public List<AnimalEntity> getAnimals() {
-        return animals;
-    }
-
-    public void setAnimals(List<AnimalEntity> animals) {
-        this.animals = animals;
-    }
-
-    public List<ConsumeEntity> getConsumes() {
-        return consumes;
-    }
-
-    public void setConsumes(List<ConsumeEntity> consumes) {
-        this.consumes = consumes;
-    }
+//    @XmlTransient
+//    public List<AnimalEntity> getAnimals() {
+//        return animals;
+//    }
+//
+//    public void setAnimals(List<AnimalEntity> animals) {
+//        this.animals = animals;
+//    }
+//
+//    public List<ConsumeEntity> getConsumes() {
+//        return consumes;
+//    }
+//
+//    public void setConsumes(List<ConsumeEntity> consumes) {
+//        this.consumes = consumes;
+//    }
 
     public List<ManagerEntity> getManagers() {
         return managers;
