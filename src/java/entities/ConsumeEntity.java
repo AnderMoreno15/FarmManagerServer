@@ -6,34 +6,24 @@
 package entities;
 
 import java.io.Serializable;
-import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Ander
+ * @author inifr
  */
 @Entity
-@Table(name = "purchase", schema = "farmdb")
-public class PurchaseEntity implements Serializable {
+@XmlRootElement
+public class ConsumeEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date purchaseDate;
-    @ManyToOne()
-    private ManagerEntity manager;
-    @ManyToOne()
-    private ProviderEntity provider;
 
     public Long getId() {
         return id;
@@ -41,30 +31,6 @@ public class PurchaseEntity implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Date getPurchaseDate() {
-        return purchaseDate;
-    }
-
-    public void setPurchaseDate(Date purchaseDate) {
-        this.purchaseDate = purchaseDate;
-    }
-
-    public ManagerEntity getManager() {
-        return manager;
-    }
-
-    public void setManager(ManagerEntity manager) {
-        this.manager = manager;
-    }
-
-    public ProviderEntity getProvider() {
-        return provider;
-    }
-
-    public void setProvider(ProviderEntity provider) {
-        this.provider = provider;
     }
 
     @Override
@@ -77,10 +43,10 @@ public class PurchaseEntity implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof PurchaseEntity)) {
+        if (!(object instanceof ConsumeEntity)) {
             return false;
         }
-        PurchaseEntity other = (PurchaseEntity) object;
+        ConsumeEntity other = (ConsumeEntity) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -89,7 +55,7 @@ public class PurchaseEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.PurchaseEntity[ id=" + id + " ]";
+        return "entities.ConsumeEntity[ id=" + id + " ]";
     }
-
+    
 }

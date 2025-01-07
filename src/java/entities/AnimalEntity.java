@@ -8,39 +8,29 @@ package entities;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.DiscriminatorValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author InigoFreire
+ * @author inifr
  */
 @Entity
-@Table(name="provider", schema="farmdb")
-@NamedQuery(name = "findProviderById", query = "SELECT name FROM provider WHERE id = :id")
-@DiscriminatorValue("provider")
-public class ProviderEntity extends UserEntity implements Serializable {
+@XmlRootElement
+public class AnimalEntity implements Serializable {
 
-    
-    private String name;
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
     public Long getId() {
-        return super.getId();
+        return id;
     }
 
     public void setId(Long id) {
-        super.setId(id);
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+        this.id = id;
     }
 
     @Override
@@ -53,11 +43,11 @@ public class ProviderEntity extends UserEntity implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ProviderEntity)) {
+        if (!(object instanceof AnimalEntity)) {
             return false;
         }
-        ProviderEntity other = (ProviderEntity) object;
-        if ((super.id == null && other.id != null) || (super.id != null && !super.id.equals(other.id))) {
+        AnimalEntity other = (AnimalEntity) object;
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
         return true;
@@ -65,7 +55,7 @@ public class ProviderEntity extends UserEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.Provider[ id=" + id + " ]";
+        return "entities.AnimalEntity[ id=" + id + " ]";
     }
     
 }
