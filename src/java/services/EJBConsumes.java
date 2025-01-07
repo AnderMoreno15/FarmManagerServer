@@ -96,12 +96,12 @@ public class EJBConsumes implements ConsumesBankManagerLocal {
     
     
     @Override
-    public List<Consumes> findConsumesByProduct(Product product) throws ReadException {
+    public List<Consumes> findConsumesByProduct(Long productId) throws ReadException {
         List<Consumes> consumes=null;
         try{
             LOGGER.info("ConsumesManager: Reading consumes by product.");
             consumes=em.createNamedQuery("findConsumesByProduct")
-                     .setParameter("product", product)
+                     .setParameter("productId", productId)
                      .getResultList();
         }catch(Exception e){
             LOGGER.log(Level.SEVERE, "ConsumesManager: Exception reading consumes byProduct .",
@@ -112,12 +112,12 @@ public class EJBConsumes implements ConsumesBankManagerLocal {
     }
     
     @Override
-    public List<Consumes> findConsumesByAnimalGroup(AnimalGroup animalGroup) throws ReadException {
+    public List<Consumes> findConsumesByAnimalGroup(Long animalGroupId) throws ReadException {
         List<Consumes> consumes=null;
         try{
             LOGGER.info("ConsumesManager: Reading consumes by animal group.");
-            consumes=em.createNamedQuery("findConsumesByProduct")
-                     .setParameter("animalGroup", animalGroup)
+            consumes=em.createNamedQuery("findConsumesByAnimalGroup")
+                     .setParameter("animalGroupId", animalGroupId)
                      .getResultList();
         }catch(Exception e){
             LOGGER.log(Level.SEVERE, "ConsumesManager: Exception reading consumes by animalGroup .",

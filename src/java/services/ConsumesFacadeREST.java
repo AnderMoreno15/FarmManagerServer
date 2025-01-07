@@ -98,27 +98,30 @@ public class ConsumesFacadeREST  {
       return null;
        }
     
-        @GET
+    @GET
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<Consumes> findConsumesByProduct(Product product) throws ReadException{
+    @Path("Producto/{ProductId}")
+    public List<Consumes> findConsumesByProduct(@PathParam("ProductId")Long productId) throws ReadException{
     try{ 
-        return ejb.findConsumesByProduct(product);
+        return ejb.findConsumesByProduct(productId);
        }catch(ReadException e){}
       return null;
        }
     
-       @GET
+    
+    @GET
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-     public List<Consumes> findConsumesByAnimalGroup(AnimalGroup animalGroup) throws ReadException{
+    @Path("Animal/{animalGroupId}")   
+     public List<Consumes> findConsumesByAnimalGroup(@PathParam("AnimalGroupId")Long animalGroupId) throws ReadException{
     try{ 
-        return ejb.findConsumesByAnimalGroup(animalGroup);
+        return ejb.findConsumesByAnimalGroup(animalGroupId);
        }catch(ReadException e){}
       return null;
        }
     
       
     @GET
-    @Path("{from}/{to}")
+    @Path("Rango/{from}/{to}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
      public List<Consumes> getConsumesByDate(@PathParam("from")Date dateFrom, @PathParam("to")Date dateTo) throws ReadException{
      try{ 
@@ -127,7 +130,7 @@ public class ConsumesFacadeREST  {
       return null;
        }
      @GET
-    @Path("{from}")
+    @Path("Desde/{from}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public List<Consumes> getConsumesByDateFrom(@PathParam("from")Date dateFrom) throws ReadException{   
     try{
@@ -136,7 +139,7 @@ public class ConsumesFacadeREST  {
       return null;
        }
    @GET
-    @Path("{to}")
+    @Path("Hasta/{to}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public List<Consumes> getConsumesByDateto(@PathParam("to")Date dateto) throws ReadException{   
     try{
