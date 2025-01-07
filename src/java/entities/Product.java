@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
@@ -18,6 +19,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(schema="farmdb",name="Product")
+@XmlRootElement
 public class Product implements Serializable {
     
    @Id

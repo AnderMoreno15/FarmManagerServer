@@ -28,16 +28,18 @@ public class ConsumesId implements Serializable{
         return animalGroupId;
     }
 
-    public void setProductsId(int productsId) {
+    public void setProductsId(long productsId) {
         this.productsId = productsId;
     }
 
-    public void setAnimalGroupId(int animalGroupId) {
+    public void setAnimalGroupId(long animalGroupId) {
         this.animalGroupId = animalGroupId;
     }
 
     public ConsumesId() {
     }
+    
+    
     
    
     

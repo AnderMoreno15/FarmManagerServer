@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
@@ -19,6 +20,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(schema="farmdb",name="AnimalGroup")
+@XmlRootElement
 public class AnimalGroup implements Serializable {
 
     @Id
