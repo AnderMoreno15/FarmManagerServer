@@ -22,6 +22,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
@@ -30,13 +31,13 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "animalGroup", schema = "farmdb")
-@NamedQueries({
-    @NamedQuery(name = "getAnimalGroups", query = "SELECT ag.* FROM animalGroup ag JOIN manager_animalGroup mag ON ag.id = mag.animalGroupId JOIN manager m ON m.id = mag.managerId WHERE m.id = :managerId")
-
-//, @NamedQuery(name = "getAnimalGroupsByName", query = "SELECT * FROM animalGroup where name = :name")
-//, @NamedQuery(name = "getConsumesByAnimalGroup", query = "SELECT sum(cantidad) FROM consume where animalGroup = :animalGroupId")
-})
-@XMLRootElement
+//@NamedQueries({
+//    @NamedQuery(name = "getAnimalGroups", query = "SELECT ag.* FROM animalGroup ag JOIN manager_animalGroup mag ON ag.id = mag.animalGroupId WHERE mag.managerId = :managerId")
+//
+////, @NamedQuery(name = "getAnimalGroupsByName", query = "SELECT * FROM animalGroup where name = :name")
+////, @NamedQuery(name = "getConsumesByAnimalGroup", query = "SELECT sum(cantidad) FROM consume where animalGroup = :animalGroupId")
+//})
+@XmlRootElement
 public class AnimalGroupEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -52,8 +53,8 @@ public class AnimalGroupEntity implements Serializable {
     @NotNull
     @Temporal(TemporalType.TIMESTAMP)
     private Date creationDate;
-//    @OneToMany(cascade = ALL, mappedBy = "animalGroup")
-//    private List<AnimalEntity> animals;
+    @OneToMany(cascade = ALL, mappedBy = "animalGroup")
+    private List<AnimalEntity> animals;
 //    @OneToMany(cascade = ALL, mappedBy = "animalGroup")
 //    private List<ConsumeEntity> consumes;
     @ManyToMany(fetch = FetchType.EAGER)
@@ -99,14 +100,14 @@ public class AnimalGroupEntity implements Serializable {
         this.creationDate = creationDate;
     }
 
-//    @XmlTransient
-//    public List<AnimalEntity> getAnimals() {
-//        return animals;
-//    }
-//
-//    public void setAnimals(List<AnimalEntity> animals) {
-//        this.animals = animals;
-//    }
+    @XmlTransient
+    public List<AnimalEntity> getAnimals() {
+        return animals;
+    }
+
+    public void setAnimals(List<AnimalEntity> animals) {
+        this.animals = animals;
+    }
 //
 //    public List<ConsumeEntity> getConsumes() {
 //        return consumes;
@@ -116,6 +117,7 @@ public class AnimalGroupEntity implements Serializable {
 //        this.consumes = consumes;
 //    }
 
+    @XmlTransient
     public List<ManagerEntity> getManagers() {
         return managers;
     }

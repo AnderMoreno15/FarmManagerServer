@@ -56,25 +56,25 @@ public class AnimalGroupFacade implements IAnimalGroupFacade {
         }
     }
 
-    @Override
-    public List<AnimalGroupEntity> getAnimalGroups(ManagerEntity manager) throws ReadException {
-        try {
-            return em.createNamedQuery("getAnimalGroups", AnimalGroupEntity.class)
-                    .setParameter("managerId", manager.getId())
-                    .getResultList();
-        } catch (Exception e) {
-            throw new ReadException("Error retrieving animal groups for manager ID: " + manager.getId() + ". Details: " + e.getMessage());
-        }
-    }
-
-    @Override
-    public AnimalGroupEntity getAnimalGroupsByName(String name) throws ReadException {
-        try {
-            return em.find(AnimalGroupEntity.class, name);
-        } catch (Exception e) {
-            throw new ReadException(e.getMessage());
-        }
-    }
+//    @Override
+//    public List<AnimalGroupEntity> getAnimalGroups(ManagerEntity manager) throws ReadException {
+//        try {
+//            return em.createNamedQuery("getAnimalGroups", AnimalGroupEntity.class)
+//                    .setParameter("managerId", manager.getId())
+//                    .getResultList();
+//        } catch (Exception e) {
+//            throw new ReadException("Error retrieving animal groups for manager ID: " + manager.getId() + ". Details: " + e.getMessage());
+//        }
+//    }
+//
+//    @Override
+//    public AnimalGroupEntity getAnimalGroupsByName(String name) throws ReadException {
+//        try {
+//            return em.find(AnimalGroupEntity.class, name);
+//        } catch (Exception e) {
+//            throw new ReadException(e.getMessage());
+//        }
+//    }
 // This methods are done int AnimalFecade and ConsumeFecade
 //
 //    @Override

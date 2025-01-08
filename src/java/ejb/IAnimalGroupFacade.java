@@ -28,9 +28,9 @@ public interface IAnimalGroupFacade {
     public void deleteAnimal(AnimalGroupEntity animalGroup) throws DeleteException;
 
     // Gets
-    public List<AnimalGroupEntity> getAnimalGroups(ManagerEntity manager) throws ReadException;
-
-    public AnimalGroupEntity getAnimalGroupsByName(String name) throws ReadException;
+//    public List<AnimalGroupEntity> getAnimalGroups(ManagerEntity manager) throws ReadException;
+//
+//    public AnimalGroupEntity getAnimalGroupsByName(String name) throws ReadException;
 
     // This methods are done int IAnimalFecade and IConsumeFecade
     // public int getConsumesByAnimalGroup(AnimalGroupEntity animalGroup) throws ReadException;
