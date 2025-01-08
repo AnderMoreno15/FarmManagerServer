@@ -22,6 +22,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
@@ -38,6 +39,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "getConsumesByAnimalGroup", query = "SELECT sum(cantidad) FROM consume where animalGroup = :animalGroupId")
 })
 @XMLRootElement
+@XmlRootElement
 public class AnimalGroupEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -109,6 +111,7 @@ public class AnimalGroupEntity implements Serializable {
         this.animals = animals;
     }
     
+    @XmlTransient
     public List<ConsumeEntity> getConsumes() {
         return consumes;
     }
@@ -117,6 +120,7 @@ public class AnimalGroupEntity implements Serializable {
         this.consumes = consumes;
     }
 
+    @XmlTransient
     public List<ManagerEntity> getManagers() {
         return managers;
     }

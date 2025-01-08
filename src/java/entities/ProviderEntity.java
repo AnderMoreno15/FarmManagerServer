@@ -13,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
@@ -22,6 +23,7 @@ import javax.persistence.Table;
 @Table(name="provider", schema="farmdb")
 @NamedQuery(name = "findProviderById", query = "SELECT name FROM provider WHERE id = :id")
 @DiscriminatorValue("provider")
+@XmlRootElement
 public class ProviderEntity extends UserEntity implements Serializable {
 
     

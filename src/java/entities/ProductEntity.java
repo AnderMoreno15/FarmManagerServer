@@ -20,6 +20,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -32,6 +34,7 @@ import javax.validation.constraints.NotNull;
     @NamedQuery(name = "findProductByName", query = "SELECT * FROM product WHERE name = :name ORDER BY name ASC"),
     @NamedQuery(name = "findProductByCreatedDate", query = "SELECT * FROM product WHERE = :date ORDER BY name ASC")
 })
+@XmlRootElement
 public class ProductEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -63,6 +66,7 @@ public class ProductEntity implements Serializable {
         this.name = name;
     }
 
+    @XmlTransient
     public Float getMonthlyConsume() {
         return monthlyConsume;
     }

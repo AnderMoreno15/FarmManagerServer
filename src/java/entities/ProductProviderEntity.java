@@ -12,6 +12,7 @@ import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.MapsId;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
@@ -19,6 +20,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="product_provider", schema="farmdb")
+@XmlRootElement
 public class ProductProviderEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
