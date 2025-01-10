@@ -21,7 +21,7 @@ import javax.persistence.PersistenceContext;
  * @author Ander
  */
 @Stateless
-public class AnimalGroupFacade implements IAnimalGroupFacade {
+public class AnimalGroupEjb implements IAnimalGroupEjb {
 
     @PersistenceContext(unitName = "FarmManagerPU")
     private EntityManager em;

@@ -31,12 +31,22 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "animalGroup", schema = "farmdb")
-//@NamedQueries({
-//    @NamedQuery(name = "getAnimalGroups", query = "SELECT ag.* FROM animalGroup ag JOIN manager_animalGroup mag ON ag.id = mag.animalGroupId WHERE mag.managerId = :managerId")
-//
-////, @NamedQuery(name = "getAnimalGroupsByName", query = "SELECT * FROM animalGroup where name = :name")
-////, @NamedQuery(name = "getConsumesByAnimalGroup", query = "SELECT sum(cantidad) FROM consume where animalGroup = :animalGroupId")
-//})
+@NamedQueries({
+    @NamedQuery(
+            name = "getAnimalGroups",
+            query = "SELECT ag FROM AnimalGroupEntity ag JOIN ag.managers m WHERE m.id = :managerId"
+    )
+    ,
+    @NamedQuery(
+            name = "getAnimalGroupsByName",
+            query = "SELECT ag FROM AnimalGroupEntity ag WHERE ag.name = :name"
+    )
+    ,
+//    @NamedQuery(
+//            name = "getConsumesByAnimalGroup",
+//            query = "SELECT SUM(c.cantidad) FROM Consumes c WHERE c.animalGroup.id = :animalGroupId"
+//    )
+})
 @XmlRootElement
 public class AnimalGroupEntity implements Serializable {
 

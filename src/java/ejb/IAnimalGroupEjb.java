@@ -19,7 +19,7 @@ import javax.ejb.Local;
  * @author Ander
  */
 @Local
-public interface IAnimalGroupFacade {
+public interface IAnimalGroupEjb {
 
     public void createAnimal(AnimalGroupEntity animalGroup) throws CreateException;
 
