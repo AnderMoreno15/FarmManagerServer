@@ -16,6 +16,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TemporalType;
 
 /**
  *
@@ -57,6 +58,19 @@ public class AnimalFacade implements IAnimalFacade {
         }
     }
     
+    @Override
+    public void deleteAnimalById(Long id) throws DeleteException {
+        try {
+            Animal animal = em.find(Animal.class, id);
+            if (animal == null) {
+                throw new DeleteException("Animal with ID " + id + " not found.");
+            }
+            em.remove(animal);
+        }catch(Exception e){
+            throw new DeleteException(e.getMessage());
+        }
+    }
+    
 //    //get
 //
 //    @Override
@@ -73,66 +87,79 @@ public class AnimalFacade implements IAnimalFacade {
     @Override
     public Animal getAnimalByName(String name) throws ReadException {
         try{
-            return em.find(Animal.class, name);
+            return em.createNamedQuery("getAnimalByName", Animal.class)
+                .setParameter("name", name)
+                .getSingleResult();
+               
         }catch(Exception e){
             throw new ReadException(e.getMessage());
         }
     }
 
     @Override
-    public List<Animal> getAnimalsByAnimalGroup(AnimalGroup animalGroup) throws ReadException {
+    public List<Animal> getAnimalsByAnimalGroup(String animalGroupName) throws ReadException {
+        List<Animal> animals;
         try{
-            return em.createNamedQuery("getAnimalsByAnimalGroup", Animal.class)
-                .setParameter("animalGroupId", animalGroup.getId())
+            animals = em.createNamedQuery("getAnimalsByAnimalGroup", Animal.class)
+                .setParameter("animalGroupName", animalGroupName)
                 .getResultList();
         }catch(Exception e){
-            throw new ReadException("Error retrieving animals for Group: " + animalGroup.getName() + ". Details: " + e.getMessage());
+            throw new ReadException("Error retrieving animals for Group: " + animalGroupName + ". Details: " + e.getMessage());
         }
+        return animals;
     }
 
     @Override
     public List<Animal> getAnimalsBySubespecies(String subespecies) throws ReadException {
+        List<Animal> animals;
         try {
-            return em.createNamedQuery("getAnimalsBySubespecies", Animal.class)
+            animals = em.createNamedQuery("getAnimalsBySubespecies", Animal.class)
                         .setParameter("subespecies", subespecies)
                         .getResultList();
         } catch (Exception e) {
             throw new ReadException("Error retrieving animals for Subespecies: " + subespecies + ". Details: " + e.getMessage());
         }
+        return animals;
     }
 
     
     @Override
     public List<Animal> getAnimalsByBirthdate(Date dateFrom, Date dateTo) throws ReadException {
+        List<Animal> animals;
         try {
-            return em.createNamedQuery("getAnimalsByBirthdateRange", Animal.class)
+            animals = em.createNamedQuery("getAnimalsByBirthdateRange", Animal.class)
                         .setParameter("dateFrom", dateFrom)
                         .setParameter("dateTo", dateTo)
                         .getResultList();
         } catch (Exception e) {
             throw new ReadException("Error retrieving animals for the date range. Details: " + e.getMessage());
         }
+        return animals;
     }
 
     @Override
     public List<Animal> getAnimalsByBirthdateFrom(Date dateFrom) throws ReadException {
+        List<Animal> animals;
         try {
-            return em.createNamedQuery("getAnimalsByBirthdateFrom", Animal.class)
+            animals = em.createNamedQuery("getAnimalsByBirthdateFrom", Animal.class)
                         .setParameter("dateFrom", dateFrom)
                         .getResultList();
         } catch (Exception e) {
             throw new ReadException("Error retrieving animals born from date: " + dateFrom + ". Details: " + e.getMessage());
         }
+        return animals;
     }
 
     @Override
     public List<Animal> getAnimalsByBirthdateTo(Date dateTo) throws ReadException {
+        List<Animal> animals;
         try {
-            return em.createNamedQuery("getAnimalsByBirthdateTo", Animal.class)
+            animals = em.createNamedQuery("getAnimalsByBirthdateTo", Animal.class)
                         .setParameter("dateTo", dateTo)
                         .getResultList();
         } catch (Exception e) {
             throw new ReadException("Error retrieving animals born until date: " + dateTo + ". Details: " + e.getMessage());
         }
+        return animals;
     }
 }

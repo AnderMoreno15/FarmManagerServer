@@ -19,9 +19,10 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -31,13 +32,15 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name="animal",schema="farmdb")
 @NamedQueries({
 //    @NamedQuery(name = "getAllAnimals", query = "SELECT a FROM Animal a WHERE a.animalGroup.manager.id = :clientId ORDER BY a.name DESC"),
-    @NamedQuery(name = "getAnimalsByAnimalGroup", query = "SELECT a FROM Animal a WHERE a.animalGroup.id = :animalGroupId ORDER BY a.name DESC"),
+    @NamedQuery(name = "getAnimalByName", query = "SELECT a FROM Animal a WHERE a.name = :name"),
+    @NamedQuery(name = "getAnimalsByAnimalGroup", query = "SELECT a FROM Animal a WHERE a.animalGroup.name = :animalGroupName ORDER BY a.name DESC"),
     @NamedQuery(name = "getAnimalsBySubespecies", query = "SELECT a FROM Animal a WHERE a.subespecies = :subespecies ORDER BY a.name DESC"),
     @NamedQuery(name = "getAnimalsByBirthdateRange", query = "SELECT a FROM Animal a WHERE a.birthdate BETWEEN :dateFrom AND :dateTo ORDER BY a.birthdate"),
     @NamedQuery(name = "getAnimalsByBirthdateFrom", query = "SELECT a FROM Animal a WHERE a.birthdate >= :dateFrom ORDER BY a.birthdate"),
     @NamedQuery(name = "getAnimalsByBirthdateTo", query = "SELECT a FROM Animal a WHERE a.birthdate <= :dateTo ORDER BY a.birthdate")
 })
 @XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Animal implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -52,8 +55,6 @@ public class Animal implements Serializable {
     private String subespecies;
     
     @Temporal(TemporalType.TIMESTAMP)
-//    @JsonSerialize(as = Date.class)
-//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @NotNull
     private Date birthdate;
     
@@ -110,7 +111,6 @@ public class Animal implements Serializable {
         this.monthlyConsume = monthlyConsume;
     }
 
-    @XmlTransient
     public AnimalGroup getAnimalGroup() {
         return animalGroup;
     }

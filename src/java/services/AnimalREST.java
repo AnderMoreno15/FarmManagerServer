@@ -11,8 +11,13 @@ import exceptions.CreateException;
 import exceptions.DeleteException;
 import exceptions.ReadException;
 import exceptions.UpdateException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import javax.ejb.EJB;
+import javax.persistence.EntityNotFoundException;
+import javax.ws.rs.BadRequestException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.Produces;
@@ -65,12 +70,26 @@ public class AnimalREST {
     @DELETE
     @Consumes(MediaType.APPLICATION_XML)
     public void deleteAnimal(Animal animal) {
+        if (animal.getId() == null) {
+            throw new BadRequestException("Animal ID is required for deletion.");
+        }
         try {
             animalFacade.deleteAnimal(animal);
         } catch (DeleteException ex) {
-            throw new InternalServerErrorException(ex.getMessage());        
+            throw new InternalServerErrorException(ex.getMessage());
         }
     }
+    
+    @DELETE
+    @Path("delete/{id}")
+    public void deleteAnimalById(@PathParam("id") Long id) {
+        try {
+            animalFacade.deleteAnimalById(id);
+        } catch (DeleteException ex) {
+            throw new InternalServerErrorException(ex.getMessage()); 
+        }
+    }
+    
     
 //    @GET
 //    @Path("all/{clientId}")
@@ -95,11 +114,11 @@ public class AnimalREST {
     }
     
     @GET
-    @Path("group/{animalGroup}")
+    @Path("group/{animalGroupName}")
     @Produces(MediaType.APPLICATION_XML)
-    public Animal getAnimalsByAnimalGroup(@PathParam("animalGroup") AnimalGroup animalGroup) {
+    public List<Animal> getAnimalsByAnimalGroup(@PathParam("animalGroupName") String animalGroupName) {
         try{
-           return (Animal) animalFacade.getAnimalsByAnimalGroup(animalGroup);
+           return animalFacade.getAnimalsByAnimalGroup(animalGroupName);
         } catch (ReadException ex) {
             throw new InternalServerErrorException(ex.getMessage());
         }
@@ -108,9 +127,9 @@ public class AnimalREST {
     @GET
     @Path("subespecies/{subespecies}")
     @Produces(MediaType.APPLICATION_XML)
-    public Animal getAnimalsBySubespecies(@PathParam("subespecies") String subespecies) {
+    public List<Animal> getAnimalsBySubespecies(@PathParam("subespecies") String subespecies) {
         try{
-           return (Animal) animalFacade.getAnimalsBySubespecies(subespecies);
+           return animalFacade.getAnimalsBySubespecies(subespecies);
         } catch (ReadException ex) {
             throw new InternalServerErrorException(ex.getMessage());
         }
@@ -119,33 +138,46 @@ public class AnimalREST {
     @GET
     @Path("between/{dateFrom}/{dateTo}")
     @Produces(MediaType.APPLICATION_XML)
-    public Animal getAnimalsByBirthdate(@PathParam("dateFrom") Date dateFrom, @PathParam("dateTo") Date dateTo) {
-        try{
-           return (Animal) animalFacade.getAnimalsByBirthdate(dateFrom, dateTo);
+    public List<Animal> getAnimalsByBirthdate(@PathParam("dateFrom") String dateFromStr, @PathParam("dateTo") String dateToStr) {
+        try {
+            Date dateFrom = parseDate(dateFromStr);
+            Date dateTo = parseDate(dateToStr);
+            return animalFacade.getAnimalsByBirthdate(dateFrom, dateTo);
         } catch (ReadException ex) {
             throw new InternalServerErrorException(ex.getMessage());
         }
     }
-    
+
     @GET
     @Path("from/{dateFrom}")
     @Produces(MediaType.APPLICATION_XML)
-    public Animal getAnimalsByBirthdateFrom(@PathParam("dateFrom") Date dateFrom) {
-        try{
-           return (Animal) animalFacade.getAnimalsByBirthdateFrom(dateFrom);
+    public List<Animal> getAnimalsByBirthdateFrom(@PathParam("dateFrom") String dateFromStr) {
+        try {
+            Date dateFrom = parseDate(dateFromStr);
+            return animalFacade.getAnimalsByBirthdateFrom(dateFrom);
+        } catch (ReadException ex) {
+            throw new InternalServerErrorException(ex.getMessage());
+        }
+    }
+
+    @GET
+    @Path("to/{dateTo}")
+    @Produces(MediaType.APPLICATION_XML)
+    public List<Animal> getAnimalsByBirthdateTo(@PathParam("dateTo") String dateToStr) {
+        try {
+            Date dateTo = parseDate(dateToStr);
+            return animalFacade.getAnimalsByBirthdateTo(dateTo);
         } catch (ReadException ex) {
             throw new InternalServerErrorException(ex.getMessage());
         }
     }
     
-    @GET
-    @Path("to/{dateTo}")
-    @Produces(MediaType.APPLICATION_XML)
-    public Animal getAnimalsByBirthdateTo(@PathParam("dateTo") Date dateTo) {
-        try{
-           return (Animal) animalFacade.getAnimalsByBirthdateTo(dateTo);
-        } catch (ReadException ex) {
-            throw new InternalServerErrorException(ex.getMessage());
+    private Date parseDate(String dateStr) {
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            return sdf.parse(dateStr);
+        } catch (ParseException ex) {
+            throw new BadRequestException("Invalid date format. Expected yyyy-MM-dd.");
         }
     }
 }

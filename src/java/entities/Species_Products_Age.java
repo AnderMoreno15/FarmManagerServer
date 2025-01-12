@@ -8,8 +8,6 @@ package entities;
 import java.io.Serializable;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -30,14 +28,6 @@ public class Species_Products_Age implements Serializable {
     private int age;
     @NotNull
     private float amount;
-    
-    @ManyToOne
-    @JoinColumn(name="species_id")
-    private Species species;
-    
-    @ManyToOne
-    @JoinColumn(name="product_id")
-    private Product product;
 
     public ID_Species_Products_Age getId() {
         return id;
