@@ -21,19 +21,19 @@ import javax.ejb.Local;
 @Local
 public interface IAnimalGroupEjb {
 
-    public void createAnimal(AnimalGroupEntity animalGroup) throws CreateException;
+    public void createAnimalGroup(AnimalGroupEntity animalGroup) throws CreateException;
 
-    public void updateAnimal(AnimalGroupEntity animalGroup) throws UpdateException;
+    public void updateAnimalGroup(AnimalGroupEntity animalGroup) throws UpdateException;
 
-    public void deleteAnimal(AnimalGroupEntity animalGroup) throws DeleteException;
+    public void deleteAnimalGroup(AnimalGroupEntity animalGroup) throws DeleteException;
 
-    // Gets
-//    public List<AnimalGroupEntity> getAnimalGroups(ManagerEntity manager) throws ReadException;
+//    // Gets
+    public List<AnimalGroupEntity> getAnimalGroupsByManager(ManagerEntity manager) throws ReadException;
+
+    public AnimalGroupEntity getAnimalGroupsByName(String name) throws ReadException;
 //
-//    public AnimalGroupEntity getAnimalGroupsByName(String name) throws ReadException;
-
-    // This methods are done int IAnimalFecade and IConsumeFecade
-    // public int getConsumesByAnimalGroup(AnimalGroupEntity animalGroup) throws ReadException;
-    
-    // public int getAnimalsByAnimalGroup(AnimalGroupEntity animalGroup) throws ReadException;
+//    // This methods are done int IAnimalFecade and IConsumeFecade
+//    public int getConsumesByAnimalGroup(AnimalGroupEntity animalGroup) throws ReadException;
+//    
+//    public int getAnimalsByAnimalGroup(AnimalGroupEntity animalGroup) throws ReadException;
 }

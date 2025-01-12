@@ -29,8 +29,8 @@ public class ApplicationConfig extends Application {
      * If required, comment out calling this method in getClasses().
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
-        resources.add(services.AnimalGroupEntityFacadeREST.class);
-//        resources.add(services.AnimalGroupEntityFacadeREST.class);
+        resources.add(services.AnimalGroupFacadeREST.class);
+//        resources.add(services.AnimalGroupFacadeREST.class);
     }
     
 }
