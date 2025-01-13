@@ -48,7 +48,7 @@ import javax.xml.bind.annotation.XmlTransient;
 //    )
 })
 @XmlRootElement
-public class AnimalGroupEntity implements Serializable {
+public class AnimalGroup implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -146,10 +146,10 @@ public class AnimalGroupEntity implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof AnimalGroupEntity)) {
+        if (!(object instanceof AnimalGroup)) {
             return false;
         }
-        AnimalGroupEntity other = (AnimalGroupEntity) object;
+        AnimalGroup other = (AnimalGroup) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }

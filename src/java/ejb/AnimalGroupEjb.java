@@ -5,7 +5,7 @@
  */
 package ejb;
 
-import entities.AnimalGroupEntity;
+import entities.AnimalGroup;
 import entities.ManagerEntity;
 import exceptions.CreateException;
 import exceptions.DeleteException;
@@ -27,7 +27,7 @@ public class AnimalGroupEjb implements IAnimalGroupEjb {
     private EntityManager em;
 
     @Override
-    public void createAnimalGroup(AnimalGroupEntity animalGroup) throws CreateException {
+    public void createAnimalGroup(AnimalGroup animalGroup) throws CreateException {
         try {
             em.persist(animalGroup);
         } catch (Exception e) {
@@ -36,7 +36,7 @@ public class AnimalGroupEjb implements IAnimalGroupEjb {
     }
 
     @Override
-    public void updateAnimalGroup(AnimalGroupEntity animalGroup) throws UpdateException {
+    public void updateAnimalGroup(AnimalGroup animalGroup) throws UpdateException {
         try {
             if (!em.contains(animalGroup)) {
                 em.merge(animalGroup);
@@ -48,7 +48,7 @@ public class AnimalGroupEjb implements IAnimalGroupEjb {
     }
 
     @Override
-    public void deleteAnimalGroup(AnimalGroupEntity animalGroup) throws DeleteException {
+    public void deleteAnimalGroup(AnimalGroup animalGroup) throws DeleteException {
         try {
             em.remove(em.merge(animalGroup));
         } catch (Exception e) {
@@ -57,9 +57,9 @@ public class AnimalGroupEjb implements IAnimalGroupEjb {
     }
 
     @Override
-    public List<AnimalGroupEntity> getAnimalGroupsByManager(ManagerEntity manager) throws ReadException {
+    public List<AnimalGroup> getAnimalGroupsByManager(ManagerEntity manager) throws ReadException {
         try {
-            return em.createNamedQuery("getAnimalGroups", AnimalGroupEntity.class)
+            return em.createNamedQuery("getAnimalGroups", AnimalGroup.class)
                     .setParameter("managerId", manager.getId())
                     .getResultList();
         } catch (Exception e) {
@@ -68,9 +68,9 @@ public class AnimalGroupEjb implements IAnimalGroupEjb {
     }
 
     @Override
-    public AnimalGroupEntity getAnimalGroupsByName(String name) throws ReadException {
+    public AnimalGroup getAnimalGroupsByName(String name) throws ReadException {
         try {
-            return em.createNamedQuery("getAnimalGroupsByName", AnimalGroupEntity.class)
+            return em.createNamedQuery("getAnimalGroupsByName", AnimalGroup.class)
                  .setParameter("name", name)
                  .getSingleResult();
         } catch (Exception e) {
@@ -80,12 +80,12 @@ public class AnimalGroupEjb implements IAnimalGroupEjb {
 // This methods are done int AnimalFecade and ConsumeFecade
 //
 //    @Override
-//    public int getConsumesByAnimalGroup(AnimalGroupEntity animalGroup) throws ReadException {
+//    public int getConsumesByAnimalGroup(AnimalGroup animalGroup) throws ReadException {
 //        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 //    }
 //
 //    @Override
-//    public int getAnimalsByAnimalGroup(AnimalGroupEntity animalGroup) throws ReadException {
+//    public int getAnimalsByAnimalGroup(AnimalGroup animalGroup) throws ReadException {
 //        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 //    }
 

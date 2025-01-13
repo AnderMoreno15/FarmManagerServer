@@ -6,7 +6,7 @@
 package services;
 
 import ejb.IAnimalGroupEjb;
-import entities.AnimalGroupEntity;
+import entities.AnimalGroup;
 import entities.ManagerEntity;
 import exceptions.CreateException;
 import exceptions.DeleteException;
@@ -55,7 +55,7 @@ public class AnimalGroupFacadeREST {
     
     @POST
     @Consumes(MediaType.APPLICATION_XML)
-    public void createAnimalGroup(AnimalGroupEntity animalGroup) {
+    public void createAnimalGroup(AnimalGroup animalGroup) {
         try {
             animalGroupEjb.createAnimalGroup(animalGroup);
         } catch (CreateException ex) {
@@ -65,7 +65,7 @@ public class AnimalGroupFacadeREST {
 
     @PUT
     @Consumes(MediaType.APPLICATION_XML)
-    public void updateAnimalGroup(AnimalGroupEntity animalGroup) {
+    public void updateAnimalGroup(AnimalGroup animalGroup) {
         try {
             animalGroupEjb.updateAnimalGroup(animalGroup);
         } catch (UpdateException ex) {
@@ -75,7 +75,7 @@ public class AnimalGroupFacadeREST {
 
     @DELETE
     @Consumes(MediaType.APPLICATION_XML)
-    public void deleteAnimalGroup(AnimalGroupEntity animalGroup) {
+    public void deleteAnimalGroup(AnimalGroup animalGroup) {
         try {
             animalGroupEjb.deleteAnimalGroup(animalGroup);
         } catch (DeleteException ex) {
@@ -88,9 +88,9 @@ public class AnimalGroupFacadeREST {
     @GET
     @Path("name/{name}")
     @Produces(MediaType.APPLICATION_XML)
-    public AnimalGroupEntity getAnimalGroupsByName(@PathParam("name") String name) {
+    public AnimalGroup getAnimalGroupsByName(@PathParam("name") String name) {
         try{
-           return (AnimalGroupEntity) animalGroupEjb.getAnimalGroupsByName(name);
+           return (AnimalGroup) animalGroupEjb.getAnimalGroupsByName(name);
         } catch (ReadException ex) {
             throw new InternalServerErrorException(ex.getMessage());
         }
@@ -99,9 +99,9 @@ public class AnimalGroupFacadeREST {
 //    @GET
 //    @Path("manager/{manager}")
 //    @Produces(MediaType.APPLICATION_XML)
-//    public AnimalGroupEntity getAnimalGroupsByManager(@PathParam("manager") ManagerEntity manager) {
+//    public AnimalGroup getAnimalGroupsByManager(@PathParam("manager") ManagerEntity manager) {
 //        try{
-//           return (AnimalGroupEntity) animalGroupEjb.getAnimalGroupsByManager(manager);
+//           return (AnimalGroup) animalGroupEjb.getAnimalGroupsByManager(manager);
 //        } catch (ReadException ex) {
 //            throw new InternalServerErrorException(ex.getMessage());
 //        }
@@ -110,7 +110,7 @@ public class AnimalGroupFacadeREST {
 //    @GET
 //    @Path("{id}")
 //    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-//    public AnimalGroupEntity find(@PathParam("id") Long id) {
+//    public AnimalGroup find(@PathParam("id") Long id) {
 //        return super.find(id);
 //    }
 //

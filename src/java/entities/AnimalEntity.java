@@ -61,7 +61,7 @@ public class AnimalEntity implements Serializable {
     
     @ManyToOne
     @JoinColumn(name="animal_group_id")
-    private AnimalGroupEntity animalGroup;
+    private AnimalGroup animalGroup;
     
 //    @ManyToOne
 //    @JoinColumn(name="species_id")
@@ -111,11 +111,11 @@ public class AnimalEntity implements Serializable {
     }
 
     @XmlTransient
-    public AnimalGroupEntity getAnimalGroup() {
+    public AnimalGroup getAnimalGroup() {
         return animalGroup;
     }
 
-    public void setAnimalGroup(AnimalGroupEntity animalGroup) {
+    public void setAnimalGroup(AnimalGroup animalGroup) {
         this.animalGroup = animalGroup;
     }
 

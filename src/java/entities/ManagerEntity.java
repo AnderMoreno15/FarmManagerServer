@@ -32,7 +32,7 @@ public class ManagerEntity extends UserEntity implements Serializable {
     //@ManyToOne
     //private List<PurchaseEntity> purchases;
     @ManyToMany(fetch = FetchType.EAGER)
-    private List<AnimalGroupEntity> animalGroup;
+    private List<AnimalGroup> animalGroup;
 
     @Override
     public Long getId() {
@@ -68,11 +68,11 @@ public class ManagerEntity extends UserEntity implements Serializable {
 //        this.purchases = purchases;
 //    }
 
-    public List<AnimalGroupEntity> getAnimalGroup() {
+    public List<AnimalGroup> getAnimalGroup() {
         return animalGroup;
     }
 
-    public void setAnimalGroup(List<AnimalGroupEntity> animalGroup) {
+    public void setAnimalGroup(List<AnimalGroup> animalGroup) {
         this.animalGroup = animalGroup;
     }
 
