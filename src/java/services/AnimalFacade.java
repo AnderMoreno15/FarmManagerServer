@@ -37,6 +37,45 @@ public class AnimalFacade implements IAnimalFacade {
             throw new CreateException(e.getMessage());
         }
     }
+    
+//    @Override
+//    public void createAnimal(Animal animal) throws CreateException {
+//        try {
+//            if (animal.getAnimalGroup() == null) {
+//                throw new CreateException("El animal debe estar asociado a un grupo de animales.");
+//            }
+//            Producto producto = animal.getAnimalGroup().getProducto();
+//            if (producto == null) {
+//                throw new CreateException("El grupo de animales no tiene un producto asociado.");
+//            }
+//            Integer edadAnimal = calcularEdad(animal.getBirthDate());
+//            
+//            float monthlyConsume = em.createQuery("SELECT spa FROM SpeciesProductAge spa " +
+//                    "WHERE spa.producto = :producto AND spa.species = :species " +
+//                    "AND spa.age = :edad ", SpeciesProductAge.class)
+//                    .setParameter("producto", producto)
+//                    .setParameter("species", animal.getSpecies())
+//                    .setParameter("edad", edadAnimal)
+//                    .getSingleResult();
+//
+//            animal.setMonthlyConsume(monthlyConsume);
+//
+//            em.persist(animal);
+//        } catch (Exception e) {
+//            throw new CreateException("Error al crear el animal: " + e.getMessage());
+//        }
+//    }
+//    private Integer calcularEdad(Date birthDate) {
+//        Calendar today = Calendar.getInstance();
+//        Calendar birth = Calendar.getInstance();
+//        birth.setTime(birthDate);
+//        int age = today.get(Calendar.YEAR) - birth.get(Calendar.YEAR);
+//        if (today.get(Calendar.MONTH) < birth.get(Calendar.MONTH) ||
+//                (today.get(Calendar.MONTH) == birth.get(Calendar.MONTH) && today.get(Calendar.DAY_OF_MONTH) < birth.get(Calendar.DAY_OF_MONTH))) {
+//            age--;
+//        }
+//        return age;
+//    }
 
     @Override
     public void updateAnimal(Animal animal) throws UpdateException {
@@ -49,14 +88,14 @@ public class AnimalFacade implements IAnimalFacade {
         }
     }
 
-    @Override
-    public void deleteAnimal(Animal animal) throws DeleteException {
-        try{
-            em.remove(em.merge(animal));
-        }catch(Exception e){
-            throw new DeleteException(e.getMessage());
-        }
-    }
+//    @Override
+//    public void deleteAnimal(Animal animal) throws DeleteException {
+//        try{
+//            em.remove(em.merge(animal));
+//        }catch(Exception e){
+//            throw new DeleteException(e.getMessage());
+//        }
+//    }
     
     @Override
     public void deleteAnimalById(Long id) throws DeleteException {

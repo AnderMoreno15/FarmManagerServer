@@ -67,18 +67,18 @@ public class AnimalREST {
         }
     }
 
-    @DELETE
-    @Consumes(MediaType.APPLICATION_XML)
-    public void deleteAnimal(Animal animal) {
-        if (animal.getId() == null) {
-            throw new BadRequestException("Animal ID is required for deletion.");
-        }
-        try {
-            animalFacade.deleteAnimal(animal);
-        } catch (DeleteException ex) {
-            throw new InternalServerErrorException(ex.getMessage());
-        }
-    }
+//    @DELETE
+//    @Consumes(MediaType.APPLICATION_XML)
+//    public void deleteAnimal(Animal animal) {
+//        if (animal.getId() == null) {
+//            throw new BadRequestException("Animal ID is required for deletion.");
+//        }
+//        try {
+//            animalFacade.deleteAnimal(animal);
+//        } catch (DeleteException ex) {
+//            throw new InternalServerErrorException(ex.getMessage());
+//        }
+//    }
     
     @DELETE
     @Path("delete/{id}")

@@ -24,7 +24,7 @@ public interface IAnimalFacade {
 
     public void createAnimal(Animal animal) throws CreateException;
     public void updateAnimal(Animal animal) throws UpdateException;
-    public void deleteAnimal(Animal animal) throws DeleteException;
+//    public void deleteAnimal(Animal animal) throws DeleteException;
     public void deleteAnimalById(Long id) throws DeleteException;
     
 //    public List<Animal> getAllAnimals(Long clientId) throws ReadException;
