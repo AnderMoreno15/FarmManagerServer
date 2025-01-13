@@ -18,4 +18,12 @@ public class ProductProviderId implements Serializable {
 
     private Long productId;
     private Long providerId;
+
+    public void setProductId(Long aLong) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public void setProviderId(Long aLong) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

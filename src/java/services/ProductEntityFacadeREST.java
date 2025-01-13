@@ -6,86 +6,81 @@
 package services;
 
 import entities.ProductEntity;
+import exceptions.CreateException;
+import exceptions.DeleteException;
+import exceptions.ReadException;
+import exceptions.UpdateException;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
 
 /**
  *
  * @author inifr
  */
 @Stateless
-@Path("entities.productentity")
-public class ProductEntityFacadeREST extends AbstractFacade<ProductEntity> {
+public class ProductEntityFacadeREST implements IProductFacade {
 
     @PersistenceContext(unitName = "FarmManagerPU")
     private EntityManager em;
 
-    public ProductEntityFacadeREST() {
-        super(ProductEntity.class);
-    }
-
-    @POST
     @Override
-    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void create(ProductEntity entity) {
-        super.create(entity);
+    public void createProduct(ProductEntity product) throws CreateException{
+        try{
+            em.persist(product);
+        }catch(Exception e){
+            throw new CreateException(e.getMessage());
+        }
     }
 
-    @PUT
-    @Path("{id}")
-    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void edit(@PathParam("id") Long id, ProductEntity entity) {
-        super.edit(entity);
-    }
-
-    @DELETE
-    @Path("{id}")
-    public void remove(@PathParam("id") Long id) {
-        super.remove(super.find(id));
-    }
-
-    @GET
-    @Path("{id}")
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public ProductEntity find(@PathParam("id") Long id) {
-        return super.find(id);
-    }
-
-    @GET
-    @Override
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<ProductEntity> findAll() {
-        return super.findAll();
-    }
-
-    @GET
-    @Path("{from}/{to}")
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<ProductEntity> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
-        return super.findRange(new int[]{from, to});
-    }
-
-    @GET
-    @Path("count")
-    @Produces(MediaType.TEXT_PLAIN)
-    public String countREST() {
-        return String.valueOf(super.count());
-    }
-
-    @Override
-    protected EntityManager getEntityManager() {
-        return em;
+    @Override    
+    public void updateProduct(ProductEntity product) throws UpdateException{
+         try{
+            if(!em.contains(product))
+                em.merge(product);
+            em.flush();
+        }catch(Exception e){
+            throw new UpdateException(e.getMessage());
+        }
     }
     
+    @Override
+    public void deleteProductById(Long id) throws DeleteException{
+        try {
+            ProductEntity product = em.find(ProductEntity.class, id);
+            if (product == null) {
+                throw new DeleteException("Product with ID " + id + " not found.");
+            }
+            em.remove(product);
+        }catch(Exception e){
+            throw new DeleteException(e.getMessage());
+        }
+    }
+    
+   @Override
+    public ProductEntity getProductByName(String name) throws ReadException{
+        try{
+            return em.createNamedQuery("getAnimalByName", ProductEntity.class)
+                .setParameter("name", name)
+                .getSingleResult();
+               
+        }catch(Exception e){
+            throw new ReadException(e.getMessage());
+        }
+    }
+
+    @Override
+    public List<ProductEntity> getProductByCreatedDate(Date createdDate) throws ReadException{
+        List<ProductEntity> animals;
+        try {
+            animals = em.createNamedQuery("getAnimalsByBirthdateRange", ProductEntity.class)
+                        .setParameter("createdDate", createdDate)
+                        .getResultList();
+        } catch (Exception e) {
+            throw new ReadException("Error retrieving animals for the date range. Details: " + e.getMessage());
+        }
+        return animals;
+    }
 }

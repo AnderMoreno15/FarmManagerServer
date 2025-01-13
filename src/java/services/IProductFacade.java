@@ -17,12 +17,10 @@ import javax.ejb.Local;
  * @author inifr
  */
 @Local
-public interface IProductLocal {
+public interface IProductFacade {
     public void createProduct(ProductEntity product);
     public void updateProduct(ProductEntity product);
-    public void deleteProduct(ProductEntity product);
-    public ProductEntity findProductByName(String name);
-    public ProductEntity findProductByCreatedDate(Date createdDate);
-    public List<ProductEntity> findAllProducts();
-    
+    public void deleteProductById(Long id);
+    public ProductEntity getProductByName(String name);
+    public List<ProductEntity> getProductByCreatedDate(Date createdDate);    
 }
