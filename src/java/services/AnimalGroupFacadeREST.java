@@ -32,7 +32,7 @@ import javax.ws.rs.core.MediaType;
  *
  * @author Ander
  */
-@Path("animalgroupentity")
+@Path("animalgroup")
 public class AnimalGroupFacadeREST {
 
     @EJB
@@ -45,19 +45,19 @@ public class AnimalGroupFacadeREST {
     }
 
 //    Example
-//    <animalGroupEntity>
+//    <animalGroup>
 //    <name>Lions</name>
 //    <area>Savannah</area>
 //    <description>Group of lions roaming freely</description>
 //    <creationDate>2025-01-10T12:00:00</creationDate>
-//    </animalGroupEntity>
+//    </animalGroup>
 
     
     @POST
     @Consumes(MediaType.APPLICATION_XML)
     public void createAnimalGroup(AnimalGroup animalGroup) {
         try {
-            animalGroupEjb.createAnimalGroup(animalGroup);
+            animalGroupEjb.setAnimalGroup(animalGroup);
         } catch (CreateException ex) {
             throw new InternalServerErrorException(ex.getMessage());        
         }
@@ -82,11 +82,30 @@ public class AnimalGroupFacadeREST {
             throw new InternalServerErrorException(ex.getMessage());        
         }
     }
-
-    // gets
+    
+    @DELETE
+    @Path("delete/{id}")
+    @Produces(MediaType.APPLICATION_XML)
+    public void deleteAnimalGroupById(@PathParam("id") Long id) {
+        try {
+            animalGroupEjb.deleteAnimalGroupById(id);
+        } catch (DeleteException ex) {
+            throw new InternalServerErrorException(ex.getMessage()); 
+        }
+    }
     
     @GET
-    @Path("name/{name}")
+    @Consumes(MediaType.APPLICATION_XML)
+    public List<AnimalGroup> getAnimalGroups() {
+        try {
+           return (List<AnimalGroup>) animalGroupEjb.getAnimalGroups();
+        } catch (ReadException ex) {
+            throw new InternalServerErrorException(ex.getMessage());
+        }
+    }
+    
+    @GET
+    @Path("search/{name}")
     @Produces(MediaType.APPLICATION_XML)
     public AnimalGroup getAnimalGroupsByName(@PathParam("name") String name) {
         try{

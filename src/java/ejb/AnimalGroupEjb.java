@@ -12,6 +12,8 @@ import exceptions.DeleteException;
 import exceptions.ReadException;
 import exceptions.UpdateException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -23,11 +25,13 @@ import javax.persistence.PersistenceContext;
 @Stateless
 public class AnimalGroupEjb implements IAnimalGroupEjb {
 
+    private static final Logger LOGGER = Logger.getLogger(AnimalGroupEjb.class.getName());
+    
     @PersistenceContext(unitName = "FarmManagerPU")
     private EntityManager em;
 
     @Override
-    public void createAnimalGroup(AnimalGroup animalGroup) throws CreateException {
+    public void setAnimalGroup(AnimalGroup animalGroup) throws CreateException {
         try {
             em.persist(animalGroup);
         } catch (Exception e) {
@@ -57,9 +61,37 @@ public class AnimalGroupEjb implements IAnimalGroupEjb {
     }
 
     @Override
-    public List<AnimalGroup> getAnimalGroupsByManager(ManagerEntity manager) throws ReadException {
+    public void deleteAnimalGroupById(Long id) throws DeleteException {
+        try {
+            LOGGER.log(Level.INFO, "Attempting to delete AnimalGroup with ID: {0}", id);
+            
+            AnimalGroup animalGroup = em.find(AnimalGroup.class, id);
+            if (animalGroup == null) {
+                LOGGER.log(Level.WARNING, "AnimalGroup with ID {0} not found.", id);
+                throw new DeleteException("Animal Group with ID " + id + " not found.");
+            }
+            em.remove(animalGroup);
+            LOGGER.log(Level.INFO, "AnimalGroup with ID {0} successfully deleted.", id);
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Error occurred while deleting AnimalGroup with ID: " + id, e);
+            throw new DeleteException(e.getMessage());
+        }
+    }
+
+    @Override
+    public List<AnimalGroup> getAnimalGroups() throws ReadException {
         try {
             return em.createNamedQuery("getAnimalGroups", AnimalGroup.class)
+                    .getResultList();
+        } catch (Exception e) {
+            throw new ReadException("Error retrieving animal groups. Details: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public List<AnimalGroup> getAnimalGroupsByManager(ManagerEntity manager) throws ReadException {
+        try {
+            return em.createNamedQuery("getAnimalGroupsByManager", AnimalGroup.class)
                     .setParameter("managerId", manager.getId())
                     .getResultList();
         } catch (Exception e) {
@@ -71,8 +103,8 @@ public class AnimalGroupEjb implements IAnimalGroupEjb {
     public AnimalGroup getAnimalGroupsByName(String name) throws ReadException {
         try {
             return em.createNamedQuery("getAnimalGroupsByName", AnimalGroup.class)
-                 .setParameter("name", name)
-                 .getSingleResult();
+                    .setParameter("name", name)
+                    .getSingleResult();
         } catch (Exception e) {
             throw new ReadException(e.getMessage());
         }

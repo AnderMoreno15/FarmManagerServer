@@ -34,12 +34,17 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(
             name = "getAnimalGroups",
-            query = "SELECT ag FROM AnimalGroupEntity ag JOIN ag.managers m WHERE m.id = :managerId"
+            query = "SELECT ag FROM AnimalGroup ag"
+    )
+    ,
+    @NamedQuery(
+            name = "getAnimalGroupsByManager",
+            query = "SELECT ag FROM AnimalGroup ag JOIN ag.managers m WHERE m.id = :managerId"
     )
     ,
     @NamedQuery(
             name = "getAnimalGroupsByName",
-            query = "SELECT ag FROM AnimalGroupEntity ag WHERE ag.name = :name"
+            query = "SELECT ag FROM AnimalGroup ag WHERE ag.name = :name"
     )
     ,
 //    @NamedQuery(
@@ -158,7 +163,7 @@ public class AnimalGroup implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.AnimalGroupEntity[ id=" + id + " ]";
+        return "Animal Group[ id=" + id + " ]";
     }
 
 }
