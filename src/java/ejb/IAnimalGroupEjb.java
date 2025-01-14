@@ -42,5 +42,5 @@ public interface IAnimalGroupEjb {
 
     // This methods should be done in IAnimalFacade and IConsumeFacade
     //public List<Consume> getConsumesByAnimalGroup(Long id) throws ReadException; 
-    //public List<Animal> getAnimalsByAnimalGroup(Long id) throws ReadException;
+    //public List<Animal> getAnimalsByAnimalGroup(String name) throws ReadException;
 }
