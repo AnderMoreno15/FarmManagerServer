@@ -5,6 +5,7 @@
  */
 package services;
 
+import ejb.IProductFacade;
 import entities.ProductEntity;
 import exceptions.CreateException;
 import exceptions.DeleteException;
@@ -12,75 +13,94 @@ import exceptions.ReadException;
 import exceptions.UpdateException;
 import java.util.Date;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.InternalServerErrorException;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 
 /**
  *
- * @author inifr
+ * @author InigoFreire
  */
-@Stateless
-public class ProductEntityFacadeREST implements IProductFacade {
+@Path("productentity")
+public class ProductEntityFacadeREST{
 
-    @PersistenceContext(unitName = "FarmManagerPU")
-    private EntityManager em;
+    @EJB
+    private IProductFacade productFacade;
 
-    @Override
-    public void createProduct(ProductEntity product) throws CreateException{
-        try{
-            em.persist(product);
-        }catch(Exception e){
-            throw new CreateException(e.getMessage());
-        }
+    /**
+     * Creates a new instance of ProductFacadeREST
+     */
+    public ProductEntityFacadeREST() {
     }
 
-    @Override    
-    public void updateProduct(ProductEntity product) throws UpdateException{
-         try{
-            if(!em.contains(product))
-                em.merge(product);
-            em.flush();
-        }catch(Exception e){
-            throw new UpdateException(e.getMessage());
-        }
-    }
-    
-    @Override
-    public void deleteProductById(Long id) throws DeleteException{
+//    Example
+//    <animalGroupEntity>
+//    <name>Lions</name>
+//    <area>Savannah</area>
+//    <description>Group of lions roaming freely</description>
+//    <creationDate>2025-01-10T12:00:00</creationDate>
+//    </animalGroupEntity>
+
+    @POST
+    @Consumes({MediaType.APPLICATION_XML})
+    public void createProduct(ProductEntity product){
         try {
-            ProductEntity product = em.find(ProductEntity.class, id);
-            if (product == null) {
-                throw new DeleteException("Product with ID " + id + " not found.");
-            }
-            em.remove(product);
-        }catch(Exception e){
-            throw new DeleteException(e.getMessage());
-        }
-    }
-    
-   @Override
-    public ProductEntity getProductByName(String name) throws ReadException{
-        try{
-            return em.createNamedQuery("getAnimalByName", ProductEntity.class)
-                .setParameter("name", name)
-                .getSingleResult();
-               
-        }catch(Exception e){
-            throw new ReadException(e.getMessage());
+            productFacade.createProduct(product);
+        } catch (CreateException ex) {
+            throw new InternalServerErrorException(ex.getMessage());
         }
     }
 
-    @Override
-    public List<ProductEntity> getProductByCreatedDate(Date createdDate) throws ReadException{
-        List<ProductEntity> animals;
+    @PUT
+    @Consumes({MediaType.APPLICATION_XML})
+    public void updateProduct(ProductEntity product){
         try {
-            animals = em.createNamedQuery("getAnimalsByBirthdateRange", ProductEntity.class)
-                        .setParameter("createdDate", createdDate)
-                        .getResultList();
-        } catch (Exception e) {
-            throw new ReadException("Error retrieving animals for the date range. Details: " + e.getMessage());
+            productFacade.updateProduct(product);
+        } catch (UpdateException ex) {
+            throw new InternalServerErrorException(ex.getMessage());
         }
-        return animals;
+    }
+
+    @DELETE
+    @Path("{id}")
+    @Consumes(MediaType.APPLICATION_XML)
+    public void deleteProductById(@PathParam("id") Long id){
+        try {
+            productFacade.deleteProductById(id);
+        } catch (DeleteException ex) {
+            throw new InternalServerErrorException(ex.getMessage());
+        }
+    }
+
+    @GET
+    @Path("name/{name}")
+    @Produces({MediaType.APPLICATION_XML})
+    public ProductEntity getProductByName(@PathParam("name") String name){
+        try{
+            return (ProductEntity) productFacade.getProductByName(name);
+        } catch (ReadException ex) {
+            throw new InternalServerErrorException(ex.getMessage());
+        }
+    }
+
+    @GET
+    @Produces({MediaType.APPLICATION_XML})
+    public List<ProductEntity> getProductByCreatedDate(Date createdDate){
+        try{
+            return productFacade.getProductByCreatedDate(createdDate);
+        } catch (ReadException ex) {
+            throw new InternalServerErrorException(ex.getMessage());
+        }
     }
 }

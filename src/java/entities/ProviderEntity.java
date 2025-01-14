@@ -21,7 +21,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @Table(name="provider", schema="farmdb")
-@NamedQuery(name = "findProviderById", query = "SELECT name FROM provider WHERE id = :id")
+@NamedQuery(name = "getProviderById", query = "SELECT name FROM provider WHERE id = :id")
 @DiscriminatorValue("provider")
 @XmlRootElement
 public class ProviderEntity extends UserEntity implements Serializable {

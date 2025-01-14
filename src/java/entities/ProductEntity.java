@@ -32,8 +32,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name="product", schema="farmdb")
 @NamedQueries({
-    @NamedQuery(name = "findProductByName", query = "SELECT * FROM product WHERE name = :name ORDER BY name ASC"),
-    @NamedQuery(name = "findProductByCreatedDate", query = "SELECT * FROM product WHERE = :date ORDER BY name ASC")
+    @NamedQuery(name = "getProductByName", query = "SELECT * FROM product WHERE name = :name ORDER BY name ASC"),
+    @NamedQuery(name = "getProductByCreatedDate", query = "SELECT * FROM product WHERE = :date ORDER BY name ASC")
 })
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)

@@ -3,11 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package services;
+package ejb;
 
 import entities.ProductEntity;
 import entities.ProductProviderEntity;
 import entities.ProviderEntity;
+import exceptions.CreateException;
+import exceptions.ReadException;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Local;
@@ -17,10 +19,7 @@ import javax.ejb.Local;
  * @author inifr
  */
 @Local
-public interface IProductFacade {
-    public void createProduct(ProductEntity product);
-    public void updateProduct(ProductEntity product);
-    public void deleteProductById(Long id);
-    public ProductEntity getProductByName(String name);
-    public List<ProductEntity> getProductByCreatedDate(Date createdDate);    
+public interface IProviderFacade {
+    public void create(ProviderEntity provider) throws CreateException;
+    public ProviderEntity getProviderById(Long id) throws ReadException;
 }

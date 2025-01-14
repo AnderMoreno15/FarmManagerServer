@@ -5,14 +5,19 @@
  */
 package services;
 
+import ejb.IProviderFacade;
 import entities.ProviderEntity;
 import java.util.List;
+import exceptions.CreateException;
+import exceptions.ReadException;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -22,70 +27,36 @@ import javax.ws.rs.core.MediaType;
 
 /**
  *
- * @author inifr
+ * @author InigoFreire
  */
 @Stateless
 @Path("entities.providerentity")
-public class ProviderEntityFacadeREST extends AbstractFacade<ProviderEntity> {
+public class ProviderEntityFacadeREST{
 
-    @PersistenceContext(unitName = "FarmManagerPU")
-    private EntityManager em;
+    @EJB
+    private IProviderFacade providerFacade;
 
     public ProviderEntityFacadeREST() {
-        super(ProviderEntity.class);
     }
 
     @POST
-    @Override
-    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void create(ProviderEntity entity) {
-        super.create(entity);
-    }
-
-    @PUT
-    @Path("{id}")
-    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void edit(@PathParam("id") Long id, ProviderEntity entity) {
-        super.edit(entity);
-    }
-
-    @DELETE
-    @Path("{id}")
-    public void remove(@PathParam("id") Long id) {
-        super.remove(super.find(id));
+    @Consumes({MediaType.APPLICATION_XML})
+    public void create(ProviderEntity provider){
+        try {
+            providerFacade.create(provider);
+        } catch (CreateException ex) {
+            throw new InternalServerErrorException(ex.getMessage());
+        }
     }
 
     @GET
     @Path("{id}")
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public ProviderEntity find(@PathParam("id") Long id) {
-        return super.find(id);
+    @Produces({MediaType.APPLICATION_XML})
+    public ProviderEntity getProviderById(@PathParam("id") Long id){
+        try{
+            return providerFacade.getProviderById(id);
+        } catch (ReadException ex) {
+            throw new InternalServerErrorException(ex.getMessage());
+        }
     }
-
-    @GET
-    @Override
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<ProviderEntity> findAll() {
-        return super.findAll();
-    }
-
-    @GET
-    @Path("{from}/{to}")
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<ProviderEntity> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
-        return super.findRange(new int[]{from, to});
-    }
-
-    @GET
-    @Path("count")
-    @Produces(MediaType.TEXT_PLAIN)
-    public String countREST() {
-        return String.valueOf(super.count());
-    }
-
-    @Override
-    protected EntityManager getEntityManager() {
-        return em;
-    }
-    
 }
