@@ -6,7 +6,6 @@
 package ejb;
 
 import entities.ProductEntity;
-import entities.ProductProviderEntity;
 import entities.ProviderEntity;
 import exceptions.CreateException;
 import exceptions.ReadException;

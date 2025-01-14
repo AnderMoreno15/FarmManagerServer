@@ -6,11 +6,13 @@
 package entities;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -21,13 +23,16 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @Table(name="provider", schema="farmdb")
-@NamedQuery(name = "getProviderById", query = "SELECT name FROM provider WHERE id = :id")
+@NamedQuery(name = "getProviderById", query = "SELECT p.name FROM ProviderEntity p WHERE p.id = :id")
 @DiscriminatorValue("provider")
 @XmlRootElement
 public class ProviderEntity extends UserEntity implements Serializable {
 
     
-    private String name;
+    private String user_type;
+    
+    @ManyToMany(mappedBy = "providers")
+    private List<ProductEntity> products;
 
     public Long getId() {
         return super.getId();
@@ -45,6 +50,14 @@ public class ProviderEntity extends UserEntity implements Serializable {
         this.name = name;
     }
 
+    public List<ProductEntity> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<ProductEntity> products) {
+        this.products = products;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;

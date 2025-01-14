@@ -13,9 +13,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -32,8 +35,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name="product", schema="farmdb")
 @NamedQueries({
-    @NamedQuery(name = "getProductByName", query = "SELECT * FROM product WHERE name = :name ORDER BY name ASC"),
-    @NamedQuery(name = "getProductByCreatedDate", query = "SELECT * FROM product WHERE = :date ORDER BY name ASC")
+    @NamedQuery(name = "getProductByName", query = "SELECT p FROM ProductEntity p WHERE p.name = :name ORDER BY p.name ASC"),
+    @NamedQuery(name = "getProductByCreatedDate", query = "SELECT p FROM ProductEntity p WHERE p.createdDate = :date ORDER BY p.name ASC")
 })
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -45,12 +48,18 @@ public class ProductEntity implements Serializable {
     private Long id;
     @NotNull
     private String name;
-    @OneToMany(cascade=ALL,mappedBy="Consume")
     private Float monthlyConsume;
     private Float price;
     private Integer stock;
     @Temporal(TemporalType.TIMESTAMP)
-    private Date createDate;
+    private Date createdDate;
+    @ManyToMany
+    @JoinTable(
+        name = "product_provider",
+        joinColumns = @JoinColumn(name = "product_id"),
+        inverseJoinColumns = @JoinColumn(name = "provider_id")
+    )
+    private List<ProviderEntity> providers;
 
     public Long getId() {
         return id;
@@ -93,12 +102,20 @@ public class ProductEntity implements Serializable {
         this.stock = stock;
     }
 
-    public Date getCreateDate() {
-        return createDate;
+    public Date getCreatedDate() {
+        return createdDate;
     }
 
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public List<ProviderEntity> getProviders() {
+        return providers;
+    }
+
+    public void setProviders(List<ProviderEntity> providers) {
+        this.providers = providers;
     }
     
     @Override
