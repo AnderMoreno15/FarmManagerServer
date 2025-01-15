@@ -6,7 +6,7 @@
 package ejb;
 
 import entities.AnimalGroup;
-import entities.Manager;
+import entities.FarmManager;
 import exceptions.CreateException;
 import exceptions.DeleteException;
 import exceptions.ReadException;
@@ -29,7 +29,7 @@ public interface IAnimalGroupEjb {
 
     // Extra
     // 
-    public List<AnimalGroup> getAnimalGroupsByManager(Manager manager) throws ReadException;
+    public List<AnimalGroup> getAnimalGroupsByManager(FarmManager manager) throws ReadException;
     
     // For testing purposes (done)
     public List<AnimalGroup> getAnimalGroups() throws ReadException;

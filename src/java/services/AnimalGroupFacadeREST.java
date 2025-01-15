@@ -7,7 +7,7 @@ package services;
 
 import ejb.IAnimalGroupEjb;
 import entities.AnimalGroup;
-import entities.Manager;
+import entities.FarmManager;
 import exceptions.CreateException;
 import exceptions.DeleteException;
 import exceptions.ReadException;
@@ -109,7 +109,7 @@ public class AnimalGroupFacadeREST {
     @GET
     @Path("search/{managerId}")
     @Produces(MediaType.APPLICATION_XML)
-    public AnimalGroup getAnimalGroupsByManager(Manager manager) {
+    public AnimalGroup getAnimalGroupsByManager(FarmManager manager) {
         try{
            return (AnimalGroup) animalGroupEjb.getAnimalGroupsByManager(manager);
         } catch (ReadException ex) {

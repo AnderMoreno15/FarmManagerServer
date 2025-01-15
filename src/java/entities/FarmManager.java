@@ -20,8 +20,8 @@ import javax.validation.constraints.NotNull;
  * @author Ander
  */
 @Entity
-@DiscriminatorValue("manager")
-public class Manager extends User implements Serializable {
+@DiscriminatorValue("farmManager")
+public class FarmManager extends FarmUser implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @NotNull
@@ -85,10 +85,10 @@ public class Manager extends User implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Manager)) {
+        if (!(object instanceof FarmManager)) {
             return false;
         }
-        Manager other = (Manager) object;
+        FarmManager other = (FarmManager) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
