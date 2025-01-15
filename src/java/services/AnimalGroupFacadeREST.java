@@ -109,9 +109,9 @@ public class AnimalGroupFacadeREST {
     @GET
     @Path("search/{managerId}")
     @Produces(MediaType.APPLICATION_XML)
-    public AnimalGroup getAnimalGroupsByManager(Manager manager) {
+    public List<AnimalGroup> getAnimalGroupsByManager(Long managerId) {
         try{
-           return (AnimalGroup) animalGroupEjb.getAnimalGroupsByManager(manager);
+           return (List<AnimalGroup>) animalGroupEjb.getAnimalGroupsByManager(managerId);
         } catch (ReadException ex) {
             throw new InternalServerErrorException(ex.getMessage());
         }

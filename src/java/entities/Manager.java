@@ -14,6 +14,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -67,6 +68,7 @@ public class Manager extends UserEntity implements Serializable {
 //        this.purchases = purchases;
 //    }
 
+    @XmlTransient
     public List<AnimalGroup> getAnimalGroups() {
         return animalGroups;
     }

@@ -29,7 +29,7 @@ public interface IAnimalGroupEjb {
 
     // Extra
     // 
-    public List<AnimalGroup> getAnimalGroupsByManager(Manager manager) throws ReadException;
+    public List<AnimalGroup> getAnimalGroupsByManager(Long managerId) throws ReadException;
     
     // For testing purposes (done)
     public List<AnimalGroup> getAnimalGroups() throws ReadException;

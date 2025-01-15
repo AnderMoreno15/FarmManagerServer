@@ -89,13 +89,13 @@ public class AnimalGroupEjb implements IAnimalGroupEjb {
     }
 
     @Override
-    public List<AnimalGroup> getAnimalGroupsByManager(Manager manager) throws ReadException {
+    public List<AnimalGroup> getAnimalGroupsByManager(Long managerId) throws ReadException {
         try {
             return em.createNamedQuery("getAnimalGroupsByManager", AnimalGroup.class)
-                    .setParameter("managerId", manager.getId())
+                    .setParameter("managerId", managerId)
                     .getResultList();
         } catch (Exception e) {
-            throw new ReadException("Error retrieving animal groups for manager ID: " + manager.getId() + ". Details: " + e.getMessage());
+            throw new ReadException("Error retrieving animal groups for manager ID: " + managerId + ". Details: " + e.getMessage());
         }
     }
 
