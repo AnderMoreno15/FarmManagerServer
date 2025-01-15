@@ -25,13 +25,15 @@ public interface ConsumesManagerLocal {
 
     public void createConsume(Consumes consume) throws CreateException;
     public void updateConsume(Consumes consume) throws UpdateException;
-    public void deleteConsume(Long consumeId) throws DeleteException;
+    public void deleteConsume(Consumes consume) throws DeleteException;
     public List<Consumes> getAllConsumes() throws ReadException;
     public List<Consumes> findConsumesByProduct(Long productId) throws ReadException;
     public List<Consumes> findConsumesByAnimalGroup(Long animalGroupId) throws ReadException;
     public List<Consumes> getConsumesByDate(Date dateFrom, Date dateTo) throws ReadException;
     public List<Consumes> getConsumesByDateFrom(Date dateFrom) throws ReadException;
     public List<Consumes> getConsumesByDateTo(Date dateTo) throws ReadException;
+
+    
 }
     
 

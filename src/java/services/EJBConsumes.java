@@ -112,7 +112,8 @@ public class EJBConsumes implements ConsumesManagerLocal {
         }
     }
     
-public void updateConsume(Consumes consume) throws UpdateException {
+    @Override
+    public void updateConsume(Consumes consume) throws UpdateException {
    try{
        if (!em.contains(consume)){
            em.merge(consume);
@@ -127,21 +128,31 @@ public void updateConsume(Consumes consume) throws UpdateException {
 
 
     @Override
-    public void deleteConsume(Long consumeId) throws DeleteException {
-        try{
-            
-           Consumes consumes = em.find(Consumes.class, consumeId);
-           if (consumes==null){throw new DeleteException("consume with id "+consumeId+" not found");}
-           em.remove(consumes);
-        }catch(Exception e){
-            LOGGER.log(Level.SEVERE, "ConsumesManager: Exception deleting consume:",
-                    e.getMessage());
-            throw new DeleteException(e.getMessage());
+    public void deleteConsume(Consumes consume) throws DeleteException {
+    try {
+        LOGGER.info("ConsumesManager: Deleting consume");
+        
+        // Buscar el consumo usando su ID compuesto
+        Consumes consumeToDelete = em.find(Consumes.class, consume.getConsumesId());
+        
+        if (consumeToDelete == null) {
+            throw new DeleteException("Consume with id " + consume.getConsumesId()+ " not found");
         }
+        
+        // Eliminar la entidad
+        em.remove(consumeToDelete);
+        em.flush();
+        
+    } catch (Exception e) {
+        LOGGER.log(Level.SEVERE, "ConsumesManager: Exception deleting consume:", 
+                  e.getMessage());
+        throw new DeleteException(e.getMessage());
     }
+}
+
     
-@Override
-public List<Consumes> getAllConsumes() throws ReadException {
+    @Override
+    public List<Consumes> getAllConsumes() throws ReadException {
     try {
         LOGGER.info("ConsumesManager: Reading all consumes.");
         return em.createQuery("SELECT c FROM Consumes c", Consumes.class)
@@ -171,7 +182,7 @@ public List<Consumes> getAllConsumes() throws ReadException {
     }
     
    @Override
-public List<Consumes> findConsumesByAnimalGroup(Long animalGroupId) throws ReadException {
+   public List<Consumes> findConsumesByAnimalGroup(Long animalGroupId) throws ReadException {
     List<Consumes> consumes = null;
     try {
         LOGGER.info("ConsumesManager: Reading consumes by animal group. ID: " + animalGroupId);

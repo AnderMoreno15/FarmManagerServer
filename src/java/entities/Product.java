@@ -31,7 +31,7 @@ public class Product implements Serializable {
     
     
     @Id
-    private String productName;
+    private Long productId;
     
     @OneToMany(cascade = ALL, mappedBy = "product")
     private List<Consumes> consumes;
@@ -39,12 +39,12 @@ public class Product implements Serializable {
   
     
     
-    public String getProductName() {
-        return productName;
+    public Long getProductId() {
+        return productId;
     }
 
-    public void setProductName(String productName) {
-        this.productName = productName;
+    public void setProductId(Long productId) {
+        this.productId = productId;
     }
    
    

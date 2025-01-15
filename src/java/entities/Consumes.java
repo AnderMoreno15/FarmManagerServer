@@ -69,13 +69,13 @@ public class Consumes implements Serializable {
     private ConsumesId consumesId;
     
    
-    //@MapsId("animalGroupId")
+    @MapsId("animalGroupId")
     @ManyToOne
     @JoinColumn(name="animalGroupId",updatable=false,insertable=false)
     private AnimalGroup animalGroup;
     
     
-    //@MapsId("productId")
+    @MapsId("productId")
     @ManyToOne    
     @JoinColumn(name="productId",updatable=false,insertable=false)
     private Product product;
@@ -93,7 +93,7 @@ public class Consumes implements Serializable {
     }
 
     
-    public Float getConsume() {
+    public Float getConsumeAmount() {
         return consumeAmount;
     }
 
@@ -111,7 +111,7 @@ public class Consumes implements Serializable {
         return date;
     }
 
-    public void setConsume(Float consume) {
+    public void setConsumeAmount(Float consume) {
         this.consumeAmount = consume;
     }
 

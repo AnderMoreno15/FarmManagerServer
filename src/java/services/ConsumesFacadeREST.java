@@ -56,7 +56,7 @@ public class ConsumesFacadeREST {
         
         /*
          * pathSemgent represents a URI path segment and any associated matrix parameters.
-         * URI path part is supposed to be in form of 'somePath;animalGroupId=animalGroupIdValue;productName=productNameValue'.
+         * URI path part is supposed to be in form of 'somePath;animalGroupId=animalGroupIdValue;productId=productIdValue'.
          * Here 'somePath' is a result of getPath() method invocation and
          * it is ignored in the following code.
          * Matrix parameters are used as field names to build a primary key instance.
@@ -130,23 +130,31 @@ public void updateConsume(@PathParam("productId") Long productId,
         throw new UpdateException(e.getMessage());
     }
         
+    
 }
 
 
     
-    @DELETE
-    @Path("{consumeId}")
-    public void deleteConsume(@PathParam("consumesId") Long consumeId) throws DeleteException {
+   @DELETE
+@Path("Borrar{productId}/{animalGroupId}")
+@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+public void deleteConsume(@PathParam("productId") Long productId,
+                         @PathParam("animalGroupId") Long animalGroupId) 
+                         throws DeleteException {
     try {
+        ConsumesId consumeId = new ConsumesId(productId, animalGroupId);
+        Consumes consume = new Consumes();
+        consume.setConsumesId(consumeId);
         
         LOGGER.severe("deleting consume Restful level : ");
-        
-        ejb.deleteConsume(consumeId);
-    }catch(Exception e){
+        ejb.deleteConsume(consume);
+    } catch(Exception e) {
         LOGGER.severe("Error deleting consume Rest: " + e.getMessage());
-        throw new InternalServerErrorException(e.getMessage());
+        throw new DeleteException(e.getMessage());
     }
-    }
+}
+
+
     @GET
     @Produces({MediaType.APPLICATION_XML})
     public List<Consumes> getAllConsumes() throws ReadException{
@@ -158,7 +166,7 @@ public void updateConsume(@PathParam("productId") Long productId,
     
     @GET
     @Produces({MediaType.APPLICATION_XML})
-    @Path("Producto/{ProductName}")
+    @Path("Producto/{ProductId}")
     public List<Consumes> findConsumesByProduct(@PathParam("ProductId")Long productId) throws ReadException{
     try{ 
         return ejb.findConsumesByProduct(productId);
