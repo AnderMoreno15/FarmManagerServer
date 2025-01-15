@@ -21,11 +21,11 @@ import javax.ejb.Local;
  * @author Pablo
  */
 @Local
-public interface ConsumesBankManagerLocal {
+public interface ConsumesManagerLocal {
 
     public void createConsume(Consumes consume) throws CreateException;
     public void updateConsume(Consumes consume) throws UpdateException;
-    public void deleteConsume(Consumes consume) throws DeleteException;
+    public void deleteConsume(Long consumeId) throws DeleteException;
     public List<Consumes> getAllConsumes() throws ReadException;
     public List<Consumes> findConsumesByProduct(Long productId) throws ReadException;
     public List<Consumes> findConsumesByAnimalGroup(Long animalGroupId) throws ReadException;

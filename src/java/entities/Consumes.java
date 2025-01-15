@@ -5,12 +5,14 @@
  */
 package entities;
 
+
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.NamedQueries;
@@ -18,6 +20,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -25,6 +29,7 @@ import javax.xml.bind.annotation.XmlTransient;
  *
  * @author Pablo
  */
+                                       
 @NamedQueries({
 @NamedQuery(
         name="findAllConsumes",
@@ -32,11 +37,11 @@ import javax.xml.bind.annotation.XmlTransient;
         ),
 @NamedQuery(
         name="findConsumesByProduct",
-            query="SELECT m FROM Consumes m WHERE m.product = :product"
+            query="SELECT m FROM Consumes m WHERE m.product.productId = :productId"
         ),
 @NamedQuery(
         name="findConsumesByAnimalGroup",
-            query="SELECT m FROM Consumes m WHERE m.animalGroup = :animalGroup"
+            query="SELECT m FROM Consumes m WHERE m.animalGroup.animalGroupId = :animalGroupId"
         ),
 @NamedQuery(
         name="findConsumesByDateRange",
@@ -53,7 +58,7 @@ import javax.xml.bind.annotation.XmlTransient;
 })
 
 @Entity
-@Table(schema="farmdb",name="Consumes")
+@Table(name="consumes",schema="farmdb")
 @XmlRootElement
 public class Consumes implements Serializable {
    
@@ -61,40 +66,47 @@ public class Consumes implements Serializable {
      private static final long serialVersionUID = 1L;
     
     @EmbeddedId
-    private ConsumesId id;
+    private ConsumesId consumesId;
     
-    @MapsId ("animalGroupId")
+   
+    //@MapsId("animalGroupId")
     @ManyToOne
+    @JoinColumn(name="animalGroupId",updatable=false,insertable=false)
     private AnimalGroup animalGroup;
     
-    @MapsId ("productId")
-    @ManyToOne   
+    
+    //@MapsId("productId")
+    @ManyToOne    
+    @JoinColumn(name="productId",updatable=false,insertable=false)
     private Product product;
     
-    @Temporal(TemporalType.TIMESTAMP)
+    
+    @Temporal(TemporalType.DATE)
     private Date date;
+    
     
     private Float consumeAmount;  
     
-    
-    public ConsumesId getId() {
-        return id;
+   
+    public ConsumesId getConsumesId() {
+        return consumesId;
     }
 
+    
     public Float getConsume() {
         return consumeAmount;
     }
 
-    @XmlTransient
+   
     public AnimalGroup getAnimalGroup() {
         return animalGroup;
     }
     
-    @XmlTransient
+  
     public Product getProduct() {
         return product;
     }
-
+   
     public Date getDate() {
         return date;
     }
@@ -107,23 +119,24 @@ public class Consumes implements Serializable {
         this.animalGroup = animalGroup;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
+    public void setProduct(Product product) {  
+    this.product = product;
     }
+
 
     public void setDate(Date date) {
         this.date = date;
     }
     
 
-    public void setId(ConsumesId id) {
-        this.id = id;
+    public void setConsumesId(ConsumesId id) {
+        this.consumesId = id;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (consumesId != null ? consumesId.hashCode() : 0);
         return hash;
     }
 
@@ -134,7 +147,7 @@ public class Consumes implements Serializable {
             return false;
         }
         Consumes other = (Consumes) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.consumesId == null && other.consumesId != null) || (this.consumesId != null && !this.consumesId.equals(other.consumesId))) {
             return false;
         }
         return true;
