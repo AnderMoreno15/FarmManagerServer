@@ -76,7 +76,7 @@ public class AnimalGroup implements Serializable {
             joinColumns = @JoinColumn(name = "animalgroupId", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "managerId", referencedColumnName = "id")
     )
-    private List<FarmManager> managers;
+    private List<Manager> managers;
 
     public Long getId() {
         return id;
@@ -136,11 +136,11 @@ public class AnimalGroup implements Serializable {
 //    }
 
     @XmlTransient
-    public List<FarmManager> getManagers() {
+    public List<Manager> getManagers() {
         return managers;
     }
 
-    public void setManagers(List<FarmManager> managers) {
+    public void setManagers(List<Manager> managers) {
         this.managers = managers;
     }
 

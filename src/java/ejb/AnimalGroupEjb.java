@@ -6,7 +6,7 @@
 package ejb;
 
 import entities.AnimalGroup;
-import entities.FarmManager;
+import entities.Manager;
 import exceptions.CreateException;
 import exceptions.DeleteException;
 import exceptions.ReadException;
@@ -89,7 +89,7 @@ public class AnimalGroupEjb implements IAnimalGroupEjb {
     }
 
     @Override
-    public List<AnimalGroup> getAnimalGroupsByManager(FarmManager manager) throws ReadException {
+    public List<AnimalGroup> getAnimalGroupsByManager(Manager manager) throws ReadException {
         try {
             return em.createNamedQuery("getAnimalGroupsByManager", AnimalGroup.class)
                     .setParameter("managerId", manager.getId())
