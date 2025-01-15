@@ -20,9 +20,8 @@ import javax.validation.constraints.NotNull;
  * @author Ander
  */
 @Entity
-@Table(name = "manager", schema = "farmdb")
 @DiscriminatorValue("manager")
-public class ManagerEntity extends UserEntity implements Serializable {
+public class Manager extends User implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @NotNull
@@ -31,8 +30,8 @@ public class ManagerEntity extends UserEntity implements Serializable {
     private String password;
     //@ManyToOne
     //private List<PurchaseEntity> purchases;
-    @ManyToMany(fetch = FetchType.EAGER)
-    private List<AnimalGroup> animalGroup;
+    @ManyToMany(mappedBy = "managers", fetch = FetchType.EAGER)
+    private List<AnimalGroup> animalGroups;
 
     @Override
     public Long getId() {
@@ -68,12 +67,12 @@ public class ManagerEntity extends UserEntity implements Serializable {
 //        this.purchases = purchases;
 //    }
 
-    public List<AnimalGroup> getAnimalGroup() {
-        return animalGroup;
+    public List<AnimalGroup> getAnimalGroups() {
+        return animalGroups;
     }
 
-    public void setAnimalGroup(List<AnimalGroup> animalGroup) {
-        this.animalGroup = animalGroup;
+    public void setAnimalGroups(List<AnimalGroup> animalGroups) {
+        this.animalGroups = animalGroups;
     }
 
     @Override
@@ -86,10 +85,10 @@ public class ManagerEntity extends UserEntity implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ManagerEntity)) {
+        if (!(object instanceof Manager)) {
             return false;
         }
-        ManagerEntity other = (ManagerEntity) object;
+        Manager other = (Manager) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -98,7 +97,7 @@ public class ManagerEntity extends UserEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.ManagerEntity[ id=" + id + " ]";
+        return "Manager[ id=" + id + " ]";
     }
 
 }

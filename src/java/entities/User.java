@@ -22,20 +22,21 @@ import javax.validation.constraints.NotNull;
  * @author Ander
  */
 @Entity
+@Table(name = "user", schema = "farmdb")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "USER_TYPE", discriminatorType = DiscriminatorType.STRING)
-public class UserEntity implements Serializable {
+public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-     Long id;
+    protected Long id;
     @NotNull
     protected String name;
     @NotNull
     protected String email;
     @NotNull
-    protected int phone;
+    protected String phone;
     @NotNull
     protected String city;
     @NotNull
@@ -67,11 +68,11 @@ public class UserEntity implements Serializable {
         this.email = email;
     }
 
-    public int getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(int phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 
@@ -109,10 +110,10 @@ public class UserEntity implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof UserEntity)) {
+        if (!(object instanceof User)) {
             return false;
         }
-        UserEntity other = (UserEntity) object;
+        User other = (User) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }

@@ -6,7 +6,7 @@
 package ejb;
 
 import entities.AnimalGroup;
-import entities.ManagerEntity;
+import entities.Manager;
 import exceptions.CreateException;
 import exceptions.DeleteException;
 import exceptions.ReadException;
@@ -89,7 +89,7 @@ public class AnimalGroupEjb implements IAnimalGroupEjb {
     }
 
     @Override
-    public List<AnimalGroup> getAnimalGroupsByManager(ManagerEntity manager) throws ReadException {
+    public List<AnimalGroup> getAnimalGroupsByManager(Manager manager) throws ReadException {
         try {
             return em.createNamedQuery("getAnimalGroupsByManager", AnimalGroup.class)
                     .setParameter("managerId", manager.getId())
@@ -100,10 +100,11 @@ public class AnimalGroupEjb implements IAnimalGroupEjb {
     }
 
     @Override
-    public AnimalGroup getAnimalGroupsByName(String name) throws ReadException {
+    public AnimalGroup getAnimalGroupByName(String groupName, Long managerId) throws ReadException {
         try {
             return em.createNamedQuery("getAnimalGroupsByName", AnimalGroup.class)
-                    .setParameter("name", name)
+                    .setParameter("name", groupName)
+                    .setParameter("managerId", managerId)
                     .getSingleResult();
         } catch (Exception e) {
             throw new ReadException(e.getMessage());

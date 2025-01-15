@@ -6,7 +6,7 @@
 package ejb;
 
 import entities.AnimalGroup;
-import entities.ManagerEntity;
+import entities.Manager;
 import exceptions.CreateException;
 import exceptions.DeleteException;
 import exceptions.ReadException;
@@ -29,13 +29,13 @@ public interface IAnimalGroupEjb {
 
     // Extra
     // 
-    public List<AnimalGroup> getAnimalGroupsByManager(ManagerEntity manager) throws ReadException;
+    public List<AnimalGroup> getAnimalGroupsByManager(Manager manager) throws ReadException;
     
     // For testing purposes (done)
     public List<AnimalGroup> getAnimalGroups() throws ReadException;
 
     // Does't return a List because there can be just one with the same name (done)
-    public AnimalGroup getAnimalGroupsByName(String name) throws ReadException;
+    public AnimalGroup getAnimalGroupByName(String groupName, Long managerId) throws ReadException;
     
     // done
     public void deleteAnimalGroupById(Long id) throws DeleteException;

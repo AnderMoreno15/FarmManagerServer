@@ -14,6 +14,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -44,13 +46,8 @@ import javax.xml.bind.annotation.XmlTransient;
     ,
     @NamedQuery(
             name = "getAnimalGroupsByName",
-            query = "SELECT ag FROM AnimalGroup ag WHERE ag.name = :name"
-    )
-    ,
-//    @NamedQuery(
-//            name = "getConsumesByAnimalGroup",
-//            query = "SELECT SUM(c.cantidad) FROM Consumes c WHERE c.animalGroup.id = :animalGroupId"
-//    )
+            query = "SELECT ag FROM AnimalGroup ag JOIN ag.managers m WHERE ag.name = :name AND m.id = :managerId"
+    ),
 })
 @XmlRootElement
 public class AnimalGroup implements Serializable {
@@ -69,11 +66,17 @@ public class AnimalGroup implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date creationDate;
     @OneToMany(cascade = ALL, mappedBy = "animalGroup")
-    private List<AnimalEntity> animals;
+    private List<Animal> animals;
 //    @OneToMany(cascade = ALL, mappedBy = "animalGroup")
-//    private List<ConsumeEntity> consumes;
+//    private List<Consumes> consumes;
     @ManyToMany(fetch = FetchType.EAGER)
-    private List<ManagerEntity> managers;
+    @JoinTable(
+            name = "animalgroup_manager", 
+            schema = "farmdb",
+            joinColumns = @JoinColumn(name = "animalgroupId", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "managerId", referencedColumnName = "id")
+    )
+    private List<Manager> managers;
 
     public Long getId() {
         return id;
@@ -116,11 +119,11 @@ public class AnimalGroup implements Serializable {
     }
 
     @XmlTransient
-    public List<AnimalEntity> getAnimals() {
+    public List<Animal> getAnimals() {
         return animals;
     }
 
-    public void setAnimals(List<AnimalEntity> animals) {
+    public void setAnimals(List<Animal> animals) {
         this.animals = animals;
     }
 //
@@ -133,11 +136,11 @@ public class AnimalGroup implements Serializable {
 //    }
 
     @XmlTransient
-    public List<ManagerEntity> getManagers() {
+    public List<Manager> getManagers() {
         return managers;
     }
 
-    public void setManagers(List<ManagerEntity> managers) {
+    public void setManagers(List<Manager> managers) {
         this.managers = managers;
     }
 

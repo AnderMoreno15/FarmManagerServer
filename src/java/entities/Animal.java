@@ -28,7 +28,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author Aitziber
  */
 @Entity
-@Table(name="animal",schema="farmdb")
+@Table(name = "animal", schema = "farmdb")
 //@NamedQueries({
 ////    @NamedQuery(name = "getAllAnimals", query = "SELECT a FROM Animal a WHERE a.animalGroup.manager.id = :clientId ORDER BY a.name DESC"),
 //    @NamedQuery(name = "getAnimalsByAnimalGroup", query = "SELECT a FROM Animal a WHERE a.animalGroup.id = :animalGroupId ORDER BY a.name DESC"),
@@ -38,7 +38,7 @@ import javax.xml.bind.annotation.XmlTransient;
 //    @NamedQuery(name = "getAnimalsByBirthdateTo", query = "SELECT a FROM Animal a WHERE a.birthdate <= :dateTo ORDER BY a.birthdate")
 //})
 @XmlRootElement
-public class AnimalEntity implements Serializable {
+public class Animal implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -67,7 +67,7 @@ public class AnimalEntity implements Serializable {
 //    @JoinColumn(name="species_id")
 //    private Species species;
     
-    public AnimalEntity(){
+    public Animal(){
     }
   
     public Long getId() {
@@ -139,10 +139,10 @@ public class AnimalEntity implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof AnimalEntity)) {
+        if (!(object instanceof Animal)) {
             return false;
         }
-        AnimalEntity other = (AnimalEntity) object;
+        Animal other = (Animal) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
