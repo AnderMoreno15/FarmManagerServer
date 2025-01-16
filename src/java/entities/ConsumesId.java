@@ -18,8 +18,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Embeddable
 public class ConsumesId implements Serializable {
     
-    
+     @Column(name = "animalGroup_animalGroupId")
     private Long animalGroupId;
+     @Column(name = "product_productId") 
     private Long productId;
 
     
@@ -33,6 +34,7 @@ public class ConsumesId implements Serializable {
     // Constructor con parámetros
     public ConsumesId(Long productId, Long animalGroupId) {
         //this.productId = productId;
+        
         this.animalGroupId = animalGroupId;
         this.productId= productId;
     }

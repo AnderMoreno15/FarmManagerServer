@@ -45,72 +45,36 @@ public class EJBConsumes implements ConsumesManagerLocal {
         em.persist(object);
     }
 
-//   @Override
-//    public void createConsume(Consumes consume) throws CreateException {
-//        try {
-//            // Obtener las referencias gestionadas de Product y AnimalGroup
-//            Product product = em.getReference(Product.class, consume.getProduct().getProductId());
-//            AnimalGroup animalGroup = em.getReference(AnimalGroup.class, 
-//                consume.getAnimalGroup().getAnimalGroupId());
-//            
-//            // Establecer las referencias gestionadas
-//            consume.setProduct(product);
-//            consume.setAnimalGroup(animalGroup);
-//            
-//            em.persist(consume);
-//        } catch (Exception e) {
-//            throw new CreateException(e.getMessage());
-//        }
-//    }
-//      @Override
-//    public void createConsume(Consumes consume) throws CreateException {
-//        try {
-//            if (consume == null) {
-//                throw new CreateException("Consume entity cannot be null");
-//            }
-//
-//            // Validar que los objetos necesarios no sean nulos
-//            if (consume.getProduct() == null || consume.getProduct().getProductId() == null) {
-//                throw new CreateException("Product ID cannot be null");
-//            }
-//            
-//            if (consume.getAnimalGroup() == null || consume.getAnimalGroup().getAnimalGroupId() == null) {
-//                throw new CreateException("AnimalGroup ID cannot be null");
-//            }
-//
-//            // Buscar las entidades existentes
-//            Product product = em.find(Product.class, consume.getProduct().getProductId());
-//            AnimalGroup animalGroup = em.find(AnimalGroup.class, consume.getAnimalGroup().getAnimalGroupId());
-//            
-//            if (product == null || animalGroup == null) {
-//                throw new CreateException("Referenced Product or AnimalGroup not found in database");
-//            }
-//
-//            // Establecer las referencias
-//            consume.setProduct(product);
-//            consume.setAnimalGroup(animalGroup);
-//            
-//            // Persistir
-//            em.persist(consume);
-//            em.flush();
-//            
-//        } catch (Exception e) {
-//            LOGGER.severe("Error creating consume: " + e.getMessage());
-//            throw new CreateException(e.getMessage());
-//        }
-//    }
-    
-    // ConsumesId consumeId = new consumesId(animalGroupId,productId)
-
-
-   @Override
-    public void createConsume(Consumes consume) throws CreateException {
-        try {
-            em.persist(consume);
-        } catch (Exception e) {
-            throw new CreateException(e.getMessage());
+    @Override
+public void createConsume(Consumes consume) throws CreateException {
+    try {
+        if (consume == null) {
+            throw new CreateException("Consume entity cannot be null");
         }
+
+        // Obtener las entidades existentes desde la base de datos
+        AnimalGroup managedAnimalGroup = em.find(AnimalGroup.class, 
+            consume.getAnimalGroup().getAnimalGroupId());
+        Product managedProduct = em.find(Product.class, 
+            consume.getProduct().getProductId());
+
+        if (managedAnimalGroup == null || managedProduct == null) {
+            throw new CreateException("Referenced AnimalGroup or Product not found");
+        }
+
+        // Establecer las referencias gestionadas
+        consume.setAnimalGroup(managedAnimalGroup);
+        consume.setProduct(managedProduct);
+
+        // Persistir
+        em.persist(consume);
+        em.flush();
+        
+    } catch (Exception e) {
+        throw new CreateException(e.getMessage());
     }
+}
+
     
     @Override
     public void updateConsume(Consumes consume) throws UpdateException {
