@@ -96,22 +96,22 @@ public class AnimalGroupFacadeREST {
     }
     
     @GET
-    @Path("search/{name}/{managerId}")
+    @Path("search/{managerId}")
     @Produces(MediaType.APPLICATION_XML)
-    public AnimalGroup getAnimalGroupByName(@PathParam("name") String groupName, @PathParam("managerId") Long managerId) {
+    public List<AnimalGroup> getAnimalGroupsByManager(@PathParam("managerId") Long managerId) {
         try{
-           return (AnimalGroup) animalGroupEjb.getAnimalGroupByName(groupName, managerId);
+           return (List<AnimalGroup>) animalGroupEjb.getAnimalGroupsByManager(managerId);
         } catch (ReadException ex) {
             throw new InternalServerErrorException(ex.getMessage());
         }
     }
     
     @GET
-    @Path("search/{managerId}")
+    @Path("search/{name}/{managerId}")
     @Produces(MediaType.APPLICATION_XML)
-    public List<AnimalGroup> getAnimalGroupsByManager(Long managerId) {
+    public AnimalGroup getAnimalGroupByName(@PathParam("name") String groupName, @PathParam("managerId") Long managerId) {
         try{
-           return (List<AnimalGroup>) animalGroupEjb.getAnimalGroupsByManager(managerId);
+           return (AnimalGroup) animalGroupEjb.getAnimalGroupByName(groupName, managerId);
         } catch (ReadException ex) {
             throw new InternalServerErrorException(ex.getMessage());
         }

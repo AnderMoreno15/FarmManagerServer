@@ -28,7 +28,6 @@ public interface IAnimalGroupEjb {
     public void deleteAnimalGroup(AnimalGroup animalGroup) throws DeleteException;
 
     // Extra
-    // 
     public List<AnimalGroup> getAnimalGroupsByManager(Long managerId) throws ReadException;
     
     // For testing purposes (done)
@@ -39,8 +38,4 @@ public interface IAnimalGroupEjb {
     
     // done
     public void deleteAnimalGroupById(Long id) throws DeleteException;
-
-    // This methods should be done in IAnimalFacade and IConsumeFacade
-    //public List<Consume> getConsumesByAnimalGroup(Long id) throws ReadException; 
-    //public List<Animal> getAnimalsByAnimalGroup(String name) throws ReadException;
 }

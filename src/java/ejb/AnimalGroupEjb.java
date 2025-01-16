@@ -26,7 +26,7 @@ import javax.persistence.PersistenceContext;
 public class AnimalGroupEjb implements IAnimalGroupEjb {
 
     private static final Logger LOGGER = Logger.getLogger(AnimalGroupEjb.class.getName());
-    
+
     @PersistenceContext(unitName = "FarmManagerPU")
     private EntityManager em;
 
@@ -64,7 +64,7 @@ public class AnimalGroupEjb implements IAnimalGroupEjb {
     public void deleteAnimalGroupById(Long id) throws DeleteException {
         try {
             LOGGER.log(Level.INFO, "Attempting to delete AnimalGroup with ID: {0}", id);
-            
+
             AnimalGroup animalGroup = em.find(AnimalGroup.class, id);
             if (animalGroup == null) {
                 LOGGER.log(Level.WARNING, "AnimalGroup with ID {0} not found.", id);
@@ -91,10 +91,14 @@ public class AnimalGroupEjb implements IAnimalGroupEjb {
     @Override
     public List<AnimalGroup> getAnimalGroupsByManager(Long managerId) throws ReadException {
         try {
-            return em.createNamedQuery("getAnimalGroupsByManager", AnimalGroup.class)
+            List<AnimalGroup> result = em.createNamedQuery("getAnimalGroupsByManager", AnimalGroup.class)
                     .setParameter("managerId", managerId)
                     .getResultList();
-        } catch (Exception e) {
+            if (result.isEmpty()) {
+                throw new ReadException("No animal groups found for manager ID: " + managerId);
+            }
+            return result;
+        } catch (ReadException e) {
             throw new ReadException("Error retrieving animal groups for manager ID: " + managerId + ". Details: " + e.getMessage());
         }
     }
@@ -110,16 +114,5 @@ public class AnimalGroupEjb implements IAnimalGroupEjb {
             throw new ReadException(e.getMessage());
         }
     }
-// This methods are done int AnimalFecade and ConsumeFecade
-//
-//    @Override
-//    public int getConsumesByAnimalGroup(AnimalGroup animalGroup) throws ReadException {
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-//    }
-//
-//    @Override
-//    public int getAnimalsByAnimalGroup(AnimalGroup animalGroup) throws ReadException {
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-//    }
 
 }
