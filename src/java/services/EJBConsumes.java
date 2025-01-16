@@ -77,7 +77,7 @@ public void createConsume(Consumes consume) throws CreateException {
 
     
     @Override
-    public void updateConsume(Consumes consume) throws UpdateException {
+   public void updateConsume(Consumes consume) throws UpdateException {
    try{
        if (!em.contains(consume)){
            em.merge(consume);
@@ -91,28 +91,30 @@ public void createConsume(Consumes consume) throws CreateException {
 
 
 
-    @Override
+     @Override
     public void deleteConsume(Consumes consume) throws DeleteException {
-    try {
-        LOGGER.info("ConsumesManager: Deleting consume");
-        
-        // Buscar el consumo usando su ID compuesto
-        Consumes consumeToDelete = em.find(Consumes.class, consume.getConsumesId());
-        
-        if (consumeToDelete == null) {
-            throw new DeleteException("Consume with id " + consume.getConsumesId()+ " not found");
+        try {
+            if (consume == null || consume.getConsumesId() == null) {
+                throw new DeleteException("Consume or ConsumesId cannot be null");
+            }
+
+            // Buscar la entidad existente
+            Consumes managedConsume = em.find(Consumes.class, consume.getConsumesId());
+            
+            if (managedConsume == null) {
+                throw new DeleteException("Consume with id " + consume.getConsumesId() + " not found");
+            }
+
+            em.remove(managedConsume);
+            em.flush();
+            
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Error deleting consume: ", e);
+            throw new DeleteException(e.getMessage());
         }
-        
-        // Eliminar la entidad
-        em.remove(consumeToDelete);
-        em.flush();
-        
-    } catch (Exception e) {
-        LOGGER.log(Level.SEVERE, "ConsumesManager: Exception deleting consume:", 
-                  e.getMessage());
-        throw new DeleteException(e.getMessage());
     }
-}
+
+
 
     
     @Override

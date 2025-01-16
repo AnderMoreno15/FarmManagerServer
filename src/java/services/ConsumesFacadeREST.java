@@ -79,34 +79,7 @@ public class ConsumesFacadeREST {
      private static final java.util.logging.Logger LOGGER =
             java.util.logging.Logger.getLogger("Farm manager server side");
 
-    //Faltan Excepcionesss
-
-// @POST
-//@Path("{ProductId}/{AnimalGroupId}")
-//@javax.ws.rs.Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-//public void create(@PathParam("ProductId") Long productId,
-//                  @PathParam("AnimalGroupId") Long animalGroupId,
-//                  Consumes consume) throws CreateException {
-//    try {
-//        // Crear el ID compuesto
-//        ConsumesId id = new ConsumesId(productId, animalGroupId);
-//        consume.setId(id);
-//        
-//        // Crear referencias mínimas
-//        Product product = new Product();
-//        product.setProductId(productId);
-//        AnimalGroup animalGroup = new AnimalGroup();
-//        animalGroup.setAnimalGroupId(animalGroupId);
-//        
-//        consume.setProduct(product);
-//        consume.setAnimalGroup(animalGroup);
-//        
-//        ejb.createConsume(consume);
-//    } catch (Exception e) {
-//        LOGGER.severe("Error creating consume: " + e.getMessage());
-//        throw new CreateException(e.getMessage());
-//    }
-//}
+     
     @POST
     @javax.ws.rs.Consumes({MediaType.APPLICATION_XML})
     public void createConsume(Consumes entity) throws CreateException {
@@ -117,7 +90,7 @@ public class ConsumesFacadeREST {
     @PUT
     @Path("{productId}/{animalGroupId}")
     @javax.ws.rs.Consumes({MediaType.APPLICATION_XML})
-public void updateConsume(@PathParam("productId") Long productId,
+    public void updateConsume(@PathParam("productId") Long productId,
                          @PathParam("animalGroupId") Long animalGroupId,
                          Consumes consume) throws UpdateException {
     try {
@@ -131,14 +104,14 @@ public void updateConsume(@PathParam("productId") Long productId,
     }
         
     
-}
+    }
 
 
     
-   @DELETE
-@Path("Borrar{productId}/{animalGroupId}")
-@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-public void deleteConsume(@PathParam("productId") Long productId,
+    @DELETE
+    @Path("{productId}/{animalGroupId}")
+    @Produces({MediaType.APPLICATION_XML})
+    public void deleteConsume(@PathParam("productId") Long productId,
                          @PathParam("animalGroupId") Long animalGroupId) 
                          throws DeleteException {
     try {
@@ -152,7 +125,7 @@ public void deleteConsume(@PathParam("productId") Long productId,
         LOGGER.severe("Error deleting consume Rest: " + e.getMessage());
         throw new DeleteException(e.getMessage());
     }
-}
+    }
 
 
     @GET
@@ -178,7 +151,7 @@ public void deleteConsume(@PathParam("productId") Long productId,
     @GET
     @Produces({MediaType.APPLICATION_XML})
     @Path("Animal/{animalGroupId}")   
-     public List<Consumes> findConsumesByAnimalGroup(@PathParam("AnimalGroupId")Long animalGroupId) throws ReadException{
+     public List<Consumes> findConsumesByAnimalGroup(@PathParam("animalGroupId")Long animalGroupId) throws ReadException{
     try{ 
         return ejb.findConsumesByAnimalGroup(animalGroupId);
        }catch(ReadException e){}
@@ -240,17 +213,5 @@ public void deleteConsume(@PathParam("productId") Long productId,
     }
     }
 
-//@GET
-//@Path("/products")
-//@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-//public List<Product> getAllProducts() {
-//    return ejb.getAllProducts();
-//}
-//
-//@GET
-//@Path("/animalgroups")
-//@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-//public List<AnimalGroup> getAllAnimalGroups() {
-//    return ejb.getAllAnimalGroups();
-//}
+
 

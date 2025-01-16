@@ -33,10 +33,10 @@ public class ConsumesId implements Serializable {
     
     // Constructor con parámetros
     public ConsumesId(Long productId, Long animalGroupId) {
-        //this.productId = productId;
+       
         
-        this.animalGroupId = animalGroupId;
         this.productId= productId;
+        this.animalGroupId = animalGroupId;
     }
     
     // Getters y setters con nombres que coincidan exactamente
@@ -55,13 +55,6 @@ public class ConsumesId implements Serializable {
         return productId;
     }
     
-//    public Long getProductId() {
-//        return productId;
-//    }
-    
-//    public void setProductId(Long productId) {
-//        this.productId = productId;
-//    }
     
     // Equals y hashCode
     @Override
