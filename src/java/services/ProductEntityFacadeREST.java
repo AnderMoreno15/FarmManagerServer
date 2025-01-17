@@ -11,6 +11,7 @@ import exceptions.CreateException;
 import exceptions.DeleteException;
 import exceptions.ReadException;
 import exceptions.UpdateException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
@@ -45,12 +46,14 @@ public class ProductEntityFacadeREST{
     }
 
 //    Example
-//    <animalGroupEntity>
-//    <name>Lions</name>
-//    <area>Savannah</area>
-//    <description>Group of lions roaming freely</description>
-//    <creationDate>2025-01-10T12:00:00</creationDate>
-//    </animalGroupEntity>
+//    <?xml version="1.0" encoding="UTF-8"?>
+//    <productEntity>
+//    <name>Peras</name>
+//    <providerEntity>
+//    <id>1</id>
+//    </providerEntity>
+//    <stock>88</stock>
+//    </productEntity>
 
     @POST
     @Consumes({MediaType.APPLICATION_XML})
@@ -72,21 +75,9 @@ public class ProductEntityFacadeREST{
         }
     }
     
-    @GET
-    @Produces(MediaType.APPLICATION_XML)
-    public List<ProductEntity> findAllProducts() throws ReadException {
-        try{
-            
-            return productFacade.findAllProducts();
-        }catch(ReadException ex){
-            throw new InternalServerErrorException(ex.getMessage());
-        }
-        
-    }
-
+    
     @DELETE
-    @Path("{id}")
-    @Consumes(MediaType.APPLICATION_XML)
+    @Path("delete/{id}")
     public void deleteProductById(@PathParam("id") Long id){
         try {
             productFacade.deleteProductById(id);
@@ -105,15 +96,17 @@ public class ProductEntityFacadeREST{
             throw new InternalServerErrorException(ex.getMessage());
         }
     }
-/*
+    
     @GET
+    @Path("date/{date}")
     @Produces({MediaType.APPLICATION_XML})
-    @Path("Fecha")
-    public List<ProductEntity> getProductByCreatedDate(Date createdDate){
+    public List<ProductEntity> getProductByCreatedDate(@PathParam("date") String createdDate){
         try{
-            return productFacade.getProductByCreatedDate(createdDate);
-        } catch (ReadException ex) {
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            Date date = formatter.parse(createdDate);
+            return productFacade.getProductByCreatedDate(date);
+        } catch (Exception ex) {
             throw new InternalServerErrorException(ex.getMessage());
         }
-    }*/
+    }
 }

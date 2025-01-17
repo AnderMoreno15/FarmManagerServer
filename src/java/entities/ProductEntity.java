@@ -33,11 +33,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name="product", schema="farmdb")
 @NamedQueries({
     @NamedQuery(name = "getProductByName", query = "SELECT p FROM ProductEntity p WHERE p.name = :name ORDER BY p.name ASC"),
-    @NamedQuery(name = "getProductByCreatedDate", query = "SELECT p FROM ProductEntity p WHERE p.createdDate = :date ORDER BY p.name ASC"),
-    @NamedQuery(
-           name="findAllProducts",
-           query="SELECT a FROM ProductEntity a ORDER BY a.id DESC")
-        
+    @NamedQuery(name = "getProductByCreatedDate", query = "SELECT p FROM ProductEntity p WHERE p.createdDate = :date")//ORDER BY p.name ASC")        
 })
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -53,7 +49,7 @@ public class ProductEntity implements Serializable {
     private Float price;
     private Integer stock;
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "provider_id")  // Esta columna contendrá el ID del proveedor
+    @JoinColumn(name = "provider_id")
     private ProviderEntity provider;
 
     @Temporal(TemporalType.TIMESTAMP)
