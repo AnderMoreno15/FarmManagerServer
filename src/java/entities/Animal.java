@@ -29,7 +29,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Aitziber
  */
 @Entity
-@Table(name="animal",schema="farmdb")
+@Table(name="animal", schema="farmdb")
 @NamedQueries({
 //    @NamedQuery(name = "getAllAnimals", query = "SELECT a FROM Animal a WHERE a.animalGroup.manager.id = :clientId ORDER BY a.name DESC"),
     @NamedQuery(name = "getAnimalByName", query = "SELECT a FROM Animal a WHERE a.name = :name"),
