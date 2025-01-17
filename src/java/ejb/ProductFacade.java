@@ -6,6 +6,7 @@
 package ejb;
 
 import entities.ProductEntity;
+import entities.ProviderEntity;
 import exceptions.CreateException;
 import exceptions.DeleteException;
 import exceptions.ReadException;
@@ -76,11 +77,16 @@ public class ProductFacade implements IProductFacade {
         List<ProductEntity> products;
         try {
             products = em.createNamedQuery("getProductByCreatedDate", ProductEntity.class)
-                        .setParameter("createdDate", createdDate)
-                        .getResultList();
+            .setParameter("date", createdDate)  // Asegúrate de usar "date" como el nombre del parámetro aquí
+            .getResultList();
+
         } catch (Exception e) {
             throw new ReadException("Error retrieving products for the date range. Details: " + e.getMessage());
         }
         return products;
+    }
+ 
+    public ProviderEntity findProviderById(Long id) {
+        return em.find(ProviderEntity.class, id);
     }
 }

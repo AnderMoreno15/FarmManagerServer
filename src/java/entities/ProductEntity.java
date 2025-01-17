@@ -33,7 +33,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name="product", schema="farmdb")
 @NamedQueries({
     @NamedQuery(name = "getProductByName", query = "SELECT p FROM ProductEntity p WHERE p.name = :name ORDER BY p.name ASC"),
-    @NamedQuery(name = "getProductByCreatedDate", query = "SELECT p FROM ProductEntity p WHERE p.createdDate = :date")//ORDER BY p.name ASC")        
+    @NamedQuery(name = "getProductByCreatedDate", query = "SELECT p FROM ProductEntity p WHERE p.createdDate = :date")
 })
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)

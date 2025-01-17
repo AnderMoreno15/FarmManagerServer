@@ -7,6 +7,7 @@ package services;
 
 import ejb.IProductFacade;
 import entities.ProductEntity;
+import entities.ProviderEntity;
 import exceptions.CreateException;
 import exceptions.DeleteException;
 import exceptions.ReadException;
@@ -14,10 +15,13 @@ import exceptions.UpdateException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Logger;
+import java.util.logging.Level;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.ws.rs.BadRequestException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -34,7 +38,9 @@ import javax.ws.rs.core.MediaType;
  * @author InigoFreire
  */
 @Path("productentity")
-public class ProductEntityFacadeREST{
+public class ProductEntityFacadeREST {
+
+    private static final Logger LOGGER = Logger.getLogger(ProductEntityFacadeREST.class.getName());
 
     @EJB
     private IProductFacade productFacade;
@@ -54,11 +60,39 @@ public class ProductEntityFacadeREST{
 //    </providerEntity>
 //    <stock>88</stock>
 //    </productEntity>
-
+//    @POST
+//    @Consumes({MediaType.APPLICATION_XML})
+//    public void createProduct(ProductEntity product) {
+//        try {
+//            if (product.getProvider() != null && product.getProvider().getId() != null) {
+//                LOGGER.log(Level.INFO, "Attempting to create ProductEntity with provider ID: {0}", product.getProvider().getId());
+//            } else {
+//                LOGGER.log(Level.WARNING, "The provided ProductEntity has a null provider or provider ID.");
+//            }
+//
+//            LOGGER.log(Level.INFO, "Product details: Name={0}, Price={1}, Stock={2}", 
+//                       new Object[]{product.getName(), product.getPrice(), product.getStock()});
+//
+//            productFacade.createProduct(product);
+//
+//            LOGGER.log(Level.INFO, "ProductEntity created successfully.");
+//        } catch (CreateException ex) {
+//            LOGGER.log(Level.SEVERE, "Error occurred while creating ProductEntity: {0}", ex.getMessage());
+//            throw new InternalServerErrorException(ex.getMessage());
+//        }
+//    }
     @POST
     @Consumes({MediaType.APPLICATION_XML})
-    public void createProduct(ProductEntity product){
+    public void createProduct(ProductEntity product) {
         try {
+            if (product.getProvider() == null || product.getProvider().getId() == null) {
+                throw new BadRequestException("Provider information is required.");
+            }
+            ProviderEntity managedProvider = productFacade.findProviderById(product.getProvider().getId());
+            if (managedProvider == null) {
+                throw new BadRequestException("Provider not found.");
+            }
+            product.setProvider(managedProvider);
             productFacade.createProduct(product);
         } catch (CreateException ex) {
             throw new InternalServerErrorException(ex.getMessage());
@@ -67,18 +101,17 @@ public class ProductEntityFacadeREST{
 
     @PUT
     @Consumes({MediaType.APPLICATION_XML})
-    public void updateProduct(ProductEntity product){
+    public void updateProduct(ProductEntity product) {
         try {
             productFacade.updateProduct(product);
         } catch (UpdateException ex) {
             throw new InternalServerErrorException(ex.getMessage());
         }
     }
-    
-    
+
     @DELETE
     @Path("delete/{id}")
-    public void deleteProductById(@PathParam("id") Long id){
+    public void deleteProductById(@PathParam("id") Long id) {
         try {
             productFacade.deleteProductById(id);
         } catch (DeleteException ex) {
@@ -89,22 +122,27 @@ public class ProductEntityFacadeREST{
     @GET
     @Path("name/{name}")
     @Produces({MediaType.APPLICATION_XML})
-    public ProductEntity getProductByName(@PathParam("name") String name){
-        try{
+    public ProductEntity getProductByName(@PathParam("name") String name) {
+        try {
             return productFacade.getProductByName(name);
         } catch (ReadException ex) {
             throw new InternalServerErrorException(ex.getMessage());
         }
     }
-    
+
     @GET
     @Path("date/{date}")
     @Produces({MediaType.APPLICATION_XML})
-    public List<ProductEntity> getProductByCreatedDate(@PathParam("date") String createdDate){
-        try{
+    public List<ProductEntity> searchByDate(@PathParam("date") String date) {
+        try {
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-            Date date = formatter.parse(createdDate);
-            return productFacade.getProductByCreatedDate(date);
+            Date searchDate = formatter.parse(date);
+            List<ProductEntity> products = productFacade.getProductByCreatedDate(searchDate);
+            if (products != null && !products.isEmpty()) {
+                return products;
+            } else {
+                return null;
+            }
         } catch (Exception ex) {
             throw new InternalServerErrorException(ex.getMessage());
         }
