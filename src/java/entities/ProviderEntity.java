@@ -10,10 +10,12 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.DiscriminatorValue;
+import javax.persistence.FetchType;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -22,25 +24,20 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author InigoFreire
  */
 @Entity
-@Table(name="provider", schema="farmdb")
-@NamedQuery(name = "getProviderById", query = "SELECT p.name FROM ProviderEntity p WHERE p.id = :id")
-@DiscriminatorValue("provider")
+@DiscriminatorValue("farmProvider")
 @XmlRootElement
 public class ProviderEntity extends UserEntity implements Serializable {
-
     
-    private String user_type;
-    
-    @ManyToMany(mappedBy = "providers")
+    @OneToMany(mappedBy="provider",fetch = FetchType.EAGER)
     private List<ProductEntity> products;
-
-    public Long getId() {
+    
+    /*public Long getId() {
         return super.getId();
     }
 
     public void setId(Long id) {
         super.setId(id);
-    }
+    }*/
 
     public String getName() {
         return name;
@@ -57,7 +54,7 @@ public class ProviderEntity extends UserEntity implements Serializable {
     public void setProducts(List<ProductEntity> products) {
         this.products = products;
     }
-    
+
     @Override
     public int hashCode() {
         int hash = 0;

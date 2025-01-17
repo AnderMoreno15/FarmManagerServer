@@ -58,6 +58,16 @@ public class ProductFacade implements IProductFacade {
             throw new DeleteException(e.getMessage());
         }
     }
+    
+    @Override
+    public List<ProductEntity> findAllProducts() {
+        List<ProductEntity> accounts;
+        
+            accounts=em.createNamedQuery("findAllProducts").getResultList();
+        
+        return accounts;
+    }
+
 
     @Override
     public ProductEntity getProductByName(String name) throws ReadException{

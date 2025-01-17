@@ -71,6 +71,18 @@ public class ProductEntityFacadeREST{
             throw new InternalServerErrorException(ex.getMessage());
         }
     }
+    
+    @GET
+    @Produces(MediaType.APPLICATION_XML)
+    public List<ProductEntity> findAllProducts() throws ReadException {
+        try{
+            
+            return productFacade.findAllProducts();
+        }catch(ReadException ex){
+            throw new InternalServerErrorException(ex.getMessage());
+        }
+        
+    }
 
     @DELETE
     @Path("{id}")
@@ -88,19 +100,20 @@ public class ProductEntityFacadeREST{
     @Produces({MediaType.APPLICATION_XML})
     public ProductEntity getProductByName(@PathParam("name") String name){
         try{
-            return (ProductEntity) productFacade.getProductByName(name);
+            return productFacade.getProductByName(name);
         } catch (ReadException ex) {
             throw new InternalServerErrorException(ex.getMessage());
         }
     }
-
+/*
     @GET
     @Produces({MediaType.APPLICATION_XML})
+    @Path("Fecha")
     public List<ProductEntity> getProductByCreatedDate(Date createdDate){
         try{
             return productFacade.getProductByCreatedDate(createdDate);
         } catch (ReadException ex) {
             throw new InternalServerErrorException(ex.getMessage());
         }
-    }
+    }*/
 }

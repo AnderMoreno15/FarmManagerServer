@@ -7,15 +7,12 @@ package entities;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
-import static javax.persistence.CascadeType.ALL;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -36,7 +33,11 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name="product", schema="farmdb")
 @NamedQueries({
     @NamedQuery(name = "getProductByName", query = "SELECT p FROM ProductEntity p WHERE p.name = :name ORDER BY p.name ASC"),
-    @NamedQuery(name = "getProductByCreatedDate", query = "SELECT p FROM ProductEntity p WHERE p.createdDate = :date ORDER BY p.name ASC")
+    @NamedQuery(name = "getProductByCreatedDate", query = "SELECT p FROM ProductEntity p WHERE p.createdDate = :date ORDER BY p.name ASC"),
+    @NamedQuery(
+           name="findAllProducts",
+           query="SELECT a FROM ProductEntity a ORDER BY a.id DESC")
+        
 })
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -51,15 +52,12 @@ public class ProductEntity implements Serializable {
     private Float monthlyConsume;
     private Float price;
     private Integer stock;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "provider_id")  // Esta columna contendrá el ID del proveedor
+    private ProviderEntity provider;
+
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdDate;
-    @ManyToMany
-    @JoinTable(
-        name = "product_provider",
-        joinColumns = @JoinColumn(name = "product_id"),
-        inverseJoinColumns = @JoinColumn(name = "provider_id")
-    )
-    private List<ProviderEntity> providers;
 
     public Long getId() {
         return id;
@@ -110,13 +108,14 @@ public class ProductEntity implements Serializable {
         this.createdDate = createdDate;
     }
 
-    public List<ProviderEntity> getProviders() {
-        return providers;
+    public ProviderEntity getProvider() {
+        return provider;
     }
 
-    public void setProviders(List<ProviderEntity> providers) {
-        this.providers = providers;
+    public void setProvider(ProviderEntity provider) {
+        this.provider = provider;
     }
+    
     
     @Override
     public int hashCode() {

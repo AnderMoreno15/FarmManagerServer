@@ -1,3 +1,4 @@
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -16,28 +17,27 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author Ander
  */
 @Entity
+@Table(name = "farmUser", schema = "farmdb")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "USER_TYPE", discriminatorType = DiscriminatorType.STRING)
-@XmlRootElement
 public class UserEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-     Long id;
+    protected Long id;
     @NotNull
     protected String name;
     @NotNull
     protected String email;
     @NotNull
-    protected int phone;
+    protected String phone;
     @NotNull
     protected String city;
     @NotNull
@@ -69,11 +69,11 @@ public class UserEntity implements Serializable {
         this.email = email;
     }
 
-    public int getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(int phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 
