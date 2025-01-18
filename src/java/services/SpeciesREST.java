@@ -33,7 +33,7 @@ public class SpeciesREST {
     }
     
     @GET
-    @Path("all}")
+    @Path("{all}")
     @Produces(MediaType.APPLICATION_XML)
     public List<Species> getAllSpecies() {
         try{

@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name="species",schema="farmdb")
 @NamedQueries({
-    @NamedQuery(name = "getAllSpecies", query = "SELECT * FROM Species")
+    @NamedQuery(name = "getAllSpecies", query = "SELECT s FROM Species s")
 })
 @XmlRootElement
 public class Species implements Serializable {

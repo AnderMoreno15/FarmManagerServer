@@ -8,6 +8,7 @@ package services;
 import entities.Species;
 import exceptions.ReadException;
 import java.util.List;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -15,6 +16,7 @@ import javax.persistence.PersistenceContext;
  *
  * @author Aitziber
  */
+@Stateless
 public class SpeciesFacade implements ISpeciesFacade{
     
     @PersistenceContext(unitName = "FarmManagerPU")
