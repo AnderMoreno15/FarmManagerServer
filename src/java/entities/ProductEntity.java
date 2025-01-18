@@ -30,9 +30,9 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author InigoFreire
  */
 @Entity
-@Table(name="product", schema="farmdb")
+@Table(name = "product", schema = "farmdb")
 @NamedQueries({
-    @NamedQuery(name = "getProductByName", query = "SELECT p FROM ProductEntity p WHERE p.name = :name ORDER BY p.name ASC"),
+    @NamedQuery(name = "getProductByName", query = "SELECT p FROM ProductEntity p WHERE p.name = :name"),
     @NamedQuery(name = "getProductByCreatedDate", query = "SELECT p FROM ProductEntity p WHERE p.createdDate = :date")
 })
 @XmlRootElement
@@ -111,8 +111,7 @@ public class ProductEntity implements Serializable {
     public void setProvider(ProviderEntity provider) {
         this.provider = provider;
     }
-    
-    
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -137,5 +136,4 @@ public class ProductEntity implements Serializable {
     public String toString() {
         return "entities.ProductEntity[ id=" + id + " ]";
     }
-    
 }

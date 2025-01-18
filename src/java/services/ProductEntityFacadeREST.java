@@ -54,33 +54,14 @@ public class ProductEntityFacadeREST {
 //    Example
 //    <?xml version="1.0" encoding="UTF-8"?>
 //    <productEntity>
-//    <name>Peras</name>
-//    <providerEntity>
-//    <id>1</id>
-//    </providerEntity>
-//    <stock>88</stock>
+//      <name>Avena</name>
+//      <providerEntity>
+//          <id>1</id>
+//      </providerEntity>
+//      <stock>88</stock>
+//      <price>144</price>
+//      <monthlyConsume>12</monthlyConsume>
 //    </productEntity>
-//    @POST
-//    @Consumes({MediaType.APPLICATION_XML})
-//    public void createProduct(ProductEntity product) {
-//        try {
-//            if (product.getProvider() != null && product.getProvider().getId() != null) {
-//                LOGGER.log(Level.INFO, "Attempting to create ProductEntity with provider ID: {0}", product.getProvider().getId());
-//            } else {
-//                LOGGER.log(Level.WARNING, "The provided ProductEntity has a null provider or provider ID.");
-//            }
-//
-//            LOGGER.log(Level.INFO, "Product details: Name={0}, Price={1}, Stock={2}", 
-//                       new Object[]{product.getName(), product.getPrice(), product.getStock()});
-//
-//            productFacade.createProduct(product);
-//
-//            LOGGER.log(Level.INFO, "ProductEntity created successfully.");
-//        } catch (CreateException ex) {
-//            LOGGER.log(Level.SEVERE, "Error occurred while creating ProductEntity: {0}", ex.getMessage());
-//            throw new InternalServerErrorException(ex.getMessage());
-//        }
-//    }
     @POST
     @Consumes({MediaType.APPLICATION_XML})
     public void createProduct(ProductEntity product) {

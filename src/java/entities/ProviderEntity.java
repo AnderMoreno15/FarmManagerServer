@@ -18,6 +18,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -27,17 +28,17 @@ import javax.xml.bind.annotation.XmlRootElement;
 @DiscriminatorValue("farmProvider")
 @XmlRootElement
 public class ProviderEntity extends UserEntity implements Serializable {
-    
-    @OneToMany(mappedBy="provider",fetch = FetchType.EAGER)
+
+    @OneToMany(mappedBy = "provider", fetch = FetchType.EAGER)
     private List<ProductEntity> products;
-    
-    /*public Long getId() {
+
+    public Long getId() {
         return super.getId();
     }
 
     public void setId(Long id) {
         super.setId(id);
-    }*/
+    }
 
     public String getName() {
         return name;
@@ -47,6 +48,7 @@ public class ProviderEntity extends UserEntity implements Serializable {
         this.name = name;
     }
 
+    @XmlTransient
     public List<ProductEntity> getProducts() {
         return products;
     }
@@ -79,5 +81,5 @@ public class ProviderEntity extends UserEntity implements Serializable {
     public String toString() {
         return "entities.Provider[ id=" + id + " ]";
     }
-    
+
 }
