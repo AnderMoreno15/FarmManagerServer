@@ -67,6 +67,7 @@ public class Animal implements Serializable {
     @ManyToOne
     @JoinColumn(name="species_id")
     private Species species;
+
     
     public Animal(){
     }
@@ -119,7 +120,6 @@ public class Animal implements Serializable {
         this.animalGroup = animalGroup;
     }
 
-    
     public Species getSpecies() {
         return species;
     }
@@ -128,7 +128,6 @@ public class Animal implements Serializable {
         this.species = species;
     }
 
-   
     @Override
     public int hashCode() {
         int hash = 0;

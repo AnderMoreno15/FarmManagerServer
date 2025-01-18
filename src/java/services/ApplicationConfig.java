@@ -11,6 +11,7 @@ import javax.ws.rs.core.Application;
 /**
  *
  * @author Aitziber
+ * @author Ander
  */
 @javax.ws.rs.ApplicationPath("webresources")
 public class ApplicationConfig extends Application {
@@ -29,6 +30,7 @@ public class ApplicationConfig extends Application {
      * If required, comment out calling this method in getClasses().
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
+        resources.add(services.AnimalGroupFacadeREST.class);
         resources.add(services.AnimalREST.class);
         resources.add(services.SpeciesREST.class);
     }
