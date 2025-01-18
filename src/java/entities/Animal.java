@@ -32,6 +32,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name="animal", schema="farmdb")
 @NamedQueries({
 //    @NamedQuery(name = "getAllAnimals", query = "SELECT a FROM Animal a WHERE a.animalGroup.manager.id = :clientId ORDER BY a.name DESC"),
+    @NamedQuery(name = "getAllAnimals", query = "SELECT a FROM Animal a JOIN a.animalGroup ag JOIN ag.managers m WHERE m.id = :managerId ORDER BY a.name DESC"),
     @NamedQuery(name = "getAnimalByName", query = "SELECT a FROM Animal a WHERE a.name = :name"),
     @NamedQuery(name = "getAnimalsByAnimalGroup", query = "SELECT a FROM Animal a WHERE a.animalGroup.name = :animalGroupName ORDER BY a.name DESC"),
     @NamedQuery(name = "getAnimalsBySubespecies", query = "SELECT a FROM Animal a WHERE a.subespecies = :subespecies ORDER BY a.name DESC"),

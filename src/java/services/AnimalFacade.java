@@ -87,15 +87,6 @@ public class AnimalFacade implements IAnimalFacade {
             throw new UpdateException(e.getMessage());
         }
     }
-
-//    @Override
-//    public void deleteAnimal(Animal animal) throws DeleteException {
-//        try{
-//            em.remove(em.merge(animal));
-//        }catch(Exception e){
-//            throw new DeleteException(e.getMessage());
-//        }
-//    }
     
     @Override
     public void deleteAnimalById(Long id) throws DeleteException {
@@ -109,19 +100,19 @@ public class AnimalFacade implements IAnimalFacade {
             throw new DeleteException(e.getMessage());
         }
     }
-    
-//    //get
-//
-//    @Override
-//    public List<Animal> getAllAnimals(Long clientId) throws ReadException {
-//        try{
-//            return em.createNamedQuery("getAllAnimals", Animal.class)
-//                .setParameter("clientId", clientId)
-//                .getResultList();
-//        }catch(Exception e){
-//            throw new ReadException("Error retrieving animals for client ID: " + clientId + ". Details: " + e.getMessage());
-//        }
-//    }
+
+    @Override
+    public List<Animal> getAllAnimals(Long managerId) throws ReadException {
+        List<Animal> animals;
+        try{
+            animals = em.createNamedQuery("getAllAnimals", Animal.class)
+                .setParameter("managerId", managerId)
+                .getResultList();
+        }catch(Exception e){
+            throw new ReadException("Error retrieving animals for manager with ID: " + managerId + ". Details: " + e.getMessage());
+        }
+        return animals;
+    }
     
     @Override
     public Animal getAnimalByName(String name) throws ReadException {
