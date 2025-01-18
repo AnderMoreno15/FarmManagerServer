@@ -12,6 +12,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -23,6 +25,9 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name="species",schema="farmdb")
+@NamedQueries({
+    @NamedQuery(name = "getAllSpecies", query = "SELECT s FROM Species s")
+})
 @XmlRootElement
 public class Species implements Serializable {
 
