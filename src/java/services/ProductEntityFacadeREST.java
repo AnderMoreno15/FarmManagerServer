@@ -50,18 +50,7 @@ public class ProductEntityFacadeREST {
      */
     public ProductEntityFacadeREST() {
     }
-
-//    Example
-//    <?xml version="1.0" encoding="UTF-8"?>
-//    <productEntity>
-//      <name>Avena</name>
-//      <providerEntity>
-//          <id>1</id>
-//      </providerEntity>
-//      <stock>88</stock>
-//      <price>144</price>
-//      <monthlyConsume>12</monthlyConsume>
-//    </productEntity>
+    
     @POST
     @Consumes({MediaType.APPLICATION_XML})
     public void createProduct(ProductEntity product) {
