@@ -32,7 +32,9 @@ public class ApplicationConfig extends Application {
     private void addRestResourceClasses(Set<Class<?>> resources) {
         resources.add(services.AnimalGroupFacadeREST.class);
         resources.add(services.AnimalREST.class);
+        resources.add(services.ManagerFacadeREST.class);
         resources.add(services.SpeciesREST.class);
+        resources.add(services.UserEntityFacadeREST.class);
     }
     
 }

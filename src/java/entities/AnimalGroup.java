@@ -47,12 +47,11 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(
             name = "getAnimalGroupsByName",
             query = "SELECT ag FROM AnimalGroup ag JOIN ag.managers m WHERE ag.name = :name AND m.id = :managerId"
-    ),
-})
+    ),})
 @XmlRootElement
 public class AnimalGroup implements Serializable {
 
-private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -71,7 +70,7 @@ private static final long serialVersionUID = 1L;
 //    private List<Consumes> consumes;
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
-            name = "animalgroup_manager", 
+            name = "animalgroup_manager",
             schema = "farmdb",
             joinColumns = @JoinColumn(name = "animalgroupId", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "managerId", referencedColumnName = "id")
@@ -134,7 +133,6 @@ private static final long serialVersionUID = 1L;
 //    public void setConsumes(List<ConsumeEntity> consumes) {
 //        this.consumes = consumes;
 //    }
-
     @XmlTransient
     public List<Manager> getManagers() {
         return managers;
