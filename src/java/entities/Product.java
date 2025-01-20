@@ -5,36 +5,40 @@
  */
 package entities;
 
-/**
- *
- * @author Aitziber
- */
-
+import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.FetchType;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
+/**
+ *
+ * @author InigoFreire
+ */
 @Entity
-@Table(name = "product", schema = "farmdb")
-public class Product {
+@DiscriminatorValue("farmProvider")
+@NamedQuery(name = "getAllProviders", query = "SELECT p FROM ProviderEntity p")
+@XmlRootElement
+public class ProviderEntity extends UserEntity implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @OneToMany(mappedBy = "provider", fetch = FetchType.EAGER)
+    private List<ProductEntity> products;
 
-    private String name;
-
-    private String description;
-
-    // Getters y Setters
     public Long getId() {
-        return id;
+        return super.getId();
     }
 
     public void setId(Long id) {
-        this.id = id;
+        super.setId(id);
     }
 
     public String getName() {
@@ -45,12 +49,13 @@ public class Product {
         this.name = name;
     }
 
-    public String getDescription() {
-        return description;
+    @XmlTransient
+    public List<ProductEntity> getProducts() {
+        return products;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setProducts(List<ProductEntity> products) {
+        this.products = products;
     }
 
     @Override
@@ -62,15 +67,20 @@ public class Product {
 
     @Override
     public boolean equals(Object object) {
-        if (!(object instanceof Product)) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof ProviderEntity)) {
             return false;
         }
-        Product other = (Product) object;
-        return (this.id != null || other.id == null) && (this.id == null || this.id.equals(other.id));
+        ProviderEntity other = (ProviderEntity) object;
+        if ((super.id == null && other.id != null) || (super.id != null && !super.id.equals(other.id))) {
+            return false;
+        }
+        return true;
     }
 
     @Override
     public String toString() {
-        return "entities.Product[ id=" + id + " ]";
+        return "entities.Provider[ id=" + id + " ]";
     }
+
 }
