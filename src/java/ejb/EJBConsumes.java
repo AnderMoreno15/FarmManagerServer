@@ -8,8 +8,6 @@ package ejb;
 import entities.AnimalGroup;
 import entities.Consumes;
 import entities.ConsumesId;
-import static entities.ConsumesId_.animalGroupId;
-import static entities.ConsumesId_.productId;
 import entities.Product;
 import exceptions.CreateException;
 import exceptions.DeleteException;
