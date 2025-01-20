@@ -6,12 +6,10 @@
 package services;
 
 import ejb.IProviderFacade;
-import ejb.ProviderFacade;
 import entities.ProviderEntity;
 import exceptions.ReadException;
 import java.util.List;
 import javax.ejb.EJB;
-import javax.ejb.Stateless;
 import javax.ws.rs.GET;
 import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.Path;
@@ -22,7 +20,6 @@ import javax.ws.rs.core.MediaType;
  *
  * @author InigoFreire
  */
-@Stateless
 @Path("providerentity")
 public class ProviderEntityFacadeREST {
     

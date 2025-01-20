@@ -15,12 +15,7 @@ import exceptions.UpdateException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Logger;
-import java.util.logging.Level;
 import javax.ejb.EJB;
-import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -39,8 +34,6 @@ import javax.ws.rs.core.MediaType;
  */
 @Path("productentity")
 public class ProductEntityFacadeREST {
-
-    private static final Logger LOGGER = Logger.getLogger(ProductEntityFacadeREST.class.getName());
 
     @EJB
     private IProductFacade productFacade;
