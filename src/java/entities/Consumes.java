@@ -78,7 +78,7 @@ public class Consumes implements Serializable {
     @MapsId("productId")
     @ManyToOne    
     @JoinColumn(name="productId",updatable=false,insertable=false)
-    private Product product;
+    private ProductEntity product;
     
     
     @Temporal(TemporalType.DATE)
@@ -103,7 +103,7 @@ public class Consumes implements Serializable {
     }
     
   
-    public Product getProduct() {
+    public ProductEntity getProduct() {
         return product;
     }
    
@@ -119,7 +119,7 @@ public class Consumes implements Serializable {
         this.animalGroup = animalGroup;
     }
 
-    public void setProduct(Product product) {  
+    public void setProduct(ProductEntity product) {  
     this.product = product;
     }
 

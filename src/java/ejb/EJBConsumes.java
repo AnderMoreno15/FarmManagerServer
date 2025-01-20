@@ -7,10 +7,7 @@ package ejb;
 
 import entities.AnimalGroup;
 import entities.Consumes;
-import entities.ConsumesId;
-import static entities.ConsumesId_.animalGroupId;
-import static entities.ConsumesId_.productId;
-import entities.Product;
+import entities.ProductEntity;
 import exceptions.CreateException;
 import exceptions.DeleteException;
 import exceptions.ReadException;
@@ -52,10 +49,15 @@ public void createConsume(Consumes consume) throws CreateException {
             throw new CreateException("Consume entity cannot be null");
         }
 
-        AnimalGroup managedAnimalGroup = em.find(AnimalGroup.class, 
-            consume.getAnimalGroup().getAnimalGroupId());
-        Product managedProduct = em.find(Product.class, 
-            consume.getProduct().getProductId());
+//        AnimalGroup managedAnimalGroup = em.find(AnimalGroup.class, 
+//            consume.getAnimalGroup().getAnimalGroupId());
+//        Product managedProduct = em.find(Product.class, 
+//            consume.getProduct().getProductId());
+
+            AnimalGroup managedAnimalGroup = em.find(AnimalGroup.class, 
+                consume.getAnimalGroup().getId());
+            ProductEntity managedProduct = em.find(ProductEntity.class, 
+                consume.getProduct().getId());
 
         if (managedAnimalGroup == null || managedProduct == null) {
             throw new CreateException("Referenced AnimalGroup or Product not found");

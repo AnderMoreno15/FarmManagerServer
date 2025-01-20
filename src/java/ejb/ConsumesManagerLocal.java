@@ -7,7 +7,7 @@ package ejb;
 
 import entities.AnimalGroup;
 import entities.Consumes;
-import entities.Product;
+import entities.ProductEntity;
 import exceptions.CreateException;
 import exceptions.DeleteException;
 import exceptions.ReadException;

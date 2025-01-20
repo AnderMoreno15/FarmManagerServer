@@ -11,7 +11,7 @@ import ejb.ConsumesManagerLocal;
 import entities.AnimalGroup;
 import entities.Consumes;
 import entities.ConsumesId;
-import entities.Product;
+import entities.ProductEntity;
 import exceptions.CreateException;
 import exceptions.DeleteException;
 import exceptions.ReadException;
