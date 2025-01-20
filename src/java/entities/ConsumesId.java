@@ -18,28 +18,22 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Embeddable
 public class ConsumesId implements Serializable {
     
-     @Column(name = "animalGroup_animalGroupId")
+    @Column(name = "animalGroup_animalGroupId")
     private Long animalGroupId;
-     @Column(name = "product_productId") 
+    @Column(name = "product_productId") 
     private Long productId;
 
-    
-    
-    //private Long productId;
-    
-    // Constructor vacío necesario
+      
     public ConsumesId() {
     }
     
-    // Constructor con parámetros
+    
     public ConsumesId(Long productId, Long animalGroupId) {
-       
-        
         this.productId= productId;
         this.animalGroupId = animalGroupId;
     }
     
-    // Getters y setters con nombres que coincidan exactamente
+  
     public Long getAnimalGroupId() {
         return animalGroupId;
     }

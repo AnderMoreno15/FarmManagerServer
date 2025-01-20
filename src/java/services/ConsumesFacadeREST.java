@@ -7,6 +7,7 @@ package services;
 
 
 
+import ejb.ConsumesManagerLocal;
 import entities.AnimalGroup;
 import entities.Consumes;
 import entities.ConsumesId;
@@ -16,12 +17,7 @@ import exceptions.DeleteException;
 import exceptions.ReadException;
 import exceptions.UpdateException;
 import java.text.ParseException;
-import java.util.Date;
-import java.util.List;
-import java.util.logging.Level;
 import javax.ejb.EJB;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -31,11 +27,10 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.PathSegment;
-import org.jboss.logging.Logger;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import javax.ws.rs.InternalServerErrorException;
-import org.jboss.weld.bean.builtin.AbstractFacade;
+import java.util.List;
+
 
 
 /**
@@ -85,7 +80,7 @@ public class ConsumesFacadeREST {
     public void createConsume(Consumes entity) throws CreateException {
         ejb.createConsume(entity);}
 
-
+    
 
     @PUT
     @Path("{productId}/{animalGroupId}")
@@ -106,8 +101,7 @@ public class ConsumesFacadeREST {
     
     }
 
-
-    
+  
     @DELETE
     @Path("{productId}/{animalGroupId}")
     @Produces({MediaType.APPLICATION_XML})

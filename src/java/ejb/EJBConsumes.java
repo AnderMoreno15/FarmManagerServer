@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package services;
+package ejb;
 
 import entities.AnimalGroup;
 import entities.Consumes;
@@ -52,7 +52,6 @@ public void createConsume(Consumes consume) throws CreateException {
             throw new CreateException("Consume entity cannot be null");
         }
 
-        // Obtener las entidades existentes desde la base de datos
         AnimalGroup managedAnimalGroup = em.find(AnimalGroup.class, 
             consume.getAnimalGroup().getAnimalGroupId());
         Product managedProduct = em.find(Product.class, 
@@ -61,12 +60,10 @@ public void createConsume(Consumes consume) throws CreateException {
         if (managedAnimalGroup == null || managedProduct == null) {
             throw new CreateException("Referenced AnimalGroup or Product not found");
         }
-
-        // Establecer las referencias gestionadas
+ 
         consume.setAnimalGroup(managedAnimalGroup);
         consume.setProduct(managedProduct);
 
-        // Persistir
         em.persist(consume);
         em.flush();
         
@@ -74,7 +71,6 @@ public void createConsume(Consumes consume) throws CreateException {
         throw new CreateException(e.getMessage());
     }
 }
-
     
     @Override
    public void updateConsume(Consumes consume) throws UpdateException {
@@ -89,8 +85,6 @@ public void createConsume(Consumes consume) throws CreateException {
    }
 
 
-
-
      @Override
     public void deleteConsume(Consumes consume) throws DeleteException {
         try {
@@ -98,7 +92,6 @@ public void createConsume(Consumes consume) throws CreateException {
                 throw new DeleteException("Consume or ConsumesId cannot be null");
             }
 
-            // Buscar la entidad existente
             Consumes managedConsume = em.find(Consumes.class, consume.getConsumesId());
             
             if (managedConsume == null) {
@@ -114,8 +107,6 @@ public void createConsume(Consumes consume) throws CreateException {
         }
     }
 
-
-
     
     @Override
     public List<Consumes> getAllConsumes() throws ReadException {
@@ -128,8 +119,7 @@ public void createConsume(Consumes consume) throws CreateException {
         throw new ReadException(e.getMessage());
     }
 }
-
-    
+  
     
     @Override
     public List<Consumes> findConsumesByProduct(Long productId) throws ReadException {
