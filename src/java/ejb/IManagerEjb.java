@@ -5,9 +5,10 @@
  */
 package ejb;
 
-import entities.UserEntity;
+import entities.Manager;
 import exceptions.CreateException;
 import exceptions.ReadException;
+import java.util.List;
 import javax.ejb.Local;
 
 /**
@@ -15,10 +16,12 @@ import javax.ejb.Local;
  * @author Ander
  */
 @Local
-public interface IUserEjb {
+public interface IManagerEjb {
+    
+    public void setManager(Manager manager) throws CreateException;
+    
+    public List<Manager> getManagers() throws ReadException;
 
-//    public void setUser(UserEntity user) throws CreateException;
-//
-//    public UserEntity getUser(String email) throws ReadException;
+    public Manager getManager(String email, String password) throws ReadException;
     
 }

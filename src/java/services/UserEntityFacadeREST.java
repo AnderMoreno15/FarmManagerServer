@@ -35,25 +35,25 @@ public class UserEntityFacadeREST {
     public UserEntityFacadeREST() {
     }
 
-    @POST
-    @Consumes(MediaType.APPLICATION_XML)
-    public void createAnimalGroup(UserEntity user) {
-        try {
-            userEjb.setUser(user);
-        } catch (CreateException ex) {
-            throw new InternalServerErrorException(ex.getMessage());        
-        }
-    }
-    
-    @GET
-    @Path("search/{email}/{password}")
-    @Produces(MediaType.APPLICATION_XML)
-    public UserEntity getUser(@PathParam("email") String email, @PathParam("password") String password) {
-        try{
-           return (UserEntity) userEjb.getUser(email, password);
-        } catch (ReadException ex) {
-            throw new InternalServerErrorException(ex.getMessage());
-        }
-    }
+//    @POST
+//    @Consumes(MediaType.APPLICATION_XML)
+//    public void createAnimalGroup(UserEntity user) {
+//        try {
+//            userEjb.setUser(user);
+//        } catch (CreateException ex) {
+//            throw new InternalServerErrorException(ex.getMessage());        
+//        }
+//    }
+//    
+//    @GET
+//    @Path("search/{email}")
+//    @Produces(MediaType.APPLICATION_XML)
+//    public UserEntity getUser(@PathParam("email") String email) {
+//        try{
+//           return (UserEntity) userEjb.getUser(email);
+//        } catch (ReadException ex) {
+//            throw new InternalServerErrorException(ex.getMessage());
+//        }
+//    }
     
 }

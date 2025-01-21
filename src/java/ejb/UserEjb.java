@@ -23,24 +23,23 @@ public class UserEjb implements IUserEjb {
     @PersistenceContext(unitName = "FarmManagerPU")
     private EntityManager em;
 
-    @Override
-    public void setUser(UserEntity user) throws CreateException {
-        try {
-            em.persist(user);
-        } catch (Exception e) {
-            throw new CreateException(e.getMessage());
-        }
-    }
-
-    @Override
-    public UserEntity getUser(String email, String password) throws ReadException {
-        try {
-            return em.createNamedQuery("getUser", UserEntity.class)
-                    .setParameter("email", email)
-                    .setParameter("password", password)
-                    .getSingleResult();
-        } catch (Exception e) {
-            throw new ReadException(e.getMessage());
-        }
-    }
+//    @Override
+//    public void setUser(UserEntity user) throws CreateException {
+//        try {
+//            em.persist(user);
+//        } catch (Exception e) {
+//            throw new CreateException(e.getMessage());
+//        }
+//    }
+//
+//    @Override
+//    public UserEntity getUser(String email) throws ReadException {
+//        try {
+//            return em.createNamedQuery("getUser", UserEntity.class)
+//                    .setParameter("email", email)
+//                    .getSingleResult();
+//        } catch (Exception e) {
+//            throw new ReadException(e.getMessage());
+//        }
+//    }
 }

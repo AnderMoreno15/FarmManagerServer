@@ -26,11 +26,11 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @Table(name = "farmUser", schema = "farmdb")
-@NamedQueries({
-    @NamedQuery(
-            name = "getUser",
-            query = "SELECT ue FROM UserEntity ue WHERE ue.email = :email AND ue.password = :password"
-    ),})
+//@NamedQueries({
+//    @NamedQuery(
+//            name = "getUser",
+//            query = "SELECT mg FROM Manager mg WHERE mg.email = :email AND mg.password = :password AND mg.isActive = TRUE"
+//    ),})
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "USER_TYPE", discriminatorType = DiscriminatorType.STRING)
 @XmlRootElement

@@ -12,6 +12,8 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -22,7 +24,17 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author Ander
  */
 @Entity
-@DiscriminatorValue("farmManager")
+@DiscriminatorValue("manager")
+@NamedQueries({
+    @NamedQuery(
+            name = "getManagers",
+            query = "SELECT mg FROM Manager mg"
+    )
+    ,
+    @NamedQuery(
+            name = "getManager",
+            query = "SELECT mg FROM Manager mg WHERE mg.email = :email AND mg.password = :password AND mg.isActive = TRUE"
+    ),})
 @XmlRootElement
 public class Manager extends UserEntity implements Serializable {
 
