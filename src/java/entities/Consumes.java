@@ -37,11 +37,11 @@ import javax.xml.bind.annotation.XmlTransient;
         ),
 @NamedQuery(
         name="findConsumesByProduct",
-            query="SELECT m FROM Consumes m WHERE m.product.productId = :productId"
+            query="SELECT m FROM Consumes m WHERE m.product.id = :productId"
         ),
 @NamedQuery(
         name="findConsumesByAnimalGroup",
-            query="SELECT m FROM Consumes m WHERE m.animalGroup.animalGroupId = :animalGroupId"
+            query="SELECT m FROM Consumes m WHERE m.animalGroup.id = :animalGroupId"
         ),
 @NamedQuery(
         name="findConsumesByDateRange",
