@@ -8,6 +8,7 @@ package ejb;
 import entities.Manager;
 import exceptions.CreateException;
 import exceptions.ReadException;
+import exceptions.UpdateException;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -23,5 +24,7 @@ public interface IManagerEjb {
     public List<Manager> getManagers() throws ReadException;
 
     public Manager getManager(String email, String password) throws ReadException;
+    
+    public void updateManager(Manager manager)  throws UpdateException;
     
 }

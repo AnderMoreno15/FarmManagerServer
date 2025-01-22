@@ -9,6 +9,7 @@ import ejb.IManagerEjb;
 import entities.Manager;
 import exceptions.CreateException;
 import exceptions.ReadException;
+import exceptions.UpdateException;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -49,6 +50,16 @@ public class ManagerFacadeREST {
            return (List<Manager>) managerEjb.getManagers();
         } catch (ReadException ex) {
             throw new InternalServerErrorException(ex.getMessage());
+        }
+    }
+    
+    @PUT
+    @Consumes(MediaType.APPLICATION_XML)
+    public void updateAnimalGroup(Manager manager) {
+        try {
+            managerEjb.updateManager(manager);
+        } catch (UpdateException ex) {
+            throw new InternalServerErrorException(ex.getMessage());        
         }
     }
     

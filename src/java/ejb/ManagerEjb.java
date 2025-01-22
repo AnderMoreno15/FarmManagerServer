@@ -8,6 +8,7 @@ package ejb;
 import entities.Manager;
 import exceptions.CreateException;
 import exceptions.ReadException;
+import exceptions.UpdateException;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -51,6 +52,18 @@ public class ManagerEjb implements IManagerEjb {
                     .getSingleResult();
         } catch (Exception e) {
             throw new ReadException(e.getMessage());
+        }
+    }
+
+    @Override
+    public void updateManager(Manager manager) throws UpdateException {
+        try {
+            if (!em.contains(manager)) {
+                em.merge(manager);
+            }
+            em.flush();
+        } catch (Exception e) {
+            throw new UpdateException(e.getMessage());
         }
     }
 
