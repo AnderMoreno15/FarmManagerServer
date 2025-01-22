@@ -24,6 +24,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -64,7 +65,7 @@ public class AnimalGroup implements Serializable {
     @NotNull
     @Temporal(TemporalType.TIMESTAMP)
     private Date creationDate;
-    @OneToMany(cascade = ALL, mappedBy = "animalGroup")
+    @OneToMany(cascade = ALL, mappedBy = "animalGroup",fetch = FetchType.EAGER)
     private List<Animal> animals;
 //    @OneToMany(cascade = ALL, mappedBy = "animalGroup")
 //    private List<Consumes> consumes;
@@ -133,7 +134,7 @@ public class AnimalGroup implements Serializable {
 //    public void setConsumes(List<ConsumeEntity> consumes) {
 //        this.consumes = consumes;
 //    }
-    @XmlTransient
+    @XmlElement
     public List<Manager> getManagers() {
         return managers;
     }
