@@ -33,9 +33,9 @@ public class ApplicationConfig extends Application {
         resources.add(services.AnimalGroupFacadeREST.class);
         resources.add(services.AnimalREST.class);
         resources.add(services.ConsumesFacadeREST.class);
+        resources.add(services.ManagerFacadeREST.class);
         resources.add(services.ProductEntityFacadeREST.class);
         resources.add(services.ProviderEntityFacadeREST.class);
-        resources.add(services.ManagerFacadeREST.class);
         resources.add(services.SpeciesREST.class);
         resources.add(services.UserEntityFacadeREST.class);
     }
