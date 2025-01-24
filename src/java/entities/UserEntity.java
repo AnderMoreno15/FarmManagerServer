@@ -15,8 +15,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
@@ -24,8 +27,14 @@ import javax.validation.constraints.NotNull;
  */
 @Entity
 @Table(name = "farmUser", schema = "farmdb")
+//@NamedQueries({
+//    @NamedQuery(
+//            name = "getUser",
+//            query = "SELECT mg FROM Manager mg WHERE mg.email = :email AND mg.password = :password AND mg.isActive = TRUE"
+//    ),})
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "USER_TYPE", discriminatorType = DiscriminatorType.STRING)
+@XmlRootElement
 public class UserEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;

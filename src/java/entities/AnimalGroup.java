@@ -24,6 +24,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -46,13 +47,12 @@ import javax.xml.bind.annotation.XmlTransient;
     ,
     @NamedQuery(
             name = "getAnimalGroupsByName",
-            query = "SELECT ag FROM AnimalGroup ag JOIN ag.managers m WHERE ag.name = :name AND m.id = :managerId"
-    ),
-})
+            query = "SELECT ag FROM AnimalGroup ag JOIN ag.managers m WHERE ag.name LIKE :name AND m.id = :managerId"
+    ),})
 @XmlRootElement
 public class AnimalGroup implements Serializable {
 
-private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -65,13 +65,13 @@ private static final long serialVersionUID = 1L;
     @NotNull
     @Temporal(TemporalType.TIMESTAMP)
     private Date creationDate;
-    @OneToMany(cascade = ALL, mappedBy = "animalGroup")
+    @OneToMany(cascade = ALL, mappedBy = "animalGroup",fetch = FetchType.EAGER)
     private List<Animal> animals;
 //    @OneToMany(cascade = ALL, mappedBy = "animalGroup")
 //    private List<Consumes> consumes;
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
-            name = "animalgroup_manager", 
+            name = "animalgroup_manager",
             schema = "farmdb",
             joinColumns = @JoinColumn(name = "animalgroupId", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "managerId", referencedColumnName = "id")
@@ -134,8 +134,7 @@ private static final long serialVersionUID = 1L;
 //    public void setConsumes(List<ConsumeEntity> consumes) {
 //        this.consumes = consumes;
 //    }
-
-    @XmlTransient
+    @XmlElement
     public List<Manager> getManagers() {
         return managers;
     }

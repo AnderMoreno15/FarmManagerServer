@@ -34,7 +34,7 @@ public interface IAnimalGroupEjb {
     public List<AnimalGroup> getAnimalGroups() throws ReadException;
 
     // Does't return a List because there can be just one with the same name (done)
-    public AnimalGroup getAnimalGroupByName(String groupName, Long managerId) throws ReadException;
+    public List<AnimalGroup> getAnimalGroupByName(String groupName, Long managerId) throws ReadException;
     
     // done
     public void deleteAnimalGroupById(Long id) throws DeleteException;
