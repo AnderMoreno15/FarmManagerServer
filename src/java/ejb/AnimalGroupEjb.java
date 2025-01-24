@@ -104,12 +104,12 @@ public class AnimalGroupEjb implements IAnimalGroupEjb {
     }
 
     @Override
-    public AnimalGroup getAnimalGroupByName(String groupName, Long managerId) throws ReadException {
+    public List<AnimalGroup> getAnimalGroupByName(String groupName, Long managerId) throws ReadException {
         try {
             return em.createNamedQuery("getAnimalGroupsByName", AnimalGroup.class)
-                    .setParameter("name", groupName)
+                    .setParameter("name", "%" + groupName + "%")
                     .setParameter("managerId", managerId)
-                    .getSingleResult();
+                    .getResultList();
         } catch (Exception e) {
             throw new ReadException(e.getMessage());
         }

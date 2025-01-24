@@ -47,7 +47,7 @@ import javax.xml.bind.annotation.XmlTransient;
     ,
     @NamedQuery(
             name = "getAnimalGroupsByName",
-            query = "SELECT ag FROM AnimalGroup ag JOIN ag.managers m WHERE ag.name = :name AND m.id = :managerId"
+            query = "SELECT ag FROM AnimalGroup ag JOIN ag.managers m WHERE ag.name LIKE :name AND m.id = :managerId"
     ),})
 @XmlRootElement
 public class AnimalGroup implements Serializable {
