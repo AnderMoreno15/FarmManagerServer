@@ -67,8 +67,8 @@ public class AnimalGroup implements Serializable {
     private Date creationDate;
     @OneToMany(cascade = ALL, mappedBy = "animalGroup",fetch = FetchType.EAGER)
     private List<Animal> animals;
-//    @OneToMany(cascade = ALL, mappedBy = "animalGroup")
-//    private List<Consumes> consumes;
+    @OneToMany(cascade = ALL, mappedBy = "animalGroup")
+    private List<Consumes> consumes;
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "animalgroup_manager",
@@ -127,14 +127,14 @@ public class AnimalGroup implements Serializable {
         this.animals = animals;
     }
 
-//    public List<ConsumeEntity> getConsumes() {
-//        return consumes;
-//    }
-//
-//    public void setConsumes(List<ConsumeEntity> consumes) {
-//        this.consumes = consumes;
-//    }
-    @XmlElement
+    public List<Consumes> getConsumes() {
+        return consumes;
+    }
+
+    public void setConsumes(List<Consumes> consumes) {
+        this.consumes = consumes;
+    }
+    
     public List<Manager> getManagers() {
         return managers;
     }
