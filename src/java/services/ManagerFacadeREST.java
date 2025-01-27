@@ -55,7 +55,7 @@ public class ManagerFacadeREST {
     
     @PUT
     @Consumes(MediaType.APPLICATION_XML)
-    public void updateAnimalGroup(Manager manager) {
+    public void updateManager(Manager manager) {
         try {
             managerEjb.updateManager(manager);
         } catch (UpdateException ex) {
@@ -65,7 +65,7 @@ public class ManagerFacadeREST {
     
     @POST
     @Consumes(MediaType.APPLICATION_XML)
-    public void createAnimalGroup(Manager manager) {
+    public void createManager(Manager manager) {
         try {
             managerEjb.setManager(manager);
         } catch (CreateException ex) {
