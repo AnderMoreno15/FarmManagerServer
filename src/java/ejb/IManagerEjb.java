@@ -25,6 +25,8 @@ public interface IManagerEjb {
 
     public Manager getManager(String email, String password) throws ReadException;
     
+    public Manager getManagerByEmail(String email) throws ReadException;
+    
     public void updateManager(Manager manager)  throws UpdateException;
     
 }

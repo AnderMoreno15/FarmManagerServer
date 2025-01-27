@@ -54,6 +54,17 @@ public class ManagerEjb implements IManagerEjb {
             throw new ReadException(e.getMessage());
         }
     }
+    
+    @Override
+    public Manager getManagerByEmail(String email) throws ReadException {
+        try {
+            return (Manager) em.createNamedQuery("getManagerByEmail", Manager.class)
+                    .setParameter("email", email)
+                    .getSingleResult();
+        } catch (Exception e) {
+            throw new ReadException(e.getMessage());
+        }
+    }
 
     @Override
     public void updateManager(Manager manager) throws UpdateException {

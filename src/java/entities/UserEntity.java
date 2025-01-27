@@ -45,13 +45,11 @@ public class UserEntity implements Serializable {
     protected String name;
     @NotNull
     protected String email;
-    @NotNull
     protected String phone;
     @NotNull
     protected String city;
     @NotNull
-    protected int zip;
-    @NotNull
+    protected String zip;
     protected String street;
 
     public Long getId() {
@@ -94,11 +92,11 @@ public class UserEntity implements Serializable {
         this.city = city;
     }
 
-    public int getZip() {
+    public String getZip() {
         return zip;
     }
 
-    public void setZip(int zip) {
+    public void setZip(String zip) {
         this.zip = zip;
     }
 

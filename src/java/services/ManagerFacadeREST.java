@@ -84,4 +84,15 @@ public class ManagerFacadeREST {
         }
     }
     
+    @GET
+    @Path("search/{email}")
+    @Produces(MediaType.APPLICATION_XML)
+    public Manager getManagerByEmail(@PathParam("email") String email) {
+        try{
+           return (Manager) managerEjb.getManagerByEmail(email);
+        } catch (ReadException ex) {
+            throw new InternalServerErrorException(ex.getMessage());
+        }
+    }
+    
 }
