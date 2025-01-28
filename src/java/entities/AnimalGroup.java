@@ -5,6 +5,8 @@
  */
 package entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -63,6 +65,8 @@ public class AnimalGroup implements Serializable {
     @NotNull
     private String description;
     @NotNull
+    @JsonSerialize(as = Date.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     @Temporal(TemporalType.TIMESTAMP)
     private Date creationDate;
     @OneToMany(cascade = ALL, mappedBy = "animalGroup", fetch = FetchType.EAGER)

@@ -97,7 +97,7 @@ public class AnimalGroupFacadeREST {
     
     @GET
     @Path("search/{managerId}")
-    @Produces(MediaType.APPLICATION_XML)
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public List<AnimalGroup> getAnimalGroupsByManager(@PathParam("managerId") Long managerId) {
         try{
            return (List<AnimalGroup>) animalGroupEjb.getAnimalGroupsByManager(managerId);
@@ -108,7 +108,7 @@ public class AnimalGroupFacadeREST {
     
     @GET
     @Path("search/{name}/{managerId}")
-    @Produces(MediaType.APPLICATION_XML)
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public List<AnimalGroup> getAnimalGroupByName(@PathParam("name") String groupName, @PathParam("managerId") Long managerId) {
         try{
            return (List<AnimalGroup>) animalGroupEjb.getAnimalGroupByName(groupName, managerId);

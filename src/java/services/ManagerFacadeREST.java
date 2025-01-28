@@ -76,9 +76,9 @@ public class ManagerFacadeREST {
     @GET
     @Path("search/{email}/{password}")
     @Produces(MediaType.APPLICATION_XML)
-    public Manager getManager(@PathParam("email") String email, @PathParam("password") String password) {
+    public List<Manager> getManager(@PathParam("email") String email, @PathParam("password") String password) {
         try{
-           return (Manager) managerEjb.getManager(email, password);
+           return (List<Manager>) managerEjb.getManager(email, password);
         } catch (ReadException ex) {
             throw new InternalServerErrorException(ex.getMessage());
         }
@@ -87,9 +87,9 @@ public class ManagerFacadeREST {
     @GET
     @Path("search/{email}")
     @Produces(MediaType.APPLICATION_XML)
-    public Manager getManagerByEmail(@PathParam("email") String email) {
+    public List<Manager> getManagerByEmail(@PathParam("email") String email) {
         try{
-           return (Manager) managerEjb.getManagerByEmail(email);
+           return (List<Manager>) managerEjb.getManagerByEmail(email);
         } catch (ReadException ex) {
             throw new InternalServerErrorException(ex.getMessage());
         }
