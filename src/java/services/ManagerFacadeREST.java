@@ -55,7 +55,7 @@ public class ManagerFacadeREST {
     
     @PUT
     @Consumes(MediaType.APPLICATION_XML)
-    public void updateAnimalGroup(Manager manager) {
+    public void updateManager(Manager manager) {
         try {
             managerEjb.updateManager(manager);
         } catch (UpdateException ex) {
@@ -65,7 +65,7 @@ public class ManagerFacadeREST {
     
     @POST
     @Consumes(MediaType.APPLICATION_XML)
-    public void createAnimalGroup(Manager manager) {
+    public void createManager(Manager manager) {
         try {
             managerEjb.setManager(manager);
         } catch (CreateException ex) {
@@ -76,9 +76,20 @@ public class ManagerFacadeREST {
     @GET
     @Path("search/{email}/{password}")
     @Produces(MediaType.APPLICATION_XML)
-    public Manager getManager(@PathParam("email") String email, @PathParam("password") String password) {
+    public List<Manager> getManager(@PathParam("email") String email, @PathParam("password") String password) {
         try{
-           return (Manager) managerEjb.getManager(email, password);
+           return (List<Manager>) managerEjb.getManager(email, password);
+        } catch (ReadException ex) {
+            throw new InternalServerErrorException(ex.getMessage());
+        }
+    }
+    
+    @GET
+    @Path("search/{email}")
+    @Produces(MediaType.APPLICATION_XML)
+    public List<Manager> getManagerByEmail(@PathParam("email") String email) {
+        try{
+           return (List<Manager>) managerEjb.getManagerByEmail(email);
         } catch (ReadException ex) {
             throw new InternalServerErrorException(ex.getMessage());
         }
