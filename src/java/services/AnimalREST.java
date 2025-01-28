@@ -93,7 +93,7 @@ public class AnimalREST {
     
     @GET
     @Path("all/{managerId}")
-    @Produces(MediaType.APPLICATION_XML)
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public List<Animal> getAllAnimals(@PathParam("managerId") Long managerId) {
         try{
            return animalFacade.getAllAnimals(managerId);
@@ -104,7 +104,7 @@ public class AnimalREST {
     
     @GET
     @Path("name/{name}")
-    @Produces(MediaType.APPLICATION_XML)
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public Animal getAnimalByName(@PathParam("name") String name) {
         try{
            return (Animal) animalFacade.getAnimalByName(name);
@@ -115,7 +115,7 @@ public class AnimalREST {
     
     @GET
     @Path("group/{animalGroupName}")
-    @Produces(MediaType.APPLICATION_XML)
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public List<Animal> getAnimalsByAnimalGroup(@PathParam("animalGroupName") String animalGroupName) {
         try{
            return animalFacade.getAnimalsByAnimalGroup(animalGroupName);
@@ -126,7 +126,7 @@ public class AnimalREST {
     
     @GET
     @Path("subespecies/{subespecies}")
-    @Produces(MediaType.APPLICATION_XML)
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public List<Animal> getAnimalsBySubespecies(@PathParam("subespecies") String subespecies) {
         try{
            return animalFacade.getAnimalsBySubespecies(subespecies);
@@ -137,7 +137,7 @@ public class AnimalREST {
     
     @GET
     @Path("between/{dateFrom}/{dateTo}")
-    @Produces(MediaType.APPLICATION_XML)
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public List<Animal> getAnimalsByBirthdate(@PathParam("dateFrom") String dateFromStr, @PathParam("dateTo") String dateToStr) {
         try {
             Date dateFrom = parseDate(dateFromStr);
@@ -150,7 +150,7 @@ public class AnimalREST {
 
     @GET
     @Path("from/{dateFrom}")
-    @Produces(MediaType.APPLICATION_XML)
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public List<Animal> getAnimalsByBirthdateFrom(@PathParam("dateFrom") String dateFromStr) {
         try {
             Date dateFrom = parseDate(dateFromStr);
@@ -162,7 +162,7 @@ public class AnimalREST {
 
     @GET
     @Path("to/{dateTo}")
-    @Produces(MediaType.APPLICATION_XML)
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public List<Animal> getAnimalsByBirthdateTo(@PathParam("dateTo") String dateToStr) {
         try {
             Date dateTo = parseDate(dateToStr);
