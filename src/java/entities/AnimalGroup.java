@@ -37,9 +37,11 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(
             name = "getAnimalGroups",
-            query = "SELECT ag FROM AnimalGroup ag"
-    )
-    ,
+              query = "SELECT c FROM Consumes c " +
+            "JOIN c.animalGroup ag " +
+            "JOIN ag.managers m " +
+            "WHERE m.id = :managerId"),
+    
     @NamedQuery(
             name = "getAnimalGroupsByManager",
             query = "SELECT ag FROM AnimalGroup ag JOIN ag.managers m WHERE m.id = :managerId"

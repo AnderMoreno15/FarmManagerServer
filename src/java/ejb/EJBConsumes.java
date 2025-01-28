@@ -5,6 +5,7 @@
  */
 package ejb;
 
+import entities.Animal;
 import entities.AnimalGroup;
 import entities.Consumes;
 import entities.ProductEntity;
@@ -87,40 +88,31 @@ public void createConsume(Consumes consume) throws CreateException {
    }
 
 
-     @Override
-    public void deleteConsume(Consumes consume) throws DeleteException {
+      @Override
+    public void deleteConsume(Long consumesId) throws DeleteException {
         try {
-            if (consume == null || consume.getConsumesId() == null) {
-                throw new DeleteException("Consume or ConsumesId cannot be null");
+            Consumes consume = em.find(Consumes.class, consumesId);
+            if (consume == null) {
+                throw new DeleteException("Animal with ID " + consumesId + " not found.");
             }
-
-            Consumes managedConsume = em.find(Consumes.class, consume.getConsumesId());
-            
-            if (managedConsume == null) {
-                throw new DeleteException("Consume with id " + consume.getConsumesId() + " not found");
-            }
-
-            em.remove(managedConsume);
-            em.flush();
-            
-        } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, "Error deleting consume: ", e);
+            em.remove(consume);
+        }catch(Exception e){
             throw new DeleteException(e.getMessage());
         }
     }
 
-    
     @Override
     public List<Consumes> getAllConsumes() throws ReadException {
-    try {
-        LOGGER.info("ConsumesManager: Reading all consumes.");
-        return em.createQuery("SELECT c FROM Consumes c", Consumes.class)
-                 .getResultList();
-    } catch(Exception e) {
-        LOGGER.severe("Error completo: " + e.toString());
-        throw new ReadException(e.getMessage());
+      List<Consumes> consumes=null;
+        try{   
+            consumes=em.createNamedQuery("findAllConsumes", Consumes.class).getResultList();
+      }catch(Exception e){
+      LOGGER.log(Level.SEVERE, "ConsumesManager: Exception reading consumes All .",
+                    e.getMessage());
+            throw new ReadException(e.getMessage());
+         }
+         return consumes;
     }
-}
   
     
     @Override

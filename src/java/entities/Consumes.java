@@ -6,6 +6,8 @@
 package entities;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.EmbeddedId;
@@ -31,9 +33,10 @@ import javax.xml.bind.annotation.XmlTransient;
  */
                                        
 @NamedQueries({
+    
 @NamedQuery(
         name="findAllConsumes",
-            query="SELECT m FROM Consumes m"
+        query="SELECT c FROM Consumes c "
         ),
 @NamedQuery(
         name="findConsumesByProduct",
@@ -57,6 +60,20 @@ import javax.xml.bind.annotation.XmlTransient;
         )
 })
 
+//@NamedQuery(
+//    name="findAllConsumes",
+//    query = "SELECT c FROM Consumes c WHERE c.animalGroup.id IN " +
+//           "(SELECT agm.animalGroupId FROM AnimalGroupManager agm WHERE agm.managerId = :managerId)"
+//)
+
+//@NamedQuery(
+//    name="findAllConsumes",
+//    query = "SELECT c FROM Consumes c, AnimalGroupManager agm " +
+//           "WHERE c.animalGroup.id = agm.animalGroupId " +
+//           "AND agm.managerId = :managerId"
+//)
+
+
 @Entity
 @Table(name="consumes",schema="farmdb")
 @XmlRootElement
@@ -70,18 +87,20 @@ public class Consumes implements Serializable {
     
    
     @MapsId("animalGroupId")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="animalGroupId",updatable=false,insertable=false)
     private AnimalGroup animalGroup;
     
     
     @MapsId("productId")
-    @ManyToOne    
+    @ManyToOne(fetch = FetchType.LAZY)   
     @JoinColumn(name="productId",updatable=false,insertable=false)
     private ProductEntity product;
     
     
     @Temporal(TemporalType.DATE)
+    @JsonSerialize(as=Date.class)
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date date;
     
     

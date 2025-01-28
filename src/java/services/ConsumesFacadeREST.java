@@ -7,7 +7,10 @@ package services;
 
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import ejb.ConsumesManagerLocal;
+import entities.Animal;
 import entities.AnimalGroup;
 import entities.Consumes;
 import entities.ConsumesId;
@@ -30,6 +33,7 @@ import javax.ws.rs.core.PathSegment;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import javax.ws.rs.InternalServerErrorException;
 
 
 
@@ -38,7 +42,7 @@ import java.util.List;
  * @author Pablo
  */
 
-@Path("entities.consumes")
+@Path("consumes")
 
 public class ConsumesFacadeREST {
     
@@ -81,55 +85,40 @@ public class ConsumesFacadeREST {
         ejb.createConsume(entity);}
 
     
-
     @PUT
-    @Path("{productId}/{animalGroupId}")
-    @javax.ws.rs.Consumes({MediaType.APPLICATION_XML})
-    public void updateConsume(@PathParam("productId") Long productId,
-                         @PathParam("animalGroupId") Long animalGroupId,
-                         Consumes consume) throws UpdateException {
-    try {
-        ConsumesId consumeId = new ConsumesId(productId,animalGroupId);
-        LOGGER.severe("updating consume Restful level : ");
-        consume.setConsumesId(consumeId);
-        ejb.updateConsume(consume);
-    }catch(UpdateException e){
-        LOGGER.severe("Error updating consume Rest: " + e.getMessage());
-        throw new UpdateException(e.getMessage());
+    @javax.ws.rs.Consumes(MediaType.APPLICATION_XML)
+    public void updateConsume(Consumes consume) {
+        try {
+            ejb.updateConsume(consume);
+        } catch (UpdateException ex) {
+            throw new InternalServerErrorException(ex.getMessage());        
+        }
     }
         
-    
-    }
 
   
     @DELETE
-    @Path("{productId}/{animalGroupId}")
-    @Produces({MediaType.APPLICATION_XML})
-    public void deleteConsume(@PathParam("productId") Long productId,
-                         @PathParam("animalGroupId") Long animalGroupId) 
-                         throws DeleteException {
-    try {
-        ConsumesId consumeId = new ConsumesId(productId, animalGroupId);
-        Consumes consume = new Consumes();
-        consume.setConsumesId(consumeId);
-        
-        LOGGER.severe("deleting consume Restful level : ");
-        ejb.deleteConsume(consume);
-    } catch(Exception e) {
-        LOGGER.severe("Error deleting consume Rest: " + e.getMessage());
-        throw new DeleteException(e.getMessage());
-    }
+    @Path("Delete/{consumesId}")
+    public void deleteConsumes(@PathParam("consumesId") Long consumesId) throws DeleteException {
+        try {
+            ejb.deleteConsume(consumesId);
+        } catch (DeleteException ex) {
+            throw new InternalServerErrorException(ex.getMessage()); 
+        }
     }
 
 
-    @GET
-    @Produces({MediaType.APPLICATION_XML})
-    public List<Consumes> getAllConsumes() throws ReadException{
-       try{ 
+  @GET
+@Path("All")
+@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+public List<Consumes> getAllConsumes() throws ReadException {
+    try{
            return ejb.getAllConsumes();
-       }catch(ReadException e){}
-      return null;
-       }
+        } catch (ReadException ex) {
+            throw new InternalServerErrorException(ex.getMessage());
+        }
+    }
+
     
     @GET
     @Produces({MediaType.APPLICATION_XML})
@@ -144,7 +133,7 @@ public class ConsumesFacadeREST {
     
     @GET
     @Produces({MediaType.APPLICATION_XML})
-    @Path("Animal/{animalGroupId}")   
+    @Path("AnimalGroup/{animalGroupId}")   
      public List<Consumes> findConsumesByAnimalGroup(@PathParam("animalGroupId")Long animalGroupId) throws ReadException{
     try{ 
         return ejb.findConsumesByAnimalGroup(animalGroupId);
@@ -156,6 +145,8 @@ public class ConsumesFacadeREST {
     @GET
     @Path("Rango/{from}/{to}")
     @Produces({MediaType.APPLICATION_XML})
+    @JsonSerialize(as=Date.class)
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ssXXX")
     public List<Consumes> getConsumesByDate(@PathParam("from") String dateFrom, 
                                        @PathParam("to") String dateTo) throws ReadException {
     try {
@@ -170,6 +161,8 @@ public class ConsumesFacadeREST {
 
    @GET
    @Path("Desde/{from}")
+   @JsonSerialize(as=Date.class)
+   @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ssXXX")
    @Produces({MediaType.APPLICATION_XML})
     public List<Consumes> getConsumesByDateFrom(@PathParam("from") String dateFrom) throws ReadException {   
     try {
@@ -187,6 +180,8 @@ public class ConsumesFacadeREST {
     @GET
     @Path("Hasta/{to}")
     @Produces({MediaType.APPLICATION_XML})
+    @JsonSerialize(as=Date.class)
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ssXXX")
     public List<Consumes> getConsumesByDateTo(@PathParam("to") String dateTo) throws ReadException {   
         try {
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
