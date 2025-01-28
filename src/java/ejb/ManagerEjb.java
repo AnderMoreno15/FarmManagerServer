@@ -32,7 +32,7 @@ public class ManagerEjb implements IManagerEjb {
             throw new CreateException(e.getMessage());
         }
     }
-    
+
     @Override
     public List<Manager> getManagers() throws ReadException {
         try {
@@ -44,12 +44,23 @@ public class ManagerEjb implements IManagerEjb {
     }
 
     @Override
-    public Manager getManager(String email, String password) throws ReadException {
+    public List<Manager> getManager(String email, String password) throws ReadException {
         try {
-            return (Manager) em.createNamedQuery("getManager", Manager.class)
+            return (List<Manager>) em.createNamedQuery("getManager", Manager.class)
                     .setParameter("email", email)
                     .setParameter("password", password)
-                    .getSingleResult();
+                    .getResultList();
+        } catch (Exception e) {
+            throw new ReadException(e.getMessage());
+        }
+    }
+
+    @Override
+    public List<Manager> getManagerByEmail(String email) throws ReadException {
+        try {
+            return (List<Manager>) em.createNamedQuery("getManagerByEmail", Manager.class)
+                    .setParameter("email", email)
+                    .getResultList();
         } catch (Exception e) {
             throw new ReadException(e.getMessage());
         }

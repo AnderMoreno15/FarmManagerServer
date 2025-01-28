@@ -91,15 +91,11 @@ public class AnimalGroupEjb implements IAnimalGroupEjb {
     @Override
     public List<AnimalGroup> getAnimalGroupsByManager(Long managerId) throws ReadException {
         try {
-            List<AnimalGroup> result = em.createNamedQuery("getAnimalGroupsByManager", AnimalGroup.class)
+            return em.createNamedQuery("getAnimalGroupsByManager", AnimalGroup.class)
                     .setParameter("managerId", managerId)
                     .getResultList();
-            if (result.isEmpty()) {
-                throw new ReadException("No animal groups found for manager ID: " + managerId);
-            }
-            return result;
-        } catch (ReadException e) {
-            throw new ReadException("Error retrieving animal groups for manager ID: " + managerId + ". Details: " + e.getMessage());
+        } catch (Exception e) {
+            throw new ReadException(e.getMessage());
         }
     }
 

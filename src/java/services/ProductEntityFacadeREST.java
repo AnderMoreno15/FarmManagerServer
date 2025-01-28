@@ -84,7 +84,7 @@ public class ProductEntityFacadeREST {
 
     @GET
     @Path("name/{name}")
-    @Produces({MediaType.APPLICATION_XML})
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public ProductEntity getProductByName(@PathParam("name") String name) {
         try {
             return productFacade.getProductByName(name);
@@ -95,7 +95,7 @@ public class ProductEntityFacadeREST {
 
     @GET
     @Path("date/{date}")
-    @Produces({MediaType.APPLICATION_XML})
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public List<ProductEntity> searchByDate(@PathParam("date") String date) {
         try {
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
