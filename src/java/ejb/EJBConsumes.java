@@ -116,12 +116,12 @@ public void createConsume(Consumes consume) throws CreateException {
   
     
     @Override
-    public List<Consumes> findConsumesByProduct(Long productId) throws ReadException {
+    public List<Consumes> findConsumesByProduct(String nameProduct) throws ReadException {
         List<Consumes> consumes=null;
         try{
             LOGGER.info("ConsumesManager: Reading consumes by product.");
             consumes=em.createNamedQuery("findConsumesByProduct")
-                     .setParameter("productId", productId)
+                     .setParameter("nameProduct", nameProduct)
                      .getResultList();
         }catch(Exception e){
             LOGGER.log(Level.SEVERE, "ConsumesManager: Exception reading consumes byProduct .",
@@ -132,12 +132,12 @@ public void createConsume(Consumes consume) throws CreateException {
     }
     
    @Override
-   public List<Consumes> findConsumesByAnimalGroup(Long animalGroupId) throws ReadException {
+   public List<Consumes> findConsumesByAnimalGroup(String nameAnimalGroup) throws ReadException {
     List<Consumes> consumes = null;
     try {
-        LOGGER.info("ConsumesManager: Reading consumes by animal group. ID: " + animalGroupId);
+        LOGGER.info("ConsumesManager: Reading consumes by animal group name: " + nameAnimalGroup);
         consumes = em.createNamedQuery("findConsumesByAnimalGroup")
-                   .setParameter("animalGroupId", animalGroupId)
+                   .setParameter("animalGroupId", nameAnimalGroup)
                    .getResultList();
         LOGGER.info("ConsumesManager: Found " + (consumes != null ? consumes.size() : "0") + " results");
     } catch(Exception e) {

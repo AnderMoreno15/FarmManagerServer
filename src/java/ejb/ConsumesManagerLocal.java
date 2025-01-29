@@ -27,8 +27,8 @@ public interface ConsumesManagerLocal {
     public void updateConsume(Consumes consume) throws UpdateException;
     public void deleteConsume(Long consumesId) throws DeleteException;
     public List<Consumes> getAllConsumes() throws ReadException;
-    public List<Consumes> findConsumesByProduct(Long productId) throws ReadException;
-    public List<Consumes> findConsumesByAnimalGroup(Long animalGroupId) throws ReadException;
+    public List<Consumes> findConsumesByProduct(String nameProduct) throws ReadException;
+    public List<Consumes> findConsumesByAnimalGroup(String nameAnimalGroup) throws ReadException;
     public List<Consumes> getConsumesByDate(Date dateFrom, Date dateTo) throws ReadException;
     public List<Consumes> getConsumesByDateFrom(Date dateFrom) throws ReadException;
     public List<Consumes> getConsumesByDateTo(Date dateTo) throws ReadException;
