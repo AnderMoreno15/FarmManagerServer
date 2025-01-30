@@ -43,7 +43,7 @@ import javax.xml.bind.annotation.XmlTransient;
 //            .setParameter("nameProduct", nameProduct)
 @NamedQuery(
     name = "findConsumesByProduct",
-    query = "SELECT c FROM Consumes c WHERE product.id IN (SELECT pg.id FROM Product pg WHERE pg.name = :nameProduct)"
+    query = "SELECT c FROM Consumes c WHERE product.id IN (SELECT pg.id FROM ProductEntity pg WHERE pg.name = :nameProduct)"
         ),
 @NamedQuery(
     name = "findConsumesByAnimalGroup",
