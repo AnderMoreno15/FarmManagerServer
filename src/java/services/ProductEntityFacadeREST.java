@@ -44,23 +44,23 @@ public class ProductEntityFacadeREST {
     public ProductEntityFacadeREST() {
     }
     
-    @POST
-    @Consumes({MediaType.APPLICATION_XML})
-    public void createProduct(ProductEntity product) {
-        try {
-            if (product.getProvider() == null || product.getProvider().getId() == null) {
-                throw new BadRequestException("Provider information is required.");
-            }
-            ProviderEntity managedProvider = productFacade.findProviderById(product.getProvider().getId());
-            if (managedProvider == null) {
-                throw new BadRequestException("Provider not found.");
-            }
-            product.setProvider(managedProvider);
-            productFacade.createProduct(product);
-        } catch (CreateException ex) {
-            throw new InternalServerErrorException(ex.getMessage());
-        }
-    }
+//    @POST
+//    @Consumes({MediaType.APPLICATION_XML})
+//    public void createProduct(ProductEntity product) {
+//        try {
+//            if (product.getProvider() == null || product.getProvider().getId() == null) {
+//                throw new BadRequestException("Provider information is required.");
+//            }
+//            ProviderEntity managedProvider = productFacade.findProviderById(product.getProvider().getId());
+//            if (managedProvider == null) {
+//                throw new BadRequestException("Provider not found.");
+//            }
+//            product.setProvider(managedProvider);
+//            productFacade.createProduct(product);
+//        } catch (CreateException ex) {
+//            throw new InternalServerErrorException(ex.getMessage());
+//        }
+//    }
 
     @PUT
     @Consumes({MediaType.APPLICATION_XML})

@@ -34,6 +34,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import javax.ws.rs.InternalServerErrorException;
+import org.hibernate.Hibernate;
 
 
 
@@ -44,7 +45,7 @@ import javax.ws.rs.InternalServerErrorException;
 
 @Path("consumes")
 
-public class ConsumesFacadeREST {
+public class ConsumesFacadeREST  {
     
  @EJB (name = "services.EJBConsumes")
    private ConsumesManagerLocal ejb;
@@ -113,6 +114,7 @@ public class ConsumesFacadeREST {
 @Produces(MediaType.APPLICATION_XML)
 public List<Consumes> getAllConsumes() throws ReadException {
     try{
+        
            return ejb.getAllConsumes();
         } catch (ReadException ex) {
             throw new InternalServerErrorException(ex.getMessage());
@@ -147,6 +149,7 @@ public List<Consumes> getAllConsumes() throws ReadException {
     @Produces(MediaType.APPLICATION_XML)
     @JsonSerialize(as=Date.class)
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ssXXX")
+    
     public List<Consumes> getConsumesByDate(@PathParam("from") String dateFrom, 
                                        @PathParam("to") String dateTo) throws ReadException {
     try {

@@ -31,10 +31,10 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "product", schema = "farmdb")
-@NamedQueries({
-    @NamedQuery(name = "getProductByName", query = "SELECT p FROM ProductEntity p WHERE p.name = :name"),
-    @NamedQuery(name = "getProductByCreatedDate", query = "SELECT p FROM ProductEntity p WHERE p.createdDate = :date")
-})
+//@NamedQueries({
+ //   @NamedQuery(name = "getProductByName", query = "SELECT p FROM ProductEntity p WHERE p.name = :name"),
+//    @NamedQuery(name = "getProductByCreatedDate", query = "SELECT p FROM ProductEntity p WHERE p.createdDate = :date")
+//})
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ProductEntity implements Serializable {
@@ -45,16 +45,16 @@ public class ProductEntity implements Serializable {
     private Long id;
     @NotNull
     private String name;
-    private Float monthlyConsume;
-    private Float price;
-    private Integer stock;
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "provider_id")
-    private ProviderEntity provider;
-
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createdDate;
-
+//    private Float monthlyConsume;
+//    private Float price;
+//    private Integer stock;
+//    @ManyToOne(fetch = FetchType.EAGER)
+//    @JoinColumn(name = "provider_id")
+//    private ProviderEntity provider;
+//
+//    @Temporal(TemporalType.TIMESTAMP)
+//    private Date createdDate;
+//
     public Long getId() {
         return id;
     }
@@ -70,47 +70,47 @@ public class ProductEntity implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
-
-    @XmlTransient
-    public Float getMonthlyConsume() {
-        return monthlyConsume;
-    }
-
-    public void setMonthlyConsume(Float monthlyConsume) {
-        this.monthlyConsume = monthlyConsume;
-    }
-
-    public Float getPrice() {
-        return price;
-    }
-
-    public void setPrice(Float price) {
-        this.price = price;
-    }
-
-    public Integer getStock() {
-        return stock;
-    }
-
-    public void setStock(Integer stock) {
-        this.stock = stock;
-    }
-
-    public Date getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public ProviderEntity getProvider() {
-        return provider;
-    }
-
-    public void setProvider(ProviderEntity provider) {
-        this.provider = provider;
-    }
+//
+//    @XmlTransient
+//    public Float getMonthlyConsume() {
+//        return monthlyConsume;
+//    }
+//
+//    public void setMonthlyConsume(Float monthlyConsume) {
+//        this.monthlyConsume = monthlyConsume;
+//    }
+//
+//    public Float getPrice() {
+//        return price;
+//    }
+//
+//    public void setPrice(Float price) {
+//        this.price = price;
+//    }
+//
+//    public Integer getStock() {
+//        return stock;
+//    }
+//
+//    public void setStock(Integer stock) {
+//        this.stock = stock;
+//    }
+//
+//    public Date getCreatedDate() {
+//        return createdDate;
+//    }
+//
+//    public void setCreatedDate(Date createdDate) {
+//        this.createdDate = createdDate;
+//    }
+//
+//    public ProviderEntity getProvider() {
+//        return provider;
+//    }
+//
+//    public void setProvider(ProviderEntity provider) {
+//        this.provider = provider;
+//    }
 
     @Override
     public int hashCode() {

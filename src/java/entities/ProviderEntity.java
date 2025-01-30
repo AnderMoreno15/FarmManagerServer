@@ -26,61 +26,61 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @DiscriminatorValue("farmProvider")
-@NamedQuery(name = "getAllProviders", query = "SELECT p FROM ProviderEntity p")
-@XmlRootElement
+//@NamedQuery(name = "getAllProviders", query = "SELECT p FROM ProviderEntity p")
+//@XmlRootElement
 public class ProviderEntity extends UserEntity implements Serializable {
 
-    @OneToMany(mappedBy = "provider", fetch = FetchType.EAGER)
-    private List<ProductEntity> products;
-
-    public Long getId() {
-        return super.getId();
-    }
-
-    public void setId(Long id) {
-        super.setId(id);
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @XmlTransient
-    public List<ProductEntity> getProducts() {
-        return products;
-    }
-
-    public void setProducts(List<ProductEntity> products) {
-        this.products = products;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ProviderEntity)) {
-            return false;
-        }
-        ProviderEntity other = (ProviderEntity) object;
-        if ((super.id == null && other.id != null) || (super.id != null && !super.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "entities.Provider[ id=" + id + " ]";
-    }
+//    @OneToMany(mappedBy = "provider", fetch = FetchType.EAGER)
+//    private List<ProductEntity> products;
+//
+//    public Long getId() {
+//        return super.getId();
+//    }
+//
+//    public void setId(Long id) {
+//        super.setId(id);
+//    }
+//
+//    public String getName() {
+//        return name;
+//    }
+//
+//    public void setName(String name) {
+//        this.name = name;
+//    }
+//
+//    @XmlTransient
+//    public List<ProductEntity> getProducts() {
+//        return products;
+//    }
+//
+//    public void setProducts(List<ProductEntity> products) {
+//        this.products = products;
+//    }
+//
+//    @Override
+//    public int hashCode() {
+//        int hash = 0;
+//        hash += (id != null ? id.hashCode() : 0);
+//        return hash;
+//    }
+//
+//    @Override
+//    public boolean equals(Object object) {
+//        // TODO: Warning - this method won't work in the case the id fields are not set
+//        if (!(object instanceof ProviderEntity)) {
+//            return false;
+//        }
+//        ProviderEntity other = (ProviderEntity) object;
+//        if ((super.id == null && other.id != null) || (super.id != null && !super.id.equals(other.id))) {
+//            return false;
+//        }
+//        return true;
+//    }
+//
+//    @Override
+//    public String toString() {
+//        return "entities.Provider[ id=" + id + " ]";
+//    }
 
 }

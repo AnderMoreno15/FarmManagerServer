@@ -38,14 +38,18 @@ import javax.xml.bind.annotation.XmlTransient;
         name="findAllConsumes",
         query="SELECT c FROM Consumes c "
         ),
+//    "SELECT new com.example.dto.ConsumesDTO(c.consumeAmount, c.animalGroup.name, c.product.name) " +
+//            "FROM Consumes c WHERE c.product.name = :nameProduct", ConsumesDTO.class)
+//            .setParameter("nameProduct", nameProduct)
 @NamedQuery(
     name = "findConsumesByProduct",
-    query = "SELECT m FROM Consumes m WHERE m.product.name = :nameProduct"
+    query = "SELECT c FROM Consumes c WHERE product.id IN (SELECT pg.id FROM Product pg WHERE pg.name = :nameProduct)"
         ),
 @NamedQuery(
-        name="findConsumesByAnimalGroup",
-            query="SELECT m FROM Consumes m WHERE m.animalGroup.name = :nameAnimalGroup"
+    name = "findConsumesByAnimalGroup",
+    query = "SELECT c FROM Consumes c WHERE animalGroup.id IN (SELECT ag.id FROM AnimalGroup ag WHERE ag.name = :nameAnimalGroup)"
         ),
+
 @NamedQuery(
         name="findConsumesByDateRange",
             query="SELECT m FROM Consumes m WHERE m.date BETWEEN :dateFrom AND :dateTo ORDER BY m.date"
@@ -87,13 +91,13 @@ public class Consumes implements Serializable {
     
    
     @MapsId("animalGroupId")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="animalGroupId",updatable=false,insertable=false)
     private AnimalGroup animalGroup;
     
     
     @MapsId("productId")
-    @ManyToOne(fetch = FetchType.LAZY)   
+    @ManyToOne(fetch = FetchType.EAGER)   
     @JoinColumn(name="productId",updatable=false,insertable=false)
     private ProductEntity product;
     

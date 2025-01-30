@@ -105,7 +105,9 @@ public void createConsume(Consumes consume) throws CreateException {
     public List<Consumes> getAllConsumes() throws ReadException {
       List<Consumes> consumes=null;
         try{   
+            System.out.println("-----------------------------");
             consumes=em.createNamedQuery("findAllConsumes", Consumes.class).getResultList();
+            System.out.println("------------------------- after calling get all ------------");
       }catch(Exception e){
       LOGGER.log(Level.SEVERE, "ConsumesManager: Exception reading consumes All .",
                     e.getMessage());
@@ -137,7 +139,7 @@ public void createConsume(Consumes consume) throws CreateException {
     try {
         LOGGER.info("ConsumesManager: Reading consumes by animal group name: " + nameAnimalGroup);
         consumes = em.createNamedQuery("findConsumesByAnimalGroup")
-                   .setParameter("animalGroupId", nameAnimalGroup)
+                   .setParameter("nameAnimalGroup", nameAnimalGroup)
                    .getResultList();
         LOGGER.info("ConsumesManager: Found " + (consumes != null ? consumes.size() : "0") + " results");
     } catch(Exception e) {
