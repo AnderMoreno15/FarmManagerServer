@@ -66,19 +66,6 @@ public class AnimalREST {
             throw new InternalServerErrorException(ex.getMessage());        
         }
     }
-
-//    @DELETE
-//    @Consumes(MediaType.APPLICATION_XML)
-//    public void deleteAnimal(Animal animal) {
-//        if (animal.getId() == null) {
-//            throw new BadRequestException("Animal ID is required for deletion.");
-//        }
-//        try {
-//            animalFacade.deleteAnimal(animal);
-//        } catch (DeleteException ex) {
-//            throw new InternalServerErrorException(ex.getMessage());
-//        }
-//    }
     
     @DELETE
     @Path("delete/{id}")
@@ -103,70 +90,70 @@ public class AnimalREST {
     }
     
     @GET
-    @Path("name/{name}")
+    @Path("name/{name}/{managerId}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public Animal getAnimalByName(@PathParam("name") String name) {
+    public Animal getAnimalByName(@PathParam("name") String name, @PathParam("managerId") Long managerId) {
         try{
-           return (Animal) animalFacade.getAnimalByName(name);
+           return (Animal) animalFacade.getAnimalByName(name, managerId);
         } catch (ReadException ex) {
             throw new InternalServerErrorException(ex.getMessage());
         }
     }
     
     @GET
-    @Path("group/{animalGroupName}")
+    @Path("group/{animalGroupName}/{managerId}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<Animal> getAnimalsByAnimalGroup(@PathParam("animalGroupName") String animalGroupName) {
+    public List<Animal> getAnimalsByAnimalGroup(@PathParam("animalGroupName") String animalGroupName, @PathParam("managerId") Long managerId) {
         try{
-           return animalFacade.getAnimalsByAnimalGroup(animalGroupName);
+           return animalFacade.getAnimalsByAnimalGroup(animalGroupName, managerId);
         } catch (ReadException ex) {
             throw new InternalServerErrorException(ex.getMessage());
         }
     }
     
     @GET
-    @Path("subespecies/{subespecies}")
+    @Path("subespecies/{subespecies}/{managerId}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<Animal> getAnimalsBySubespecies(@PathParam("subespecies") String subespecies) {
+    public List<Animal> getAnimalsBySubespecies(@PathParam("subespecies") String subespecies, @PathParam("managerId") Long managerId) {
         try{
-           return animalFacade.getAnimalsBySubespecies(subespecies);
+           return animalFacade.getAnimalsBySubespecies(subespecies, managerId);
         } catch (ReadException ex) {
             throw new InternalServerErrorException(ex.getMessage());
         }
     }
     
     @GET
-    @Path("between/{dateFrom}/{dateTo}")
+    @Path("between/{dateFrom}/{dateTo}/{managerId}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<Animal> getAnimalsByBirthdate(@PathParam("dateFrom") String dateFromStr, @PathParam("dateTo") String dateToStr) {
+    public List<Animal> getAnimalsByBirthdate(@PathParam("dateFrom") String dateFromStr, @PathParam("dateTo") String dateToStr, @PathParam("managerId") Long managerId) {
         try {
             Date dateFrom = parseDate(dateFromStr);
             Date dateTo = parseDate(dateToStr);
-            return animalFacade.getAnimalsByBirthdate(dateFrom, dateTo);
+            return animalFacade.getAnimalsByBirthdate(dateFrom, dateTo, managerId);
         } catch (ReadException ex) {
             throw new InternalServerErrorException(ex.getMessage());
         }
     }
 
     @GET
-    @Path("from/{dateFrom}")
+    @Path("from/{dateFrom}/{managerId}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<Animal> getAnimalsByBirthdateFrom(@PathParam("dateFrom") String dateFromStr) {
+    public List<Animal> getAnimalsByBirthdateFrom(@PathParam("dateFrom") String dateFromStr, @PathParam("managerId") Long managerId) {
         try {
             Date dateFrom = parseDate(dateFromStr);
-            return animalFacade.getAnimalsByBirthdateFrom(dateFrom);
+            return animalFacade.getAnimalsByBirthdateFrom(dateFrom, managerId);
         } catch (ReadException ex) {
             throw new InternalServerErrorException(ex.getMessage());
         }
     }
 
     @GET
-    @Path("to/{dateTo}")
+    @Path("to/{dateTo}/{managerId}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<Animal> getAnimalsByBirthdateTo(@PathParam("dateTo") String dateToStr) {
+    public List<Animal> getAnimalsByBirthdateTo(@PathParam("dateTo") String dateToStr, @PathParam("managerId") Long managerId) {
         try {
             Date dateTo = parseDate(dateToStr);
-            return animalFacade.getAnimalsByBirthdateTo(dateTo);
+            return animalFacade.getAnimalsByBirthdateTo(dateTo, managerId);
         } catch (ReadException ex) {
             throw new InternalServerErrorException(ex.getMessage());
         }

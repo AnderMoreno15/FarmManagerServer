@@ -26,11 +26,11 @@ public interface IAnimalFacade {
     public void deleteAnimalById(Long id) throws DeleteException;
     
     public List<Animal> getAllAnimals(Long managerId) throws ReadException;
-    public Animal getAnimalByName(String name) throws ReadException;
-    public List<Animal> getAnimalsByAnimalGroup(String animalGroupName) throws ReadException;
-    public List<Animal> getAnimalsBySubespecies(String subespecies) throws ReadException;
-    public List<Animal> getAnimalsByBirthdate(Date dateFrom, Date dateTo) throws ReadException;
-    public List<Animal> getAnimalsByBirthdateFrom(Date dateFrom) throws ReadException;
-    public List<Animal> getAnimalsByBirthdateTo(Date dateTo) throws ReadException;
+    public Animal getAnimalByName(String name, Long managerId) throws ReadException;
+    public List<Animal> getAnimalsByAnimalGroup(String animalGroupName, Long managerId) throws ReadException;
+    public List<Animal> getAnimalsBySubespecies(String subespecies, Long managerId) throws ReadException;
+    public List<Animal> getAnimalsByBirthdate(Date dateFrom, Date dateTo, Long managerId) throws ReadException;
+    public List<Animal> getAnimalsByBirthdateFrom(Date dateFrom, Long managerId) throws ReadException;
+    public List<Animal> getAnimalsByBirthdateTo(Date dateTo, Long managerId) throws ReadException;
    
 }
