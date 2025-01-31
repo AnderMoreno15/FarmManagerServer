@@ -8,6 +8,7 @@ package ejb;
 import entities.Animal;
 import entities.AnimalGroup;
 import entities.Consumes;
+import entities.ConsumesId;
 import entities.ProductEntity;
 import exceptions.CreateException;
 import exceptions.DeleteException;
@@ -86,20 +87,25 @@ public void createConsume(Consumes consume) throws CreateException {
    }catch(Exception e){
    throw new UpdateException(e.getMessage());}   
    }
-
-
-      @Override
-    public void deleteConsume(Long consumesId) throws DeleteException {
-        try {
-            Consumes consume = em.find(Consumes.class, consumesId);
-            if (consume == null) {
-                throw new DeleteException("Animal with ID " + consumesId + " not found.");
-            }
-            em.remove(consume);
-        }catch(Exception e){
-            throw new DeleteException(e.getMessage());
+   
+    @Override
+public void deleteConsume(Consumes consumes) throws DeleteException {
+    try {
+        LOGGER.log(Level.INFO, "Looking for consume to delete: {0}", consumes);
+        Consumes foundConsume = em.find(Consumes.class, consumes.getConsumesId());
+        if (foundConsume == null) {
+            throw new DeleteException("Consume not found: " + consumes);
         }
+        em.remove(foundConsume);
+        LOGGER.log(Level.INFO, "Successfully deleted consume: {0}", consumes);
+    } catch (Exception e) {
+        LOGGER.log(Level.SEVERE, "Error deleting consume: " + consumes, e);
+        throw new DeleteException(e.getMessage());
     }
+}
+
+
+
 
     @Override
     public List<Consumes> getAllConsumes() throws ReadException {

@@ -33,6 +33,7 @@ import javax.ws.rs.core.PathSegment;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
 import javax.ws.rs.InternalServerErrorException;
 import org.hibernate.Hibernate;
 
@@ -98,15 +99,20 @@ public class ConsumesFacadeREST  {
         
 
   
-    @DELETE
-    @Path("Delete/{consumesId}")
-    public void deleteConsumes(@PathParam("consumesId") Long consumesId) throws DeleteException {
-        try {
-            ejb.deleteConsume(consumesId);
-        } catch (DeleteException ex) {
-            throw new InternalServerErrorException(ex.getMessage()); 
-        }
+      @DELETE
+@Path("Delete")
+@javax.ws.rs.Consumes(MediaType.APPLICATION_XML)
+public void deleteConsumes(Consumes consumes) throws DeleteException {
+    try {
+        LOGGER.log(Level.INFO, "Attempting to delete consume: {0}", consumes);
+        ejb.deleteConsume(consumes);
+        LOGGER.log(Level.INFO, "Successfully deleted consume: {0}", consumes);
+    } catch (DeleteException ex) {
+        LOGGER.log(Level.SEVERE, "Error deleting consume: " + consumes, ex);
+        throw new InternalServerErrorException(ex.getMessage());
     }
+}
+
 
 
   @GET

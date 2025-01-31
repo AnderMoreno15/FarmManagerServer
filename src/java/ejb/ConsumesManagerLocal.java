@@ -7,6 +7,7 @@ package ejb;
 
 import entities.AnimalGroup;
 import entities.Consumes;
+import entities.ConsumesId;
 import entities.ProductEntity;
 import exceptions.CreateException;
 import exceptions.DeleteException;
@@ -25,7 +26,7 @@ public interface ConsumesManagerLocal {
 
     public void createConsume(Consumes consume) throws CreateException;
     public void updateConsume(Consumes consume) throws UpdateException;
-    public void deleteConsume(Long consumesId) throws DeleteException;
+    public void deleteConsume(Consumes consume) throws DeleteException;
     public List<Consumes> getAllConsumes() throws ReadException;
     public List<Consumes> findConsumesByProduct(String nameProduct) throws ReadException;
     public List<Consumes> findConsumesByAnimalGroup(String nameAnimalGroup) throws ReadException;
