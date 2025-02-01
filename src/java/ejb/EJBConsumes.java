@@ -88,21 +88,20 @@ public void createConsume(Consumes consume) throws CreateException {
    throw new UpdateException(e.getMessage());}   
    }
    
-    @Override
-public void deleteConsume(Consumes consumes) throws DeleteException {
+  @Override
+public void deleteConsumeById(Long consumesId) throws DeleteException {
     try {
-        LOGGER.log(Level.INFO, "Looking for consume to delete: {0}", consumes);
-        Consumes foundConsume = em.find(Consumes.class, consumes.getConsumesId());
-        if (foundConsume == null) {
-            throw new DeleteException("Consume not found: " + consumes);
+        Consumes consumes = em.find(Consumes.class, consumesId);
+        if (consumes == null) {
+            throw new DeleteException("Consume with ID " + consumesId + " not found.");
         }
-        em.remove(foundConsume);
-        LOGGER.log(Level.INFO, "Successfully deleted consume: {0}", consumes);
+        em.remove(consumes);
+        LOGGER.log(Level.INFO,"Consume removed successfully");
     } catch (Exception e) {
-        LOGGER.log(Level.SEVERE, "Error deleting consume: " + consumes, e);
-        throw new DeleteException(e.getMessage());
+        throw new DeleteException("Error deleting consume with ID " + consumesId + ": " + e.getMessage());
     }
 }
+
 
 
 

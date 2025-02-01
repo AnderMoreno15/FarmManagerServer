@@ -26,7 +26,7 @@ public interface ConsumesManagerLocal {
 
     public void createConsume(Consumes consume) throws CreateException;
     public void updateConsume(Consumes consume) throws UpdateException;
-    public void deleteConsume(Consumes consume) throws DeleteException;
+    public void deleteConsumeById(Long consumesId) throws DeleteException ;
     public List<Consumes> getAllConsumes() throws ReadException;
     public List<Consumes> findConsumesByProduct(String nameProduct) throws ReadException;
     public List<Consumes> findConsumesByAnimalGroup(String nameAnimalGroup) throws ReadException;

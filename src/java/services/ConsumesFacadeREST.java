@@ -35,6 +35,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import javax.ws.rs.InternalServerErrorException;
+import javax.ws.rs.core.Response;
 import org.hibernate.Hibernate;
 
 
@@ -99,20 +100,23 @@ public class ConsumesFacadeREST  {
         
 
   
-      @DELETE
-@Path("Delete")
-@javax.ws.rs.Consumes(MediaType.APPLICATION_XML)
-public void deleteConsumes(Consumes consumes) throws DeleteException {
-    try {
-        LOGGER.log(Level.INFO, "Attempting to delete consume: {0}", consumes);
-        ejb.deleteConsume(consumes);
-        LOGGER.log(Level.INFO, "Successfully deleted consume: {0}", consumes);
-    } catch (DeleteException ex) {
-        LOGGER.log(Level.SEVERE, "Error deleting consume: " + consumes, ex);
-        throw new InternalServerErrorException(ex.getMessage());
-    }
-}
+    @DELETE
+    @Path("/{id}")
+   @javax.ws.rs.Consumes(MediaType.APPLICATION_XML)
+     public Response deleteConsume(@PathParam("id") String idString) {
+        try {
+            // Convierte el String recibido a Long
+            Long idLong = Long.parseLong(idString); // Si la URL pasa un String, lo convertimos a Long
 
+            // Ahora puedes pasar el Long a la lógica de eliminación
+            // Aquí puedes llamar a tu servicio de eliminación pasando el Long
+            deleteConsumeById(idLong);
+
+            return Response.status(Response.Status.NO_CONTENT).build();
+        } catch (NumberFormatException e) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("Invalid ID format").build();
+        }
+    }
 
 
   @GET
