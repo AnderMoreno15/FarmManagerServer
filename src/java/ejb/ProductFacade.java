@@ -89,4 +89,15 @@ public class ProductFacade implements IProductFacade {
     public ProviderEntity findProviderById(Long id) {
         return em.find(ProviderEntity.class, id);
     }
+
+    @Override
+    public List<ProductEntity> findAll() throws ReadException {
+        try {
+            return em.createQuery("SELECT p FROM ProductEntity p", ProductEntity.class)
+                    .getResultList();
+        } catch (Exception e) {
+            throw new ReadException("Error retrieving all products: " + e.getMessage());
+        }
+    }
+
 }
