@@ -21,6 +21,7 @@ import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.ws.rs.core.Response;
 
 /**
  *
@@ -88,19 +89,41 @@ public void createConsume(Consumes consume) throws CreateException {
    throw new UpdateException(e.getMessage());}   
    }
    
-  @Override
-public void deleteConsumeById(Long consumesId) throws DeleteException {
-    try {
-        Consumes consumes = em.find(Consumes.class, consumesId);
-        if (consumes == null) {
-            throw new DeleteException("Consume with ID " + consumesId + " not found.");
+     /**
+     * Busca un consumo utilizando productId y animalGroupId
+     */
+    public Consumes findConsumeByProductAndAnimalGroup(Long productId, Long animalGroupId) throws ReadException {
+        try {
+            LOGGER.info("Searching for consume with productId: " + productId + " and animalGroupId: " + animalGroupId);
+
+            // Buscamos el consumo en la base de datos
+            List<Consumes> consumes = em.createQuery("SELECT c FROM Consumes c WHERE c.consumesId.productId = :productId AND c.consumesId.animalGroupId = :animalGroupId", Consumes.class)
+                                        .setParameter("productId", productId)
+                                        .setParameter("animalGroupId", animalGroupId)
+                                        .getResultList();
+
+            // Retornamos el primer resultado si existe
+            return consumes.isEmpty() ? null : consumes.get(0);
+
+        } catch (Exception e) {
+            LOGGER.severe("Error searching consume: " + e.getMessage());
+            throw new ReadException();
         }
-        em.remove(consumes);
-        LOGGER.log(Level.INFO,"Consume removed successfully");
-    } catch (Exception e) {
-        throw new DeleteException("Error deleting consume with ID " + consumesId + ": " + e.getMessage());
     }
-}
+
+    /**
+     * Elimina un consumo
+     */
+    public void deleteConsume(Consumes consume) throws DeleteException{
+        try {
+            LOGGER.info("Deleting consume with productId: " + consume.getConsumesId().getProductId() + " and animalGroupId: " + consume.getConsumesId().getAnimalGroupId());
+            em.remove(consume);
+            LOGGER.info("Consume deleted successfully.");
+        } catch (Exception e) {
+            LOGGER.severe("Error deleting consume: " + e.getMessage());
+            throw new DeleteException();
+        }
+    }
 
 
 

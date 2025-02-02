@@ -101,22 +101,39 @@ public class ConsumesFacadeREST  {
 
   
     @DELETE
-    @Path("/{id}")
-   @javax.ws.rs.Consumes(MediaType.APPLICATION_XML)
-     public Response deleteConsume(@PathParam("id") String idString) {
-        try {
-            // Convierte el String recibido a Long
-            Long idLong = Long.parseLong(idString); // Si la URL pasa un String, lo convertimos a Long
+@Path("{productId}/{animalGroupId}")
+public Response deleteConsumes(@PathParam("productId") String productIdStr, 
+                               @PathParam("animalGroupId") String animalGroupIdStr) {
+    try {
+        LOGGER.info("Attempting to delete consume with productId: " + productIdStr + " and animalGroupId: " + animalGroupIdStr);
 
-            // Ahora puedes pasar el Long a la lógica de eliminación
-            // Aquí puedes llamar a tu servicio de eliminación pasando el Long
-            deleteConsumeById(idLong);
+        // Convierte los String a Long
+        Long productId = Long.parseLong(productIdStr);
+        Long animalGroupId = Long.parseLong(animalGroupIdStr);
 
-            return Response.status(Response.Status.NO_CONTENT).build();
-        } catch (NumberFormatException e) {
-            return Response.status(Response.Status.BAD_REQUEST).entity("Invalid ID format").build();
+        // Busca el consumo usando la clave compuesta
+        Consumes consume = ejb.findConsumeByProductAndAnimalGroup(productId, animalGroupId);
+
+        if (consume != null) {
+            // Si se encuentra el consumo, lo eliminamos
+            ejb.deleteConsume(consume);
+            LOGGER.info("Successfully deleted consume.");
+            return Response.noContent().build(); // 204 No Content
+        } else {
+            LOGGER.warning("Consume not found with productId: " + productId + " and animalGroupId: " + animalGroupId);
+            return Response.status(Response.Status.NOT_FOUND)
+                           .entity("Consume not found with productId: " + productId + " and animalGroupId: " + animalGroupId)
+                           .build();
         }
+    } catch (NumberFormatException e) {
+        LOGGER.severe("Invalid ID format: " + e.getMessage());
+        return Response.status(Response.Status.BAD_REQUEST).entity("Invalid ID format.").build();
+    } catch (Exception e) {
+        LOGGER.severe("Error deleting consume: " + e.getMessage());
+        return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Error deleting consume.").build();
     }
+}
+
 
 
   @GET
