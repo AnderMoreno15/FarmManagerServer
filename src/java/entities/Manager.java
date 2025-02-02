@@ -30,17 +30,16 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(
             name = "getManagers",
             query = "SELECT mg FROM Manager mg"
-    )
-    ,
+    ),
     @NamedQuery(
             name = "getManagerByEmail",
             query = "SELECT mg FROM Manager mg WHERE mg.email = :email"
-    )
-    ,
+    ),
     @NamedQuery(
             name = "getManager",
             query = "SELECT mg FROM Manager mg WHERE mg.email = :email AND mg.password = :password"
-    ),})
+    ),
+})
 @XmlRootElement
 public class Manager extends UserEntity implements Serializable {
 

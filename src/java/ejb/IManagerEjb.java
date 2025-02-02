@@ -15,6 +15,7 @@ import javax.ejb.Local;
 /**
  *
  * @author Ander
+ * @author Aitziber
  */
 @Local
 public interface IManagerEjb {
@@ -25,7 +26,7 @@ public interface IManagerEjb {
 
     public List<Manager> getManager(String email, String password) throws ReadException;
     
-    public List<Manager> getManagerByEmail(String email) throws ReadException;
+    public Manager getManagerByEmail(String email) throws ReadException;
     
     public void updateManager(Manager manager)  throws UpdateException;
     
