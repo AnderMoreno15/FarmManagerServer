@@ -17,6 +17,7 @@ import javax.persistence.PersistenceContext;
 /**
  *
  * @author Ander
+ * @author Aitziber
  */
 @Stateless
 public class ManagerEjb implements IManagerEjb {
@@ -56,11 +57,17 @@ public class ManagerEjb implements IManagerEjb {
     }
 
     @Override
-    public List<Manager> getManagerByEmail(String email) throws ReadException {
+    public Manager getManagerByEmail(String email) throws ReadException {
         try {
-            return (List<Manager>) em.createNamedQuery("getManagerByEmail", Manager.class)
-                    .setParameter("email", email)
-                    .getResultList();
+            List<Manager> result = em.createNamedQuery("getManagerByEmail", Manager.class)
+            .setParameter("email", email)
+            .getResultList();
+        
+            if (result.isEmpty()) {
+                return null;
+            }
+
+            return result.get(0);
         } catch (Exception e) {
             throw new ReadException(e.getMessage());
         }

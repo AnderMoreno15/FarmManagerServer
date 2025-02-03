@@ -37,45 +37,6 @@ public class AnimalFacade implements IAnimalFacade {
             throw new CreateException(e.getMessage());
         }
     }
-    
-//    @Override
-//    public void createAnimal(Animal animal) throws CreateException {
-//        try {
-//            if (animal.getAnimalGroup() == null) {
-//                throw new CreateException("El animal debe estar asociado a un grupo de animales.");
-//            }
-//            Producto producto = animal.getAnimalGroup().getProducto();
-//            if (producto == null) {
-//                throw new CreateException("El grupo de animales no tiene un producto asociado.");
-//            }
-//            Integer edadAnimal = calcularEdad(animal.getBirthDate());
-//            
-//            float monthlyConsume = em.createQuery("SELECT spa FROM SpeciesProductAge spa " +
-//                    "WHERE spa.producto = :producto AND spa.species = :species " +
-//                    "AND spa.age = :edad ", SpeciesProductAge.class)
-//                    .setParameter("producto", producto)
-//                    .setParameter("species", animal.getSpecies())
-//                    .setParameter("edad", edadAnimal)
-//                    .getSingleResult();
-//
-//            animal.setMonthlyConsume(monthlyConsume);
-//
-//            em.persist(animal);
-//        } catch (Exception e) {
-//            throw new CreateException("Error al crear el animal: " + e.getMessage());
-//        }
-//    }
-//    private Integer calcularEdad(Date birthDate) {
-//        Calendar today = Calendar.getInstance();
-//        Calendar birth = Calendar.getInstance();
-//        birth.setTime(birthDate);
-//        int age = today.get(Calendar.YEAR) - birth.get(Calendar.YEAR);
-//        if (today.get(Calendar.MONTH) < birth.get(Calendar.MONTH) ||
-//                (today.get(Calendar.MONTH) == birth.get(Calendar.MONTH) && today.get(Calendar.DAY_OF_MONTH) < birth.get(Calendar.DAY_OF_MONTH))) {
-//            age--;
-//        }
-//        return age;
-//    }
 
     @Override
     public void updateAnimal(Animal animal) throws UpdateException {
@@ -106,8 +67,8 @@ public class AnimalFacade implements IAnimalFacade {
         List<Animal> animals;
         try{
             animals = em.createNamedQuery("getAllAnimals", Animal.class)
-                .setParameter("managerId", managerId)
-                .getResultList();
+                        .setParameter("managerId", managerId)
+                        .getResultList();
         }catch(Exception e){
             throw new ReadException("Error retrieving animals for manager with ID: " + managerId + ". Details: " + e.getMessage());
         }
@@ -115,11 +76,12 @@ public class AnimalFacade implements IAnimalFacade {
     }
     
     @Override
-    public Animal getAnimalByName(String name) throws ReadException {
+    public Animal getAnimalByName(String name, Long managerId) throws ReadException {
         try{
             return em.createNamedQuery("getAnimalByName", Animal.class)
-                .setParameter("name", name)
-                .getSingleResult();
+                    .setParameter("name", name)
+                    .setParameter("managerId", managerId)
+                    .getSingleResult();
                
         }catch(Exception e){
             throw new ReadException(e.getMessage());
@@ -127,12 +89,13 @@ public class AnimalFacade implements IAnimalFacade {
     }
 
     @Override
-    public List<Animal> getAnimalsByAnimalGroup(String animalGroupName) throws ReadException {
+    public List<Animal> getAnimalsByAnimalGroup(String animalGroupName, Long managerId) throws ReadException {
         List<Animal> animals;
         try{
             animals = em.createNamedQuery("getAnimalsByAnimalGroup", Animal.class)
-                .setParameter("animalGroupName", animalGroupName)
-                .getResultList();
+                        .setParameter("animalGroupName", animalGroupName)
+                        .setParameter("managerId", managerId)
+                        .getResultList();
         }catch(Exception e){
             throw new ReadException("Error retrieving animals for Group: " + animalGroupName + ". Details: " + e.getMessage());
         }
@@ -140,11 +103,12 @@ public class AnimalFacade implements IAnimalFacade {
     }
 
     @Override
-    public List<Animal> getAnimalsBySubespecies(String subespecies) throws ReadException {
+    public List<Animal> getAnimalsBySubespecies(String subespecies, Long managerId) throws ReadException {
         List<Animal> animals;
         try {
             animals = em.createNamedQuery("getAnimalsBySubespecies", Animal.class)
                         .setParameter("subespecies", subespecies)
+                        .setParameter("managerId", managerId)
                         .getResultList();
         } catch (Exception e) {
             throw new ReadException("Error retrieving animals for Subespecies: " + subespecies + ". Details: " + e.getMessage());
@@ -154,12 +118,13 @@ public class AnimalFacade implements IAnimalFacade {
 
     
     @Override
-    public List<Animal> getAnimalsByBirthdate(Date dateFrom, Date dateTo) throws ReadException {
+    public List<Animal> getAnimalsByBirthdate(Date dateFrom, Date dateTo, Long managerId) throws ReadException {
         List<Animal> animals;
         try {
             animals = em.createNamedQuery("getAnimalsByBirthdateRange", Animal.class)
                         .setParameter("dateFrom", dateFrom)
                         .setParameter("dateTo", dateTo)
+                        .setParameter("managerId", managerId)
                         .getResultList();
         } catch (Exception e) {
             throw new ReadException("Error retrieving animals for the date range. Details: " + e.getMessage());
@@ -168,11 +133,12 @@ public class AnimalFacade implements IAnimalFacade {
     }
 
     @Override
-    public List<Animal> getAnimalsByBirthdateFrom(Date dateFrom) throws ReadException {
+    public List<Animal> getAnimalsByBirthdateFrom(Date dateFrom, Long managerId) throws ReadException {
         List<Animal> animals;
         try {
             animals = em.createNamedQuery("getAnimalsByBirthdateFrom", Animal.class)
                         .setParameter("dateFrom", dateFrom)
+                        .setParameter("managerId", managerId)
                         .getResultList();
         } catch (Exception e) {
             throw new ReadException("Error retrieving animals born from date: " + dateFrom + ". Details: " + e.getMessage());
@@ -181,11 +147,12 @@ public class AnimalFacade implements IAnimalFacade {
     }
 
     @Override
-    public List<Animal> getAnimalsByBirthdateTo(Date dateTo) throws ReadException {
+    public List<Animal> getAnimalsByBirthdateTo(Date dateTo, Long managerId) throws ReadException {
         List<Animal> animals;
         try {
             animals = em.createNamedQuery("getAnimalsByBirthdateTo", Animal.class)
                         .setParameter("dateTo", dateTo)
+                        .setParameter("managerId", managerId)
                         .getResultList();
         } catch (Exception e) {
             throw new ReadException("Error retrieving animals born until date: " + dateTo + ". Details: " + e.getMessage());

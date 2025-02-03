@@ -29,6 +29,7 @@ import javax.ws.rs.core.MediaType;
 /**
  *
  * @author Ander
+ * @author Aitziber
  */
 @Stateless
 @Path("manager")
@@ -83,16 +84,15 @@ public class ManagerFacadeREST {
             throw new InternalServerErrorException(ex.getMessage());
         }
     }
-    
+      
     @GET
     @Path("search/{email}")
     @Produces(MediaType.APPLICATION_XML)
-    public List<Manager> getManagerByEmail(@PathParam("email") String email) {
+    public Manager getManagerByEmail(@PathParam("email") String email) {
         try{
-           return (List<Manager>) managerEjb.getManagerByEmail(email);
+           return (Manager) managerEjb.getManagerByEmail(email);
         } catch (ReadException ex) {
             throw new InternalServerErrorException(ex.getMessage());
         }
-    }
-    
+    }  
 }

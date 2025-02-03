@@ -7,6 +7,7 @@
 package entities;
 
 import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
@@ -43,6 +44,7 @@ public class UserEntity implements Serializable {
     protected Long id;
     @NotNull
     protected String name;
+    @Column(unique=true)
     @NotNull
     protected String email;
     protected String phone;
