@@ -16,6 +16,7 @@ import exceptions.UpdateException;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Local;
+import javax.ws.rs.core.Response;
 
 /**
  *

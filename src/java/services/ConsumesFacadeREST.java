@@ -99,9 +99,10 @@ public class ConsumesFacadeREST  {
     }
         
 
-  
-    @DELETE
-@Path("{productId}/{animalGroupId}")
+   @DELETE
+    @Path("Delete/{productId}/{animalGroupId}")
+   @javax.ws.rs.Consumes(MediaType.APPLICATION_XML)
+   @Produces(MediaType.APPLICATION_XML)
 public Response deleteConsumes(@PathParam("productId") String productIdStr, 
                                @PathParam("animalGroupId") String animalGroupIdStr) {
     try {
