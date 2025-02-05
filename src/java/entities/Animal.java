@@ -34,15 +34,28 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name="animal", schema="farmdb")
 @NamedQueries({
-//    @NamedQuery(name = "getAllAnimals", query = "SELECT a FROM Animal a WHERE a.animalGroup.manager.id = :clientId ORDER BY a.name DESC"),
-    @NamedQuery(name = "getAllAnimals", query = "SELECT a FROM Animal a JOIN a.animalGroup ag JOIN ag.managers m WHERE m.id = :managerId ORDER BY a.name DESC"),
-    @NamedQuery(name = "getAnimalByName", query = "SELECT a FROM Animal a WHERE a.name = :name"),
-    @NamedQuery(name = "getAnimalsByAnimalGroup", query = "SELECT a FROM Animal a WHERE a.animalGroup.name = :animalGroupName ORDER BY a.name DESC"),
-    @NamedQuery(name = "getAnimalsBySubespecies", query = "SELECT a FROM Animal a WHERE a.subespecies = :subespecies ORDER BY a.name DESC"),
-    @NamedQuery(name = "getAnimalsByBirthdateRange", query = "SELECT a FROM Animal a WHERE a.birthdate BETWEEN :dateFrom AND :dateTo ORDER BY a.birthdate"),
-    @NamedQuery(name = "getAnimalsByBirthdateFrom", query = "SELECT a FROM Animal a WHERE a.birthdate >= :dateFrom ORDER BY a.birthdate"),
-    @NamedQuery(name = "getAnimalsByBirthdateTo", query = "SELECT a FROM Animal a WHERE a.birthdate <= :dateTo ORDER BY a.birthdate")
+    @NamedQuery(name = "getAllAnimals", 
+                query = "SELECT a FROM Animal a JOIN a.animalGroup ag JOIN ag.managers m WHERE m.id = :managerId ORDER BY a.name DESC"),
+
+    @NamedQuery(name = "getAnimalByName", 
+                query = "SELECT a FROM Animal a JOIN a.animalGroup ag JOIN ag.managers m WHERE a.name = :name AND m.id = :managerId"),
+
+    @NamedQuery(name = "getAnimalsByAnimalGroup", 
+                query = "SELECT a FROM Animal a JOIN a.animalGroup ag JOIN ag.managers m WHERE ag.name = :animalGroupName AND m.id = :managerId ORDER BY a.name DESC"),
+
+    @NamedQuery(name = "getAnimalsBySubespecies", 
+                query = "SELECT a FROM Animal a JOIN a.animalGroup ag JOIN ag.managers m WHERE a.subespecies = :subespecies AND m.id = :managerId ORDER BY a.name DESC"),
+
+    @NamedQuery(name = "getAnimalsByBirthdateRange", 
+                query = "SELECT a FROM Animal a JOIN a.animalGroup ag JOIN ag.managers m WHERE a.birthdate BETWEEN :dateFrom AND :dateTo AND m.id = :managerId ORDER BY a.birthdate"),
+
+    @NamedQuery(name = "getAnimalsByBirthdateFrom", 
+                query = "SELECT a FROM Animal a JOIN a.animalGroup ag JOIN ag.managers m WHERE a.birthdate >= :dateFrom AND m.id = :managerId ORDER BY a.birthdate"),
+
+    @NamedQuery(name = "getAnimalsByBirthdateTo", 
+                query = "SELECT a FROM Animal a JOIN a.animalGroup ag JOIN ag.managers m WHERE a.birthdate <= :dateTo AND m.id = :managerId ORDER BY a.birthdate")
 })
+
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Animal implements Serializable {
