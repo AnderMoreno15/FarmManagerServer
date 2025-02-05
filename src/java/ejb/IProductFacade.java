@@ -27,4 +27,5 @@ public interface IProductFacade {
     public ProductEntity getProductByName(String name) throws ReadException;
     public List<ProductEntity> getProductByCreatedDate(Date createdDate) throws ReadException;
     public ProviderEntity findProviderById(Long id);
+    public List<ProductEntity> findAll() throws ReadException;
 }
