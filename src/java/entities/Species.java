@@ -41,8 +41,6 @@ public class Species implements Serializable {
     @OneToMany(mappedBy = "species")
     private List<Animal> animals;
 
-//    @OneToMany(mappedBy = "id.speciesId")
-//    private List<ID_Species_Products_Age> perAge;
     @Embedded
     private ID_Species_Products_Age perAge;
     

@@ -16,7 +16,6 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.POST;
@@ -64,6 +63,17 @@ public class ManagerFacadeREST {
         }
     }
     
+    @PUT
+    @Path("reset")
+    @Consumes(MediaType.APPLICATION_XML)
+    public void resetPassword(Manager manager) {
+        try {
+            managerEjb.resetPassword(manager);
+        } catch (UpdateException ex) {
+            throw new InternalServerErrorException(ex.getMessage());        
+        }
+    }
+    
     @POST
     @Consumes(MediaType.APPLICATION_XML)
     public void createManager(Manager manager) {
@@ -95,4 +105,28 @@ public class ManagerFacadeREST {
             throw new InternalServerErrorException(ex.getMessage());
         }
     }  
+    
+    @POST
+    @Path("signin")
+    @Consumes(MediaType.APPLICATION_XML)
+    @Produces(MediaType.APPLICATION_XML)
+    public Manager signIn(Manager manager) {
+        try {
+            return managerEjb.signIn(manager.getEmail(), manager.getPassword());
+        } catch (ReadException ex) {
+            throw new InternalServerErrorException("Sign-in failed: " + ex.getMessage());
+        }
+    }
+
+    @POST
+    @Path("signup")
+    @Consumes(MediaType.APPLICATION_XML)
+    public void signUp(Manager manager) {
+        try {
+            managerEjb.signUp(manager);
+        } catch (CreateException ex) {
+            throw new InternalServerErrorException("Sign-up failed: " + ex.getMessage());
+        }
+    }
+    
 }

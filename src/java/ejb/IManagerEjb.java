@@ -28,6 +28,12 @@ public interface IManagerEjb {
     
     public Manager getManagerByEmail(String email) throws ReadException;
     
-    public void updateManager(Manager manager)  throws UpdateException;
+    public void updateManager(Manager manager) throws UpdateException;
+    
+    public void resetPassword(Manager manager) throws UpdateException;
+    
+    public Manager signIn(String email, String password) throws ReadException;
+    
+    public void signUp(Manager manager) throws CreateException;
     
 }
