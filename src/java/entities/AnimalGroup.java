@@ -69,9 +69,9 @@ public class AnimalGroup implements Serializable {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     @Temporal(TemporalType.TIMESTAMP)
     private Date creationDate;
-    @OneToMany(cascade = ALL, mappedBy = "animalGroup", fetch = FetchType.EAGER)
+    @OneToMany(cascade = ALL, mappedBy = "animalGroup", fetch = FetchType.LAZY)
     private List<Animal> animals;
-    @OneToMany(cascade = ALL, mappedBy = "animalGroup", fetch = FetchType.EAGER)
+    @OneToMany(cascade = ALL, mappedBy = "animalGroup", fetch = FetchType.LAZY)
     private List<Consumes> consumes;
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
