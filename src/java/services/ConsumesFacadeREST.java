@@ -83,13 +83,13 @@ public class ConsumesFacadeREST  {
 
      
     @POST
-    @javax.ws.rs.Consumes(MediaType.APPLICATION_XML)
+    @javax.ws.rs.Consumes({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
     public void createConsume(Consumes entity) throws CreateException {
         ejb.createConsume(entity);}
 
     
     @PUT
-    @javax.ws.rs.Consumes(MediaType.APPLICATION_XML)
+    @javax.ws.rs.Consumes({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
     public void updateConsume(Consumes consume) {
         try {
             ejb.updateConsume(consume);
@@ -101,8 +101,8 @@ public class ConsumesFacadeREST  {
 
    @DELETE
     @Path("Delete/{productId}/{animalGroupId}")
-   @javax.ws.rs.Consumes(MediaType.APPLICATION_XML)
-   @Produces(MediaType.APPLICATION_XML)
+   @javax.ws.rs.Consumes({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
+   @Produces({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
 public Response deleteConsumes(@PathParam("productId") String productIdStr, 
                                @PathParam("animalGroupId") String animalGroupIdStr) {
     try {
@@ -139,7 +139,7 @@ public Response deleteConsumes(@PathParam("productId") String productIdStr,
 
   @GET
 @Path("All")
-@Produces(MediaType.APPLICATION_XML)
+@Produces({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
 public List<Consumes> getAllConsumes() throws ReadException {
     try{
         
@@ -151,7 +151,7 @@ public List<Consumes> getAllConsumes() throws ReadException {
 
     
     @GET
-    @Produces(MediaType.APPLICATION_XML)
+    @Produces({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
     @Path("Producto/{nameProduct}")
     public List<Consumes> findConsumesByProduct(@PathParam("nameProduct")String nameProduct) throws ReadException{
     try{ 
@@ -162,7 +162,7 @@ public List<Consumes> getAllConsumes() throws ReadException {
     
     
     @GET
-    @Produces(MediaType.APPLICATION_XML)
+    @Produces({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
     @Path("AnimalGroup/{nameAnimalGroup}")   
      public List<Consumes> findConsumesByAnimalGroup(@PathParam("nameAnimalGroup")String nameAnimalGroup) throws ReadException{
     try{ 
@@ -174,7 +174,7 @@ public List<Consumes> getAllConsumes() throws ReadException {
       
     @GET
     @Path("Rango/{from}/{to}")
-    @Produces(MediaType.APPLICATION_XML)
+    @Produces({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
     @JsonSerialize(as=Date.class)
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ssXXX")
     
@@ -194,7 +194,7 @@ public List<Consumes> getAllConsumes() throws ReadException {
    @Path("Desde/{from}")
    @JsonSerialize(as=Date.class)
    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ssXXX")
-   @Produces(MediaType.APPLICATION_XML)
+   @Produces({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
     public List<Consumes> getConsumesByDateFrom(@PathParam("from") String dateFrom) throws ReadException {   
     try {
         // Convertir String a Date
@@ -210,7 +210,7 @@ public List<Consumes> getAllConsumes() throws ReadException {
 
     @GET
     @Path("Hasta/{to}")
-    @Produces(MediaType.APPLICATION_XML)
+    @Produces({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
     @JsonSerialize(as=Date.class)
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ssXXX")
     public List<Consumes> getConsumesByDateTo(@PathParam("to") String dateTo) throws ReadException {   
