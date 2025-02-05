@@ -138,9 +138,9 @@ public Response deleteConsumes(@PathParam("productId") String productIdStr,
 
 
   @GET
-@Path("All")
-@Produces({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
-public List<Consumes> getAllConsumes() throws ReadException {
+  @Path("All")
+  @Produces({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
+  public List<Consumes> getAllConsumes() throws ReadException {
     try{
         
            return ejb.getAllConsumes();
