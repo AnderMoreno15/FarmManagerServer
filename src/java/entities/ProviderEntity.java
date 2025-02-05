@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author InigoFreire
  */
 @Entity
-@DiscriminatorValue("farmProvider")
+@DiscriminatorValue("provider")
 @NamedQuery(name = "getAllProviders", query = "SELECT p FROM ProviderEntity p")
 @XmlRootElement
 public class ProviderEntity extends UserEntity implements Serializable {

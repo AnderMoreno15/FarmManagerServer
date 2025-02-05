@@ -26,7 +26,7 @@ public class ProviderFacade implements IProviderFacade{
     public List<ProviderEntity> getAllProviders() throws ReadException {
         List<ProviderEntity> providers;
         try{
-            providers = em.createNamedQuery("getAllSpecies", ProviderEntity.class)
+            providers = em.createNamedQuery("getAllProviders", ProviderEntity.class)
                 .getResultList();
         }catch(Exception e){
             throw new ReadException("Error retrieving species. Details: " + e.getMessage());
