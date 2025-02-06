@@ -5,8 +5,10 @@
  */
 package services.consume;
 
+import entities.Animal;
 import entities.AnimalGroup;
 import entities.Consumes;
+import entities.ConsumesId;
 import entities.ProductEntity;
 import exceptions.CreateException;
 import exceptions.DeleteException;
@@ -19,6 +21,7 @@ import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.ws.rs.core.Response;
 
 /**
  *
@@ -85,51 +88,70 @@ public void createConsume(Consumes consume) throws CreateException {
    }catch(Exception e){
    throw new UpdateException(e.getMessage());}   
    }
-
-
-     @Override
-    public void deleteConsume(Consumes consume) throws DeleteException {
+   
+     /**
+     * Busca un consumo utilizando productId y animalGroupId
+     */
+    public Consumes findConsumeByProductAndAnimalGroup(Long productId, Long animalGroupId) throws ReadException {
         try {
-            if (consume == null || consume.getConsumesId() == null) {
-                throw new DeleteException("Consume or ConsumesId cannot be null");
-            }
+            LOGGER.info("Searching for consume with productId: " + productId + " and animalGroupId: " + animalGroupId);
 
-            Consumes managedConsume = em.find(Consumes.class, consume.getConsumesId());
-            
-            if (managedConsume == null) {
-                throw new DeleteException("Consume with id " + consume.getConsumesId() + " not found");
-            }
+            // Buscamos el consumo en la base de datos
+            List<Consumes> consumes = em.createQuery("SELECT c FROM Consumes c WHERE c.consumesId.productId = :productId AND c.consumesId.animalGroupId = :animalGroupId", Consumes.class)
+                                        .setParameter("productId", productId)
+                                        .setParameter("animalGroupId", animalGroupId)
+                                        .getResultList();
 
-            em.remove(managedConsume);
-            em.flush();
-            
+            // Retornamos el primer resultado si existe
+            return consumes.isEmpty() ? null : consumes.get(0);
+
         } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, "Error deleting consume: ", e);
-            throw new DeleteException(e.getMessage());
+            LOGGER.severe("Error searching consume: " + e.getMessage());
+            throw new ReadException();
         }
     }
 
-    
+    /**
+     * Elimina un consumo
+     */
+    public void deleteConsume(Consumes consume) throws DeleteException{
+        try {
+            LOGGER.info("Deleting consume with productId: " + consume.getConsumesId().getProductId() + " and animalGroupId: " + consume.getConsumesId().getAnimalGroupId());
+            em.remove(consume);
+            LOGGER.info("Consume deleted successfully.");
+        } catch (Exception e) {
+            LOGGER.severe("Error deleting consume: " + e.getMessage());
+            throw new DeleteException();
+        }
+    }
+
+
+
+
+
     @Override
     public List<Consumes> getAllConsumes() throws ReadException {
-    try {
-        LOGGER.info("ConsumesManager: Reading all consumes.");
-        return em.createQuery("SELECT c FROM Consumes c", Consumes.class)
-                 .getResultList();
-    } catch(Exception e) {
-        LOGGER.severe("Error completo: " + e.toString());
-        throw new ReadException(e.getMessage());
+      List<Consumes> consumes=null;
+        try{   
+            System.out.println("-----------------------------");
+            consumes=em.createNamedQuery("findAllConsumes", Consumes.class).getResultList();
+            System.out.println("------------------------- after calling get all ------------");
+      }catch(Exception e){
+      LOGGER.log(Level.SEVERE, "ConsumesManager: Exception reading consumes All .",
+                    e.getMessage());
+            throw new ReadException(e.getMessage());
+         }
+         return consumes;
     }
-}
   
     
     @Override
-    public List<Consumes> findConsumesByProduct(Long productId) throws ReadException {
+    public List<Consumes> findConsumesByProduct(String nameProduct) throws ReadException {
         List<Consumes> consumes=null;
         try{
             LOGGER.info("ConsumesManager: Reading consumes by product.");
             consumes=em.createNamedQuery("findConsumesByProduct")
-                     .setParameter("productId", productId)
+                     .setParameter("nameProduct", nameProduct)
                      .getResultList();
         }catch(Exception e){
             LOGGER.log(Level.SEVERE, "ConsumesManager: Exception reading consumes byProduct .",
@@ -140,12 +162,12 @@ public void createConsume(Consumes consume) throws CreateException {
     }
     
    @Override
-   public List<Consumes> findConsumesByAnimalGroup(Long animalGroupId) throws ReadException {
+   public List<Consumes> findConsumesByAnimalGroup(String nameAnimalGroup) throws ReadException {
     List<Consumes> consumes = null;
     try {
-        LOGGER.info("ConsumesManager: Reading consumes by animal group. ID: " + animalGroupId);
+        LOGGER.info("ConsumesManager: Reading consumes by animal group name: " + nameAnimalGroup);
         consumes = em.createNamedQuery("findConsumesByAnimalGroup")
-                   .setParameter("animalGroupId", animalGroupId)
+                   .setParameter("nameAnimalGroup", nameAnimalGroup)
                    .getResultList();
         LOGGER.info("ConsumesManager: Found " + (consumes != null ? consumes.size() : "0") + " results");
     } catch(Exception e) {

@@ -6,6 +6,8 @@
 package entities;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.EmbeddedId;
@@ -31,18 +33,23 @@ import javax.xml.bind.annotation.XmlTransient;
  */
                                        
 @NamedQueries({
+    
 @NamedQuery(
         name="findAllConsumes",
-            query="SELECT m FROM Consumes m"
+        query="SELECT c FROM Consumes c "
+        ),
+//    "SELECT new com.example.dto.ConsumesDTO(c.consumeAmount, c.animalGroup.name, c.product.name) " +
+//            "FROM Consumes c WHERE c.product.name = :nameProduct", ConsumesDTO.class)
+//            .setParameter("nameProduct", nameProduct)
+@NamedQuery(
+    name = "findConsumesByProduct",
+    query = "SELECT c FROM Consumes c WHERE product.id IN (SELECT pg.id FROM ProductEntity pg WHERE pg.name = :nameProduct)"
         ),
 @NamedQuery(
-        name="findConsumesByProduct",
-            query="SELECT m FROM Consumes m WHERE m.product.id = :productId"
+    name = "findConsumesByAnimalGroup",
+    query = "SELECT c FROM Consumes c WHERE animalGroup.id IN (SELECT ag.id FROM AnimalGroup ag WHERE ag.name = :nameAnimalGroup)"
         ),
-@NamedQuery(
-        name="findConsumesByAnimalGroup",
-            query="SELECT m FROM Consumes m WHERE m.animalGroup.id = :animalGroupId"
-        ),
+
 @NamedQuery(
         name="findConsumesByDateRange",
             query="SELECT m FROM Consumes m WHERE m.date BETWEEN :dateFrom AND :dateTo ORDER BY m.date"
@@ -57,6 +64,20 @@ import javax.xml.bind.annotation.XmlTransient;
         )
 })
 
+//@NamedQuery(
+//    name="findAllConsumes",
+//    query = "SELECT c FROM Consumes c WHERE c.animalGroup.id IN " +
+//           "(SELECT agm.animalGroupId FROM AnimalGroupManager agm WHERE agm.managerId = :managerId)"
+//)
+
+//@NamedQuery(
+//    name="findAllConsumes",
+//    query = "SELECT c FROM Consumes c, AnimalGroupManager agm " +
+//           "WHERE c.animalGroup.id = agm.animalGroupId " +
+//           "AND agm.managerId = :managerId"
+//)
+
+
 @Entity
 @Table(name="consumes",schema="farmdb")
 @XmlRootElement
@@ -70,18 +91,20 @@ public class Consumes implements Serializable {
     
    
     @MapsId("animalGroupId")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="animalGroupId",updatable=false,insertable=false)
     private AnimalGroup animalGroup;
     
     
     @MapsId("productId")
-    @ManyToOne    
+    @ManyToOne(fetch = FetchType.EAGER)   
     @JoinColumn(name="productId",updatable=false,insertable=false)
     private ProductEntity product;
     
     
     @Temporal(TemporalType.DATE)
+    @JsonSerialize(as=Date.class)
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ssXXX")
     private Date date;
     
     

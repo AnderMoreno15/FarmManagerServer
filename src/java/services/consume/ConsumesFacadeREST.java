@@ -5,14 +5,11 @@
  */
 package services.consume;
 
-
-
-import entities.AnimalGroup;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import entities.Consumes;
 import entities.ConsumesId;
-import entities.ProductEntity;
 import exceptions.CreateException;
-import exceptions.DeleteException;
 import exceptions.ReadException;
 import exceptions.UpdateException;
 import java.text.ParseException;
@@ -29,17 +26,17 @@ import javax.ws.rs.core.PathSegment;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-
-
+import javax.ws.rs.InternalServerErrorException;
+import javax.ws.rs.core.Response;
 
 /**
  *
  * @author Pablo
  */
 
-@Path("entities.consumes")
+@Path("consumes")
 
-public class ConsumesFacadeREST {
+public class ConsumesFacadeREST  {
     
  @EJB (name = "services.EJBConsumes")
    private ConsumesManagerLocal ejb;
@@ -75,78 +72,90 @@ public class ConsumesFacadeREST {
 
      
     @POST
-    @javax.ws.rs.Consumes({MediaType.APPLICATION_XML})
+    @javax.ws.rs.Consumes({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
     public void createConsume(Consumes entity) throws CreateException {
         ejb.createConsume(entity);}
 
     
-
     @PUT
-    @Path("{productId}/{animalGroupId}")
-    @javax.ws.rs.Consumes({MediaType.APPLICATION_XML})
-    public void updateConsume(@PathParam("productId") Long productId,
-                         @PathParam("animalGroupId") Long animalGroupId,
-                         Consumes consume) throws UpdateException {
-    try {
-        ConsumesId consumeId = new ConsumesId(productId,animalGroupId);
-        LOGGER.severe("updating consume Restful level : ");
-        consume.setConsumesId(consumeId);
-        ejb.updateConsume(consume);
-    }catch(UpdateException e){
-        LOGGER.severe("Error updating consume Rest: " + e.getMessage());
-        throw new UpdateException(e.getMessage());
+    @javax.ws.rs.Consumes({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
+    public void updateConsume(Consumes consume) {
+        try {
+            ejb.updateConsume(consume);
+        } catch (UpdateException ex) {
+            throw new InternalServerErrorException(ex.getMessage());        
+        }
     }
         
-    
-    }
 
-  
-    @DELETE
-    @Path("{productId}/{animalGroupId}")
-    @Produces({MediaType.APPLICATION_XML})
-    public void deleteConsume(@PathParam("productId") Long productId,
-                         @PathParam("animalGroupId") Long animalGroupId) 
-                         throws DeleteException {
+   @DELETE
+    @Path("Delete/{productId}/{animalGroupId}")
+   @javax.ws.rs.Consumes({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
+   @Produces({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
+public Response deleteConsumes(@PathParam("productId") String productIdStr, 
+                               @PathParam("animalGroupId") String animalGroupIdStr) {
     try {
-        ConsumesId consumeId = new ConsumesId(productId, animalGroupId);
-        Consumes consume = new Consumes();
-        consume.setConsumesId(consumeId);
+        LOGGER.info("Attempting to delete consume with productId: " + productIdStr + " and animalGroupId: " + animalGroupIdStr);
+
+        // Convierte los String a Long
+        Long productId = Long.parseLong(productIdStr);
+        Long animalGroupId = Long.parseLong(animalGroupIdStr);
+
+        // Busca el consumo usando la clave compuesta
+        Consumes consume = ejb.findConsumeByProductAndAnimalGroup(productId, animalGroupId);
+
+        if (consume != null) {
+            // Si se encuentra el consumo, lo eliminamos
+            ejb.deleteConsume(consume);
+            LOGGER.info("Successfully deleted consume.");
+            return Response.noContent().build(); // 204 No Content
+        } else {
+            LOGGER.warning("Consume not found with productId: " + productId + " and animalGroupId: " + animalGroupId);
+            return Response.status(Response.Status.NOT_FOUND)
+                           .entity("Consume not found with productId: " + productId + " and animalGroupId: " + animalGroupId)
+                           .build();
+        }
+    } catch (NumberFormatException e) {
+        LOGGER.severe("Invalid ID format: " + e.getMessage());
+        return Response.status(Response.Status.BAD_REQUEST).entity("Invalid ID format.").build();
+    } catch (Exception e) {
+        LOGGER.severe("Error deleting consume: " + e.getMessage());
+        return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Error deleting consume.").build();
+    }
+}
+
+
+
+  @GET
+  @Path("All")
+  @Produces({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
+  public List<Consumes> getAllConsumes() throws ReadException {
+    try{
         
-        LOGGER.severe("deleting consume Restful level : ");
-        ejb.deleteConsume(consume);
-    } catch(Exception e) {
-        LOGGER.severe("Error deleting consume Rest: " + e.getMessage());
-        throw new DeleteException(e.getMessage());
-    }
-    }
-
-
-    @GET
-    @Produces({MediaType.APPLICATION_XML})
-    public List<Consumes> getAllConsumes() throws ReadException{
-       try{ 
            return ejb.getAllConsumes();
+        } catch (ReadException ex) {
+            throw new InternalServerErrorException(ex.getMessage());
+        }
+    }
+
+    
+    @GET
+    @Produces({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
+    @Path("Producto/{nameProduct}")
+    public List<Consumes> findConsumesByProduct(@PathParam("nameProduct")String nameProduct) throws ReadException{
+    try{ 
+        return ejb.findConsumesByProduct(nameProduct);
        }catch(ReadException e){}
       return null;
        }
     
-    @GET
-    @Produces({MediaType.APPLICATION_XML})
-    @Path("Producto/{ProductId}")
-    public List<Consumes> findConsumesByProduct(@PathParam("ProductId")Long productId) throws ReadException{
-    try{ 
-        return ejb.findConsumesByProduct(productId);
-       }catch(ReadException e){}
-      return null;
-       }
-    
     
     @GET
-    @Produces({MediaType.APPLICATION_XML})
-    @Path("Animal/{animalGroupId}")   
-     public List<Consumes> findConsumesByAnimalGroup(@PathParam("animalGroupId")Long animalGroupId) throws ReadException{
+    @Produces({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
+    @Path("AnimalGroup/{nameAnimalGroup}")   
+     public List<Consumes> findConsumesByAnimalGroup(@PathParam("nameAnimalGroup")String nameAnimalGroup) throws ReadException{
     try{ 
-        return ejb.findConsumesByAnimalGroup(animalGroupId);
+        return ejb.findConsumesByAnimalGroup(nameAnimalGroup);
        }catch(ReadException e){}
       return null;
        }
@@ -154,7 +163,10 @@ public class ConsumesFacadeREST {
       
     @GET
     @Path("Rango/{from}/{to}")
-    @Produces({MediaType.APPLICATION_XML})
+    @Produces({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
+    @JsonSerialize(as=Date.class)
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ssXXX")
+    
     public List<Consumes> getConsumesByDate(@PathParam("from") String dateFrom, 
                                        @PathParam("to") String dateTo) throws ReadException {
     try {
@@ -169,7 +181,9 @@ public class ConsumesFacadeREST {
 
    @GET
    @Path("Desde/{from}")
-   @Produces({MediaType.APPLICATION_XML})
+   @JsonSerialize(as=Date.class)
+   @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ssXXX")
+   @Produces({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
     public List<Consumes> getConsumesByDateFrom(@PathParam("from") String dateFrom) throws ReadException {   
     try {
         // Convertir String a Date
@@ -185,7 +199,9 @@ public class ConsumesFacadeREST {
 
     @GET
     @Path("Hasta/{to}")
-    @Produces({MediaType.APPLICATION_XML})
+    @Produces({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
+    @JsonSerialize(as=Date.class)
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ssXXX")
     public List<Consumes> getConsumesByDateTo(@PathParam("to") String dateTo) throws ReadException {   
         try {
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
