@@ -5,18 +5,18 @@
  */
 package encryption;
 
-import org.apache.commons.lang3.RandomStringUtils;
-
-
-
-/**
- *
- * @author Aitziber
- */
-public class PasswordService {
-    
-    public static String getNewPassword(){
-        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789~`!@#$%^&*()-_=+[{]}\\|;:\'\",<.>/?";
-        return RandomStringUtils.random( 10, characters );
-    }
-}
+//import org.apache.commons.lang3.RandomStringUtils;
+//
+//
+//
+///**
+// *
+// * @author Aitziber
+// */
+//public class PasswordService {
+//    
+//    public static String getNewPassword(){
+//        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789~`!@#$%^&*()-_=+[{]}\\|;:\'\",<.>/?";
+//        return RandomStringUtils.random( 10, characters );
+//    }
+//}

@@ -5,7 +5,7 @@
  */
 package ejb;
 
-import encryption.PasswordService;
+//import encryption.PasswordService;
 import encryption.UserAuthService;
 import entities.Manager;
 import exceptions.CreateException;
