@@ -5,9 +5,6 @@
  */
 package services.user;
 
-import entities.UserEntity;
-import exceptions.CreateException;
-import exceptions.ReadException;
 import javax.ejb.Local;
 
 /**
