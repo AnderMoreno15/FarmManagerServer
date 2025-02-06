@@ -36,9 +36,6 @@ import java.util.List;
 import java.util.logging.Level;
 import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.core.Response;
-import org.hibernate.Hibernate;
-
-
 
 /**
  *
