@@ -17,7 +17,7 @@ import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-/*
+/**
  * Entity representing a manager in the farm management system.
  * <p>
  * This class extends {@link UserEntity} and represents a manager of animal groups. 

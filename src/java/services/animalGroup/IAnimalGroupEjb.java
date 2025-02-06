@@ -13,7 +13,7 @@ import exceptions.UpdateException;
 import java.util.List;
 import javax.ejb.Local;
 
-/*
+/**
  * Interface for managing animal groups in the system.
  * <p>
  * This interface defines methods for creating, updating, deleting, and retrieving animal groups from the database.

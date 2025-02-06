@@ -20,7 +20,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
-/*
+/**
  * Entity representing a user in the farm management system.
  * <p>
  * This class serves as a base class for different types of users in the system, 

@@ -23,7 +23,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-/*
+/**
  * RESTful service for managing animal group entities in the farm management system.
  * <p>
  * This service provides endpoints for creating, updating, retrieving, and deleting animal groups.

@@ -29,7 +29,7 @@ import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-/*
+/**
  * Entity representing an animal group in the farm management system.
  * <p>
  * This class represents a group of animals within the system, containing information such as 
