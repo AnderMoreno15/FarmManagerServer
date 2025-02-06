@@ -84,7 +84,6 @@ public class ConsumesFacadeREST {
      * Updates an existing consume record.
      * 
      * @param consume The consume entity with updated data.
-     * @throws UpdateException If an error occurs during the update.
      */
     @PUT
     @javax.ws.rs.Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})

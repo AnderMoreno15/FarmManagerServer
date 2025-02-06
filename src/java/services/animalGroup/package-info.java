@@ -1,4 +1,4 @@
-/*
+/**
  * Paquete que contiene los servicios REST para gestionar los grupos de animales en el sistema de gestión de granja.
  * <p>
  * Este paquete expone una serie de servicios a través de la clase {@link AnimalGroupFacadeREST} que permiten realizar operaciones 

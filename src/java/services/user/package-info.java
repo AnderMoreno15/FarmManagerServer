@@ -1,4 +1,4 @@
-/*
+/**
  * Paquete que contiene los servicios REST para gestionar las operaciones relacionadas con los usuarios en el sistema de gestión de granja.
  * <p>
  * Este paquete proporciona los servicios necesarios para interactuar con las entidades de usuario, permitiendo la creación, 

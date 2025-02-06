@@ -1,4 +1,4 @@
-/*
+/**
  * Paquete que contiene los servicios REST para gestionar los administradores del sistema de gestión de granja.
  * <p>
  * Este paquete expone una serie de servicios a través de la clase {@link ManagerFacadeREST} que permiten realizar operaciones 
