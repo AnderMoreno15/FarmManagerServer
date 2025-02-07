@@ -5,14 +5,24 @@
  */
 package services.manager;
 
+import config.ConfigReader;
 import encryption.PasswordService;
+import encryption.SymmetricDecryptor;
 import encryption.UserAuthService;
+import static encryption.UserAuthService.logger;
 import entities.Manager;
 import exceptions.CreateException;
 import exceptions.ReadException;
 import exceptions.UpdateException;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.List;
+import java.util.Properties;
 import java.util.logging.Logger;
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -123,16 +133,40 @@ public class ManagerEjb implements IManagerEjb {
        }
     }
 
+//    public Manager signIn(String email, String password) throws ReadException {
+//        try {
+//            Manager manager = getManagerByEmail(email);
+//
+//            if (manager == null) {
+//                logger.warning("Manager with email " + email + " not found.");
+//                return null;
+//            }
+//
+//            if (UserAuthService.verifyPassword(password, manager.getPassword())) {
+//                logger.info("Sign-in successful for: " + email);
+//                return manager;
+//            } else {
+//                logger.warning("Incorrect password for: " + email);
+//                return null;
+//            }
+//        } catch (Exception e) {
+//            logger.severe("Error during sign-in: " + e.getMessage());
+//            throw new ReadException("Error during sign-in. Details: " + e.getMessage());
+//        }
+//    }
     public Manager signIn(String email, String password) throws ReadException {
         try {
+            logger.info("haciendo login desde managerEjb");
             Manager manager = getManagerByEmail(email);
-
+            logger.info("trayendo manager por mail");
             if (manager == null) {
-                logger.warning("Manager with email " + email + " not found.");
+                logger.warning("Manager not found.");
                 return null;
             }
+            logger.info("verificando contraseña password: "+password);
+            String inputPlainPassword = SymmetricDecryptor.decrypt(password);
 
-            if (UserAuthService.verifyPassword(password, manager.getPassword())) {
+            if (UserAuthService.verifyPassword(inputPlainPassword, manager.getPassword())) {
                 logger.info("Sign-in successful for: " + email);
                 return manager;
             } else {
@@ -145,28 +179,50 @@ public class ManagerEjb implements IManagerEjb {
         }
     }
     
-    @Override
+//    @Override
+//    public void signUp(Manager manager) throws CreateException {
+//        try {
+//
+//            Manager existingManager = getManagerByEmail(manager.getEmail());
+//            if (existingManager != null) {
+//                logger.warning("Manager with email " + manager.getEmail() + " already exists.");
+//                throw new CreateException("Manager with this email already exists.");
+//            }
+//
+//            String encryptedPassword = UserAuthService.hashPassword(manager.getPassword());
+//
+//            manager.setPassword(encryptedPassword);
+//
+//            em.persist(manager);
+//            em.flush();
+//
+//
+//        } catch (Exception e) {
+//            logger.severe("Error during sign-up: " + e.getMessage());
+//            throw new CreateException("Error during sign-up. Details: " + e.getMessage());
+//        }
+//    }
     public void signUp(Manager manager) throws CreateException {
         try {
-
-            Manager existingManager = getManagerByEmail(manager.getEmail());
-            if (existingManager != null) {
-                logger.warning("Manager with email " + manager.getEmail() + " already exists.");
-                throw new CreateException("Manager with this email already exists.");
-            }
-
-            String encryptedPassword = UserAuthService.hashPassword(manager.getPassword());
-
+           
+            String encryptedFromClientPassword = manager.getPassword();
+            String plainPassword = SymmetricDecryptor.decrypt(encryptedFromClientPassword);
+            String encryptedPassword = UserAuthService.hashPassword(plainPassword);
             manager.setPassword(encryptedPassword);
-
+            logger.info("proceso de sign up");
+            logger.info("encryptedFromClientPassword: "+encryptedFromClientPassword);
+            logger.info("plainPassword: "+plainPassword);
+            logger.info("encryptedPassword: "+encryptedPassword);
+            
+            
             em.persist(manager);
             em.flush();
 
+            logger.info("Manager registrado con éxito.");
 
         } catch (Exception e) {
             logger.severe("Error during sign-up: " + e.getMessage());
             throw new CreateException("Error during sign-up. Details: " + e.getMessage());
         }
     }
-   
 }
