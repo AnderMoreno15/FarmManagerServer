@@ -5,14 +5,26 @@
  */
 package services.manager;
 
+import config.ConfigReader;
 import encryption.PasswordService;
+import encryption.SymmetricDecryptor;
 import encryption.UserAuthService;
+import static encryption.UserAuthService.logger;
 import entities.Manager;
 import exceptions.CreateException;
 import exceptions.ReadException;
 import exceptions.UpdateException;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.List;
+import java.util.Properties;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import java.util.logging.Logger;
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -172,13 +184,13 @@ public class ManagerEjb implements IManagerEjb {
                    + "<p>Your new password is: <b>" + newPassword + "</b></p>"
                    + "<p>Please make sure to store this information securely.</p>"
                    + "</body></html>";
-
-           boolean emailSent = mailingService.sendEmail(manager.getEmail(), "Farm App - Password reset", body);
+           String plainEmail = SymmetricDecryptor.decrypt(manager.getEmail());
+           boolean emailSent = mailingService.sendEmail(plainEmail, "Farm App - Password reset", body);
 
            if (emailSent) {
-               logger.info("Password restore email successfully sent to: " + manager.getEmail());
+               logger.info("Password restore email successfully sent to: " + plainEmail);
            } else {
-               logger.warning("Failed to send email to: " + manager.getEmail());
+               logger.warning("Failed to send email to: " + plainEmail);
            }
 
        } catch (Exception e) {
@@ -202,13 +214,13 @@ public class ManagerEjb implements IManagerEjb {
     public Manager signIn(String email, String password) throws ReadException {
         try {
             Manager manager = getManagerByEmail(email);
-
             if (manager == null) {
-                logger.warning("Manager with email " + email + " not found.");
+                logger.warning("Manager not found.");
                 return null;
             }
+            String inputPlainPassword = SymmetricDecryptor.decrypt(password);
 
-            if (UserAuthService.verifyPassword(password, manager.getPassword())) {
+            if (UserAuthService.verifyPassword(inputPlainPassword, manager.getPassword())) {
                 logger.info("Sign-in successful for: " + email);
                 return manager;
             } else {
@@ -233,25 +245,37 @@ public class ManagerEjb implements IManagerEjb {
     @Override
     public void signUp(Manager manager) throws CreateException {
         try {
+            String encryptedFromClientPassword = manager.getPassword();
+            
+            CompletableFuture<String> decryptedPasswordFuture = CompletableFuture.supplyAsync(() -> {
+                try {
+                    return SymmetricDecryptor.decrypt(encryptedFromClientPassword);
+                } catch (Exception e) {
+                    logger.severe("Error al desencriptar la contraseña: " + e.getMessage());
+                    return null;
+                }
+            });
 
-            Manager existingManager = getManagerByEmail(manager.getEmail());
-            if (existingManager != null) {
-                logger.warning("Manager with email " + manager.getEmail() + " already exists.");
-                throw new CreateException("Manager with this email already exists.");
+            String plainPassword = decryptedPasswordFuture.get();
+            
+            if (plainPassword == null || plainPassword.isEmpty()) {
+                throw new CreateException("Error: la contraseña desencriptada es nula o vacía.");
             }
 
-            String encryptedPassword = UserAuthService.hashPassword(manager.getPassword());
-
+            String encryptedPassword = UserAuthService.hashPassword(plainPassword);
             manager.setPassword(encryptedPassword);
 
             em.persist(manager);
             em.flush();
 
+            logger.info("Manager registrado con éxito.");
 
+        } catch (InterruptedException | ExecutionException e) {
+            logger.severe("Error en el hilo de desencriptación: " + e.getMessage());
+            throw new CreateException("Error en el proceso de sign-up. Details: " + e.getMessage());
         } catch (Exception e) {
-            logger.severe("Error during sign-up: " + e.getMessage());
-            throw new CreateException("Error during sign-up. Details: " + e.getMessage());
+            logger.severe("Error durante el sign-up: " + e.getMessage());
+            throw new CreateException("Error durante el sign-up. Details: " + e.getMessage());
         }
     }
-
 }

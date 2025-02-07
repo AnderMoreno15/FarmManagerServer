@@ -5,6 +5,8 @@
  */
 package encryption;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.mindrot.jbcrypt.BCrypt;
 
 /**
@@ -12,11 +14,13 @@ import org.mindrot.jbcrypt.BCrypt;
  * @author Aitziber
  */
 public class UserAuthService {
+    public static Logger logger = Logger.getLogger(UserAuthService.class.getName());
+
     public static String hashPassword(String password) {
         return BCrypt.hashpw(password, BCrypt.gensalt());
     }
 
     public static boolean verifyPassword(String inputPassword, String storedHash) {
-        return BCrypt.checkpw(inputPassword, storedHash);
+       return BCrypt.checkpw(inputPassword, storedHash);
     }
 }
