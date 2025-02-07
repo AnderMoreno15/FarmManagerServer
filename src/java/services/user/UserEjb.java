@@ -5,10 +5,6 @@
  */
 package services.user;
 
-import entities.AnimalGroup;
-import entities.UserEntity;
-import exceptions.CreateException;
-import exceptions.ReadException;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
