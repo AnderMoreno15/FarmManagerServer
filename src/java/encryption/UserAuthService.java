@@ -21,8 +21,6 @@ public class UserAuthService {
     }
 
     public static boolean verifyPassword(String inputPassword, String storedHash) {
-        logger.info("recibido en UserAuthService inputPassword: "+inputPassword);
-        logger.info("recibido en UserAuthService storedHash: "+storedHash);
        return BCrypt.checkpw(inputPassword, storedHash);
     }
 }
