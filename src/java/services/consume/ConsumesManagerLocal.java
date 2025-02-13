@@ -111,4 +111,6 @@ public interface ConsumesManagerLocal {
      * @throws ReadException If an error occurs while retrieving consume records.
      */
     public List<Consumes> getConsumesByDateTo(Date dateTo) throws ReadException;
+    
+    public Consumes findConsume(ConsumesId consumesId) throws ReadException;
 }

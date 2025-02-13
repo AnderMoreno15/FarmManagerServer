@@ -124,23 +124,27 @@ public class EJBConsumes implements ConsumesManagerLocal {
         }
     }
 
-    /**
-     * Deletes a consume record from the database.
-     * 
-     * @param consume The consume entity to be deleted.
-     * @throws DeleteException If an error occurs while deleting the consume.
-     */
+
+
+    @Override
+    public Consumes findConsume(ConsumesId consumesId) throws ReadException {
+        try {
+            return em.find(Consumes.class, consumesId);
+        } catch (Exception e) {
+            throw new ReadException("Error finding consume: " + e.getMessage());
+        }
+    }
+
     @Override
     public void deleteConsume(Consumes consume) throws DeleteException {
         try {
-            LOGGER.info("Deleting consume with productId: " + consume.getConsumesId().getProductId() + " and animalGroupId: " + consume.getConsumesId().getAnimalGroupId());
+            consume = em.merge(consume); // ¡MERGE ANTES DE REMOVE!
             em.remove(consume);
-            LOGGER.info("Consume deleted successfully.");
         } catch (Exception e) {
-            LOGGER.severe("Error deleting consume: " + e.getMessage());
-            throw new DeleteException();
+            throw new DeleteException("Error deleting consume: " + e.getMessage());
         }
     }
+
 
     /**
      * Retrieves all consume records from the database.

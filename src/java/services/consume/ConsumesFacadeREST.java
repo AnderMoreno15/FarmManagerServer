@@ -22,7 +22,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import javax.ws.rs.InternalServerErrorException;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 
 /**
  * RESTful service for managing consume entities.
@@ -102,42 +105,47 @@ public class ConsumesFacadeREST {
      * @param animalGroupIdStr The animal group ID as a string.
      * @return Response A Response object indicating the result of the delete operation.
      */
+    
+//    DELETE /consumes/Delete?productId=123&animalGroupId=456 End Point
     @DELETE
-    @Path("Delete/{productId}/{animalGroupId}")
+    @Path("Delete")
     @javax.ws.rs.Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public Response deleteConsumes(@PathParam("productId") String productIdStr,
-                                   @PathParam("animalGroupId") String animalGroupIdStr) {
-        try {
-            LOGGER.info("Attempting to delete consume with productId: " + productIdStr + " and animalGroupId: " + animalGroupIdStr);
+    public Response deleteConsumes(@Context UriInfo uriInfo) {
+    try {
+        MultivaluedMap<String, String> map = uriInfo.getQueryParameters();
+        String productIdStr = map.getFirst("productId");
+        String animalGroupIdStr = map.getFirst("animalGroupId");
 
-            // Convert String to Long
-            Long productId = Long.parseLong(productIdStr);
-            Long animalGroupId = Long.parseLong(animalGroupIdStr);
 
-            // Find the consume using the composite key
-            Consumes consume = ejb.findConsumeByProductAndAnimalGroup(productId, animalGroupId);
-
-            if (consume != null) {
-                // If consume exists, delete it
-                ejb.deleteConsume(consume);
-                LOGGER.info("Successfully deleted consume.");
-                return Response.noContent().build(); // 204 No Content
-            } else {
-                LOGGER.warning("Consume not found with productId: " + productId + " and animalGroupId: " + animalGroupId);
-                return Response.status(Response.Status.NOT_FOUND)
-                        .entity("Consume not found with productId: " + productId + " and animalGroupId: " + animalGroupId)
-                        .build();
-            }
-        } catch (NumberFormatException e) {
-            LOGGER.severe("Invalid ID format: " + e.getMessage());
-            return Response.status(Response.Status.BAD_REQUEST).entity("Invalid ID format.").build();
-        } catch (Exception e) {
-            LOGGER.severe("Error deleting consume: " + e.getMessage());
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Error deleting consume.").build();
+        if (productIdStr == null || animalGroupIdStr == null) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                .entity("productId and animalGroupId are required as query parameters")
+                .build();
         }
-    }
 
+        Long productId = Long.parseLong(productIdStr);
+        Long animalGroupId = Long.parseLong(animalGroupIdStr);
+
+        ConsumesId consumesId = new ConsumesId(productId, animalGroupId);
+
+        Consumes consume = ejb.findConsume(consumesId);
+
+        if (consume != null) {
+            ejb.deleteConsume(consume);
+            return Response.noContent().build(); // 204 No Content
+        } else {
+            return Response.status(Response.Status.NOT_FOUND).entity("Consume not found").build();
+        }
+
+    } catch (NumberFormatException e) {
+        return Response.status(Response.Status.BAD_REQUEST).entity("Invalid ID format").build();
+    } catch (Exception e) {
+        return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+            .entity("Error deleting consume: " + e.getMessage())
+            .build();
+    }
+}
     /**
      * Retrieves a list of all consume records.
      * 
