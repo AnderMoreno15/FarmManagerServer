@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import entities.Consumes;
 import entities.ConsumesId;
 import exceptions.CreateException;
+import exceptions.DeleteException;
 import exceptions.ReadException;
 import exceptions.UpdateException;
 import java.text.ParseException;
@@ -21,6 +22,7 @@ import javax.ws.rs.core.PathSegment;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
 import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MultivaluedMap;
@@ -79,8 +81,13 @@ public class ConsumesFacadeREST {
      */
     @POST
     @javax.ws.rs.Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void createConsume(Consumes entity) throws CreateException {
-        ejb.createConsume(entity);
+    public void createConsume(Consumes entity)  {
+       try{ ejb.createConsume(entity);
+     } catch (CreateException ex) {
+          LOGGER.log(Level.SEVERE, "ConsumesManager create error", ex.getMessage());
+            throw new InternalServerErrorException(ex.getMessage());
+           
+    }
     }
 
     /**
@@ -94,6 +101,7 @@ public class ConsumesFacadeREST {
         try {
             ejb.updateConsume(consume);
         } catch (UpdateException ex) {
+             LOGGER.log(Level.SEVERE, "ConsumesManager update error", ex.getMessage());
             throw new InternalServerErrorException(ex.getMessage());
         }
     }
@@ -111,7 +119,7 @@ public class ConsumesFacadeREST {
     @Path("Delete")
     @javax.ws.rs.Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public Response deleteConsumes(@Context UriInfo uriInfo) {
+    public Response deleteConsumes(@Context UriInfo uriInfo) throws DeleteException {
     try {
         MultivaluedMap<String, String> map = uriInfo.getQueryParameters();
         String productIdStr = map.getFirst("productId");
@@ -140,12 +148,11 @@ public class ConsumesFacadeREST {
 
     } catch (NumberFormatException e) {
         return Response.status(Response.Status.BAD_REQUEST).entity("Invalid ID format").build();
-    } catch (Exception e) {
-        return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-            .entity("Error deleting consume: " + e.getMessage())
-            .build();
-    }
+      }catch(Exception e){
+           LOGGER.log(Level.SEVERE, "ConsumesManager delete error", e.getMessage());
+            throw new DeleteException(e.getMessage());
 }
+    }
     /**
      * Retrieves a list of all consume records.
      * 
@@ -160,6 +167,7 @@ public class ConsumesFacadeREST {
             return ejb.getAllConsumes();
         } catch (ReadException ex) {
             throw new InternalServerErrorException(ex.getMessage());
+            
         }
     }
 

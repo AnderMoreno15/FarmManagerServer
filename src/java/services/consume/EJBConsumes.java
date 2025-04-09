@@ -138,7 +138,7 @@ public class EJBConsumes implements ConsumesManagerLocal {
     @Override
     public void deleteConsume(Consumes consume) throws DeleteException {
         try {
-            consume = em.merge(consume); // ¡MERGE ANTES DE REMOVE!
+            consume = em.merge(consume); 
             em.remove(consume);
         } catch (Exception e) {
             throw new DeleteException("Error deleting consume: " + e.getMessage());
